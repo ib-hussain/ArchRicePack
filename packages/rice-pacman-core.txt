@@ -43,3 +43,15 @@ docker-compose
 ollama
 imagemagick
 xdg-utils
+gdm
+gnome-session
+gnome-control-center
+gnome-settings-daemon
+gvfs
+gvfs-mtp
+xdg-desktop-portal
+xdg-desktop-portal-gnome
+networkmanager
+pipewire
+pipewire-pulse
+wireplumber

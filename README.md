@@ -87,6 +87,7 @@ systemctl enable NetworkManager --root=/mnt
    ```bash
    cd ~
    git clone https://github.com/ib-hussain/ArchRicePack
+   pacman -S gnome gnome-extra
    cd ArchRicePack
    ```
 

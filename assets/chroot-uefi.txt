@@ -14,9 +14,9 @@ TIMEZONE="Asia/Karachi"
 LOCALE="en_US.UTF-8"
 PYTHON_VERSION="3.12.7"
 # UEFI/GPT partitions
-EFI_PART="$(DISK)1"
-SWAP_PART="$(DISK)2"
-ROOT_PART="$(DISK)3"
+EFI_PART="${DISK}1"
+SWAP_PART="${DISK}2"
+ROOT_PART="${DISK}3"
 # ==========================================================
 # TIMEZONE AND CLOCK
 # ==========================================================
@@ -158,10 +158,9 @@ su - "$USER_NAME" -c "PYENV_ROOT=\"\$HOME/.pyenv\" pyenv exec python --version"
 # ==========================================================
 # Arch Display Install
 # ==========================================================
-su - "$USER_NAME"
-cd "/home/$USER_NAME"
-git clone https://github.com/ib-hussain/ArchRicePack  
-cd "/home/$USER_NAME/ArchRicePack" 
-bash install-rice.sh
+su - "$USER_NAME" -c "cd ~ && rm -rf ArchRicePack && git clone https://github.com/ib-hussain/ArchRicePack"
+cd "/home/${USER_NAME}/ArchRicePack"
+chmod +x install-rice.sh scripts/*.sh
+bash install-rice.sh --chroot --target-user "$USER_NAME"
 
-exit 
+exit
