@@ -25,8 +25,8 @@ This repository is designed to be run **after** a clean Arch installation and fi
   - Super+E: Files
   - Super+C: VS Code
   - Super+B: browser
-- Optional GRUB background from `assets/bg.png`
-- Optional GDM/login background from `assets/ib.png`
+- GRUB background from `assets/bg.png`
+- GDM/login background from `assets/ib.png`
 - Optional 5-second wallpaper rotation from `assets/wallpapers/`
 
 ## Required files
@@ -62,16 +62,4 @@ A reboot is recommended after the first install:
 sudo reboot
 ```
 
-## Transport to Windows
 
-From the VM:
-
-```bash
-7z a -t7z -mx=9 ~/ArchRicePack.7z ~/ArchRicePack
-```
-
-Then transfer `~/ArchRicePack.7z` to Windows and push to GitHub there.
-
-## Notes
-
-The current live system reached a stable visual state except the Dash-to-Dock Show Applications icon. This pack includes the local Rice-Papirus icon override and a best-effort GNOME Shell extension for the Arch icon, but GNOME Shell/Dash-to-Dock can aggressively cache or override the Show Applications symbolic icon. The rest of the rice is fully captured and reproducible.
