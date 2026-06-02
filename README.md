@@ -9,6 +9,9 @@
 </p>
 
 ---
+![File Explorer](docs/files.png)
+![Terminal](docs/terminal.png)
+---
 
 ## Table of Contents
 
