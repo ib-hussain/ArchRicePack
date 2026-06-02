@@ -162,11 +162,11 @@ install_grub_background() {
         log "Installing GRUB background from assets/bg.png."
 
         run_root mkdir -p /boot/grub
-        run_root cp -a "$REPO_ROOT/assets/bg.png" /boot/grub/bg.png
+        run_root cp  "$REPO_ROOT/assets/bg.png" /boot/grub/bg.png
         run_root chmod 644 /boot/grub/bg.png
 
         if [[ -f /etc/default/grub ]]; then
-            run_root cp -a /etc/default/grub "/etc/default/grub.rice-backup-$(date +%Y%m%d-%H%M%S)"
+            run_root cp  /etc/default/grub "/etc/default/grub.rice-backup-$(date +%Y%m%d-%H%M%S)"
 
             if grep -q '^#\?GRUB_BACKGROUND=' /etc/default/grub; then
                 run_root sed -i 's|^#\?GRUB_BACKGROUND=.*|GRUB_BACKGROUND="/boot/grub/bg.png"|' /etc/default/grub
