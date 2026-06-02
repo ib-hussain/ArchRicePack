@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=IB Power Mode Default
+Exec=/home/ibrahim/.local/bin/ib-power-mode set normal
+X-GNOME-Autostart-enabled=true
+NoDisplay=true

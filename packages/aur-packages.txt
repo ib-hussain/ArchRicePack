@@ -1,0 +1,5 @@
+gnome-shell-extension-dash-to-dock-git
+google-chrome
+visual-studio-code-bin
+yay
+yay-debug

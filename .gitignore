@@ -1,0 +1,6 @@
+*.log
+*.tmp
+*.bak
+*.old
+.DS_Store
+**pycache**/

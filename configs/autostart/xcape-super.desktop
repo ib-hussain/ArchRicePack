@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Super Key Launcher
+Exec=sh -c "xcape -e 'Super_L=Alt_L|F1'"
+X-GNOME-Autostart-enabled=true

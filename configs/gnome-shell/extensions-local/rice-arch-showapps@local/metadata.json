@@ -1,0 +1,7 @@
+{
+  "uuid": "rice-arch-showapps@local",
+  "name": "Rice Arch Show Apps Icon",
+  "description": "Forces Dash-to-Dock and GNOME Shell Show Applications icon to use an Arch Linux icon.",
+  "shell-version": ["50"],
+  "version": 1
+}

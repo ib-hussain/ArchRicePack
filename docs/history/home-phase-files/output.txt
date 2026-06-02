@@ -1,0 +1,428 @@
+[ibrahim@ibLaptop ~]$ chmod +x phase15_improved_final_three_fixes.sh 
+[ibrahim@ibLaptop ~]$ ./phase15_improved_final_three_fixes.sh  | tee output.txt 
+[INFO] Starting improved Phase 15 final three fixes.
+[INFO] Backup directory: /home/ibrahim/rice-reset-backups/phase15-improved-20260602-073021
+[INFO] Backed up: /home/ibrahim/.local/share/icons
+[INFO] Backup skip, missing: /home/ibrahim/.local/share/gnome-shell/extensions/rice-arch-showapps@local
+[INFO] Backed up: /home/ibrahim/.config/dconf
+[INFO] Backed up: /home/ibrahim/.bashrc
+[INFO] Backed up: /home/ibrahim/.bash_profile
+[INFO] Backup skip, missing: /home/ibrahim/.profile
+[INFO] Installing required support packages.
+warning: papirus-icon-theme-20250501-1 is up to date -- skipping
+warning: gtk3-1:3.24.52-1 is up to date -- skipping
+warning: gtk-update-icon-cache-1:4.22.4-1 is up to date -- skipping
+warning: gnome-shell-extensions-50.2-1 is up to date -- skipping
+warning: gnome-system-monitor-50.0-1 is up to date -- skipping
+warning: python-3.14.5-1 is up to date -- skipping
+warning: python-gobject-3.56.3-1 is up to date -- skipping
+warning: fastfetch-2.63.1-1 is up to date -- skipping
+warning: btop-1.4.7-1 is up to date -- skipping
+warning: eza-0.23.4-3 is up to date -- skipping
+warning: bat-0.26.1-2 is up to date -- skipping
+warning: fd-10.4.2-2 is up to date -- skipping
+warning: ripgrep-15.1.0-3 is up to date -- skipping
+warning: fzf-0.72.0-1 is up to date -- skipping
+warning: zoxide-0.9.9-2 is up to date -- skipping
+warning: jq-1.8.1-3 is up to date -- skipping
+warning: tree-2.3.2-1 is up to date -- skipping
+warning: ncdu-2.9.2-1 is up to date -- skipping
+warning: tldr-3.4.4-1 is up to date -- skipping
+warning: chafa-1.18.2-1 is up to date -- skipping
+[INFO] Installing Rice-Papirus icon theme with Arch overrides.
+[INFO] Creating clean Arch SVG asset.
+[INFO] Icon theme set to Rice-Papirus.
+[INFO] Installing GNOME Shell extension to force Arch Show Apps icon.
+[INFO] Enabling Rice Arch Show Apps extension.
+[WARN] Extension files installed, but GNOME Shell has not indexed it yet. It should appear after logout/login.
+[INFO] Fixing Super key and keybindings.
+['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-terminal/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-files/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-browser/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-code/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-task-manager/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-terminal-open/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-terminal-super-return/']
+[INFO] gsettings set org.gnome.mutter overlay-key Super_L
+[INFO] gsettings set org.gnome.shell.keybindings toggle-overview ['<Super>s', '<Super>Tab']
+[INFO] gsettings set org.gnome.shell.keybindings toggle-application-view ['<Super>a']
+[INFO] gsettings set org.gnome.desktop.wm.keybindings switch-applications ['<Alt>Tab']
+[INFO] gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward ['<Shift><Alt>Tab']
+[INFO] gsettings set org.gnome.desktop.wm.keybindings show-desktop ['<Super>d']
+[INFO] gsettings set org.gnome.desktop.wm.keybindings close ['<Super>q', '<Alt>F4']
+[INFO] gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen ['<Super>f']
+[INFO] gsettings set org.gnome.desktop.wm.keybindings maximize ['<Super>Up']
+[INFO] gsettings set org.gnome.desktop.wm.keybindings unmaximize ['<Super>Down']
+[INFO] Re-locking stable theme and dock settings.
+[INFO] gsettings set org.gnome.desktop.interface gtk-theme MacTahoe-Dark-blue
+[INFO] gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+[INFO] gsettings set org.gnome.desktop.wm.preferences button-layout :minimize,maximize,close
+[INFO] gsettings set org.gnome.shell.extensions.user-theme name MacTahoe-Dark-blue
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/dock-position 'BOTTOM'
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/extend-height false
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/dock-fixed false
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/intellihide true
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/autohide true
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/require-pressure-to-show false
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/pressure-threshold 0.0
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/show-delay 0.0
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/hide-delay 0.18
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/animation-time 0.16
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/dash-max-icon-size 52
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/custom-theme-shrink true
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/force-straight-corner false
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/running-indicator-style 'DOTS'
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/show-show-apps-button true
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/show-apps-at-top true
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/show-trash true
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/show-mounts false
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/click-action 'minimize-or-previews'
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/scroll-action 'cycle-windows'
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock intellihide true
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock autohide true
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock require-pressure-to-show false
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock pressure-threshold 0.0
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock show-delay 0.0
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock hide-delay 0.18
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock animation-time 0.16
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock intellihide-mode ALL_WINDOWS
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock show-show-apps-button true
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock show-apps-at-top true
+['org.gnome.Nautilus.desktop', 'code.desktop', 'org.gnome.Terminal.desktop', 'google-chrome.desktop']
+[INFO] Reloading user-visible components where possible.
+[INFO] Final verification.
+=== Session ===
+USER=ibrahim
+XDG_SESSION_TYPE=wayland
+GNOME Shell 50.2
+
+=== Theme ===
+GTK='MacTahoe-Dark-blue'
+Shell='MacTahoe-Dark-blue'
+Icons='Rice-Papirus'
+Buttons=':minimize,maximize,close'
+
+=== Super and Keybindings ===
+Overlay='Super_L'
+Overview=['<Super>s', '<Super>Tab']
+Apps=['<Super>a']
+Custom=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-terminal/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-files/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-browser/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-code/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-task-manager/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-terminal-open/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-terminal-super-return/']
+
+=== Dock ===
+['org.gnome.Nautilus.desktop', 'code.desktop', 'org.gnome.Terminal.desktop', 'google-chrome.desktop']
+[/]
+animation-time=0.16
+autohide=true
+click-action='minimize-or-previews'
+custom-theme-shrink=true
+dash-max-icon-size=52
+dock-fixed=false
+dock-position='BOTTOM'
+extend-height=false
+force-straight-corner=false
+hide-delay=0.17999999999999999
+intellihide=true
+intellihide-mode='ALL_WINDOWS'
+pressure-threshold=0.0
+require-pressure-to-show=false
+running-indicator-style='DOTS'
+scroll-action='cycle-windows'
+show-apps-at-top=true
+show-delay=0.0
+show-mounts=false
+show-show-apps-button=true
+show-trash=true
+
+=== Extensions ===
+hidetopbar@mathieu.bidon.ca
+user-theme@gnome-shell-extensions.gcampax.github.com
+dash-to-dock@micxgx.gmail.com
+
+=== Icon files ===
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/actions/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/actions/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/actions/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/actions/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/actions/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/actions/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/apps/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/apps/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/apps/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/apps/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/apps/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/apps/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/actions/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/actions/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/actions/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/actions/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/actions/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/actions/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/apps/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/apps/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/apps/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/apps/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/apps/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/apps/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/actions/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/actions/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/actions/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/actions/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/actions/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/actions/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/apps/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/apps/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/apps/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/apps/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/apps/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/apps/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/actions/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/actions/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/actions/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/actions/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/actions/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/actions/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/apps/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/apps/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/apps/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/apps/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/apps/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/apps/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/actions/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/actions/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/actions/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/actions/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/actions/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/actions/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/apps/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/apps/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/apps/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/apps/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/apps/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/apps/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/actions/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/actions/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/actions/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/actions/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/actions/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/actions/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/apps/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/apps/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/apps/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/apps/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/apps/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/apps/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/scalable/actions/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/scalable/actions/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/scalable/actions/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/scalable/actions/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/scalable/actions/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/scalable/actions/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/scalable/apps/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/scalable/apps/applications-all-symbolic.svg
+
+=== Fetch ===
+neofetch removed
+ff-blue=/home/ibrahim/.local/bin/ff-blue
+
+=== Power ===
+balanced
+[INFO] Phase 15 improved complete.
+[INFO] Log saved at: /home/ibrahim/phase15-improved-final-three-fixes-20260602-073021.log
+[INFO] IMPORTANT: log out and back in once. A full reboot is better for the Show Applications icon because GNOME Shell caches symbolic icons aggressively.
+[ibrahim@ibLaptop ~]$ cat phase15-improved-final-three-fixes-20260602-073021.log | tee -a output.txt 
+[INFO] Starting improved Phase 15 final three fixes.
+[INFO] Backup directory: /home/ibrahim/rice-reset-backups/phase15-improved-20260602-073021
+[INFO] Backed up: /home/ibrahim/.local/share/icons
+[INFO] Backup skip, missing: /home/ibrahim/.local/share/gnome-shell/extensions/rice-arch-showapps@local
+[INFO] Backed up: /home/ibrahim/.config/dconf
+[INFO] Backed up: /home/ibrahim/.bashrc
+[INFO] Backed up: /home/ibrahim/.bash_profile
+[INFO] Backup skip, missing: /home/ibrahim/.profile
+[INFO] Installing required support packages.
+[INFO] Installing Rice-Papirus icon theme with Arch overrides.
+[INFO] Creating clean Arch SVG asset.
+[INFO] Icon theme set to Rice-Papirus.
+[INFO] Installing GNOME Shell extension to force Arch Show Apps icon.
+[INFO] Enabling Rice Arch Show Apps extension.
+[WARN] Extension files installed, but GNOME Shell has not indexed it yet. It should appear after logout/login.
+[INFO] Fixing Super key and keybindings.
+[INFO] gsettings set org.gnome.mutter overlay-key Super_L
+[INFO] gsettings set org.gnome.shell.keybindings toggle-overview ['<Super>s', '<Super>Tab']
+[INFO] gsettings set org.gnome.shell.keybindings toggle-application-view ['<Super>a']
+[INFO] gsettings set org.gnome.desktop.wm.keybindings switch-applications ['<Alt>Tab']
+[INFO] gsettings set org.gnome.desktop.wm.keybindings switch-applications-backward ['<Shift><Alt>Tab']
+[INFO] gsettings set org.gnome.desktop.wm.keybindings show-desktop ['<Super>d']
+[INFO] gsettings set org.gnome.desktop.wm.keybindings close ['<Super>q', '<Alt>F4']
+[INFO] gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen ['<Super>f']
+[INFO] gsettings set org.gnome.desktop.wm.keybindings maximize ['<Super>Up']
+[INFO] gsettings set org.gnome.desktop.wm.keybindings unmaximize ['<Super>Down']
+[INFO] Re-locking stable theme and dock settings.
+[INFO] gsettings set org.gnome.desktop.interface gtk-theme MacTahoe-Dark-blue
+[INFO] gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+[INFO] gsettings set org.gnome.desktop.wm.preferences button-layout :minimize,maximize,close
+[INFO] gsettings set org.gnome.shell.extensions.user-theme name MacTahoe-Dark-blue
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/dock-position 'BOTTOM'
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/extend-height false
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/dock-fixed false
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/intellihide true
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/autohide true
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/require-pressure-to-show false
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/pressure-threshold 0.0
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/show-delay 0.0
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/hide-delay 0.18
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/animation-time 0.16
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/dash-max-icon-size 52
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/custom-theme-shrink true
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/force-straight-corner false
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/running-indicator-style 'DOTS'
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/show-show-apps-button true
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/show-apps-at-top true
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/show-trash true
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/show-mounts false
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/click-action 'minimize-or-previews'
+[INFO] dconf write /org/gnome/shell/extensions/dash-to-dock/scroll-action 'cycle-windows'
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock intellihide true
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock autohide true
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock require-pressure-to-show false
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock pressure-threshold 0.0
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock show-delay 0.0
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock hide-delay 0.18
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock animation-time 0.16
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock intellihide-mode ALL_WINDOWS
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock show-show-apps-button true
+[INFO] gsettings set org.gnome.shell.extensions.dash-to-dock show-apps-at-top true
+[INFO] Reloading user-visible components where possible.
+[INFO] Final verification.
+=== Session ===
+USER=ibrahim
+XDG_SESSION_TYPE=wayland
+GNOME Shell 50.2
+
+=== Theme ===
+GTK='MacTahoe-Dark-blue'
+Shell='MacTahoe-Dark-blue'
+Icons='Rice-Papirus'
+Buttons=':minimize,maximize,close'
+
+=== Super and Keybindings ===
+Overlay='Super_L'
+Overview=['<Super>s', '<Super>Tab']
+Apps=['<Super>a']
+Custom=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-terminal/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-files/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-browser/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-code/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-task-manager/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-terminal-open/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/rice-terminal-super-return/']
+
+=== Dock ===
+['org.gnome.Nautilus.desktop', 'code.desktop', 'org.gnome.Terminal.desktop', 'google-chrome.desktop']
+[/]
+animation-time=0.16
+autohide=true
+click-action='minimize-or-previews'
+custom-theme-shrink=true
+dash-max-icon-size=52
+dock-fixed=false
+dock-position='BOTTOM'
+extend-height=false
+force-straight-corner=false
+hide-delay=0.17999999999999999
+intellihide=true
+intellihide-mode='ALL_WINDOWS'
+pressure-threshold=0.0
+require-pressure-to-show=false
+running-indicator-style='DOTS'
+scroll-action='cycle-windows'
+show-apps-at-top=true
+show-delay=0.0
+show-mounts=false
+show-show-apps-button=true
+show-trash=true
+
+=== Extensions ===
+hidetopbar@mathieu.bidon.ca
+user-theme@gnome-shell-extensions.gcampax.github.com
+dash-to-dock@micxgx.gmail.com
+
+=== Icon files ===
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/actions/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/actions/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/actions/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/actions/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/actions/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/actions/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/apps/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/apps/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/apps/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/apps/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/apps/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/16x16/apps/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/actions/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/actions/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/actions/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/actions/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/actions/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/actions/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/apps/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/apps/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/apps/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/apps/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/apps/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/22x22/apps/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/actions/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/actions/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/actions/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/actions/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/actions/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/actions/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/apps/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/apps/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/apps/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/apps/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/apps/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/24x24/apps/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/actions/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/actions/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/actions/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/actions/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/actions/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/actions/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/apps/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/apps/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/apps/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/apps/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/apps/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/32x32/apps/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/actions/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/actions/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/actions/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/actions/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/actions/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/actions/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/apps/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/apps/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/apps/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/apps/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/apps/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/48x48/apps/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/actions/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/actions/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/actions/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/actions/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/actions/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/actions/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/apps/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/apps/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/apps/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/apps/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/apps/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/64x64/apps/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/scalable/actions/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/scalable/actions/applications-all-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/scalable/actions/start-here.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/scalable/actions/start-here-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/scalable/actions/view-app-grid.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/scalable/actions/view-app-grid-symbolic.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/scalable/apps/applications-all.svg
+/home/ibrahim/.local/share/icons/Rice-Papirus/scalable/apps/applications-all-symbolic.svg
+
+=== Fetch ===
+neofetch removed
+ff-blue=/home/ibrahim/.local/bin/ff-blue
+
+=== Power ===
+balanced
+[INFO] Phase 15 improved complete.
+[INFO] Log saved at: /home/ibrahim/phase15-improved-final-three-fixes-20260602-073021.log
+[INFO] IMPORTANT: log out and back in once. A full reboot is better for the Show Applications icon because GNOME Shell caches symbolic icons aggressively.
+[ibrahim@ibLaptop ~]$ 

@@ -1,0 +1,14 @@
+[Icon Theme]
+Name=Rice Local Hicolor
+Comment=Local icon overrides for the Arch GNOME rice
+Directories=scalable/actions,scalable/apps
+
+[scalable/actions]
+Size=48
+Type=Scalable
+Context=Actions
+
+[scalable/apps]
+Size=48
+Type=Scalable
+Context=Applications
