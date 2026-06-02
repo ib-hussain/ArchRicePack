@@ -27,8 +27,8 @@ source "$SCRIPT_DIR/00-common.sh"
 #     This fills the screen without letterboxing.
 #
 # Optional overrides:
-#   RICE_WALLPAPER_WIDTH=1920
-#   RICE_WALLPAPER_HEIGHT=1080
+#   RICE_WALLPAPER_WIDTH=1600
+#   RICE_WALLPAPER_HEIGHT=900
 #   RICE_WALLPAPER_INTERVAL=5
 ###############################################################################
 

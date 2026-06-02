@@ -77,7 +77,7 @@ copy_dir_contents() {
 
     if [[ -d "$src" ]]; then
         mkdir -p "$dest"
-        cp "$src"/. "$dest"/
+        cp -r "$src"/. "$dest"/
         log "Copied $src -> $dest"
     else
         warn "Directory missing, skipped: $src"
