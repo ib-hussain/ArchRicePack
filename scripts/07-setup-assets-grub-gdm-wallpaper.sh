@@ -12,27 +12,19 @@ source "$SCRIPT_DIR/00-common.sh"
 #   - GDM/login background: assets/ib.png -> /usr/share/backgrounds/rice/ib.png
 #   - user face image: assets/ib.png -> ~/.face
 #   - wallpaper import from assets/wallpapers/
-#   - physical wallpaper scaling/cropping through ImageMagick
-#   - GNOME wallpaper scaling mode through picture-options='zoom'
-#   - 5-second wallpaper rotation through a systemd user service where possible
-#   - chroot-safe fallback through XDG autostart
+#   - 5-second wallpaper rotation
 #
-# Scaling behaviour:
-#   - Source images are copied to:
-#       ~/.local/share/backgrounds/rice/wallpapers/raw/
-#   - Scaled/cropped outputs are generated into:
-#       ~/.local/share/backgrounds/rice/wallpapers/scaled/
-#   - Images are resized with:
-#       resize WIDTHxHEIGHT^ + gravity center + extent WIDTHxHEIGHT
-#     This fills the screen without letterboxing.
-#
-# Optional overrides:
-#   RICE_WALLPAPER_WIDTH=1600
-#   RICE_WALLPAPER_HEIGHT=900
-#   RICE_WALLPAPER_INTERVAL=5
+# Wallpaper behaviour:
+#   - DO NOT physically resize/crop images.
+#   - DO NOT generate scaled images.
+#   - Use GNOME picture-options='scaled'.
+#   - This fits the whole image on screen while preserving aspect ratio.
+#   - Empty space is black:
+#       tall image  -> black bars left/right
+#       wide image  -> black bars top/bottom
 ###############################################################################
 
-log "Applying assets: GRUB background, GDM background, scaled wallpaper rotation."
+log "Applying assets: GRUB background, GDM background, fit-to-screen wallpaper rotation."
 
 run_root() {
     if [[ "${EUID}" -eq 0 ]]; then
@@ -92,15 +84,6 @@ target_home_for_user() {
     printf '%s\n' "$home_dir"
 }
 
-ensure_imagemagick() {
-    if command -v magick >/dev/null 2>&1; then
-        return 0
-    fi
-
-    log "Installing ImageMagick for wallpaper scaling."
-    run_root pacman -S --needed --noconfirm imagemagick || warn "Could not install imagemagick. Wallpaper scaling will fall back to raw images."
-}
-
 safe_chown_user() {
     local user="$1"
     local path="$2"
@@ -116,45 +99,22 @@ safe_gsettings() {
     fi
 }
 
-detect_resolution() {
-    local width="${RICE_WALLPAPER_WIDTH:-}"
-    local height="${RICE_WALLPAPER_HEIGHT:-}"
-
-    if [[ "$width" =~ ^[0-9]+$ && "$height" =~ ^[0-9]+$ ]]; then
-        printf '%s %s\n' "$width" "$height"
+apply_fit_wallpaper_settings_now() {
+    if ! has_user_session; then
         return 0
     fi
 
-    if command -v xrandr >/dev/null 2>&1; then
-        local xr=""
-        xr="$(xrandr --current 2>/dev/null | awk '/ connected primary/{getline; print $1; exit} / connected/{getline; print $1; exit}' || true)"
-        if [[ "$xr" =~ ^([0-9]+)x([0-9]+) ]]; then
-            printf '%s %s\n' "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}"
-            return 0
-        fi
+    log "Applying GNOME wallpaper fit mode: scaled with black background."
 
-        xr="$(xrandr --current 2>/dev/null | awk '/\*/{print $1; exit}' || true)"
-        if [[ "$xr" =~ ^([0-9]+)x([0-9]+) ]]; then
-            printf '%s %s\n' "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}"
-            return 0
-        fi
-    fi
+    safe_gsettings org.gnome.desktop.background picture-options scaled
+    safe_gsettings org.gnome.desktop.background primary-color "#000000"
+    safe_gsettings org.gnome.desktop.background secondary-color "#000000"
+    safe_gsettings org.gnome.desktop.background color-shading-type solid
 
-    if command -v xdpyinfo >/dev/null 2>&1; then
-        local dims=""
-        dims="$(xdpyinfo 2>/dev/null | awk '/dimensions:/{print $2; exit}' || true)"
-        if [[ "$dims" =~ ^([0-9]+)x([0-9]+) ]]; then
-            printf '%s %s\n' "${BASH_REMATCH[1]}" "${BASH_REMATCH[2]}"
-            return 0
-        fi
-    fi
-
-    printf '%s %s\n' "1920" "1080"
-}
-
-sanitize_name() {
-    local name="$1"
-    printf '%s\n' "$name" | tr -cs 'A-Za-z0-9._-' '_' | sed 's/^_//; s/_$//'
+    safe_gsettings org.gnome.desktop.screensaver picture-options scaled
+    safe_gsettings org.gnome.desktop.screensaver primary-color "#000000"
+    safe_gsettings org.gnome.desktop.screensaver secondary-color "#000000"
+    safe_gsettings org.gnome.desktop.screensaver color-shading-type solid
 }
 
 install_grub_background() {
@@ -162,11 +122,11 @@ install_grub_background() {
         log "Installing GRUB background from assets/bg.png."
 
         run_root mkdir -p /boot/grub
-        run_root cp  "$REPO_ROOT/assets/bg.png" /boot/grub/bg.png
+        run_root cp "$REPO_ROOT/assets/bg.png" /boot/grub/bg.png
         run_root chmod 644 /boot/grub/bg.png
 
         if [[ -f /etc/default/grub ]]; then
-            run_root cp  /etc/default/grub "/etc/default/grub.rice-backup-$(date +%Y%m%d-%H%M%S)"
+            run_root cp /etc/default/grub "/etc/default/grub.rice-backup-$(date +%Y%m%d-%H%M%S)"
 
             if grep -q '^#\?GRUB_BACKGROUND=' /etc/default/grub; then
                 run_root sed -i 's|^#\?GRUB_BACKGROUND=.*|GRUB_BACKGROUND="/boot/grub/bg.png"|' /etc/default/grub
@@ -220,7 +180,10 @@ install_gdm_background() {
 [org/gnome/desktop/background]
 picture-uri='file:///usr/share/backgrounds/rice/ib.png'
 picture-uri-dark='file:///usr/share/backgrounds/rice/ib.png'
-picture-options='zoom'
+picture-options='scaled'
+primary-color='#000000'
+secondary-color='#000000'
+color-shading-type='solid'
 
 [org/gnome/login-screen]
 logo=''
@@ -232,16 +195,14 @@ GDMBG
     fi
 }
 
-prepare_wallpapers() {
+install_wallpapers_raw_only() {
     local target_user="$1"
     local target_home="$2"
 
     local wall_src="$REPO_ROOT/assets/wallpapers"
-    local wall_root="$target_home/.local/share/backgrounds/rice/wallpapers"
-    local raw_dir="$wall_root/raw"
-    local scaled_dir="$wall_root/scaled"
+    local wall_dest="$target_home/.local/share/backgrounds/rice/wallpapers"
 
-    mkdir -p "$raw_dir" "$scaled_dir"
+    mkdir -p "$wall_dest"
 
     mapfile -t source_images < <(
         find "$wall_src" -maxdepth 1 -type f \
@@ -251,62 +212,24 @@ prepare_wallpapers() {
 
     if [[ "${#source_images[@]}" -eq 0 ]]; then
         warn "No wallpaper images found in assets/wallpapers. Wallpaper rotation will not be changed."
-        safe_chown_user "$target_user" "$wall_root"
+        safe_chown_user "$target_user" "$wall_dest"
         return 0
     fi
 
-    log "Installing ${#source_images[@]} wallpaper image(s)."
+    log "Installing ${#source_images[@]} wallpaper image(s) without resizing."
 
-    rm -rf "$raw_dir" "$scaled_dir"
-    mkdir -p "$raw_dir" "$scaled_dir"
+    rm -rf "$wall_dest"
+    mkdir -p "$wall_dest"
 
     local img=""
     for img in "${source_images[@]}"; do
-        cp -a "$img" "$raw_dir/"
+        cp -a "$img" "$wall_dest/"
     done
 
-    ensure_imagemagick
+    safe_chown_user "$target_user" "$wall_dest"
 
-    read -r width height < <(detect_resolution)
-    log "Wallpaper scaling target: ${width}x${height}"
-
-    if command -v magick >/dev/null 2>&1; then
-        local index=0
-        for img in "${source_images[@]}"; do
-            index=$((index + 1))
-
-            local base
-            local stem
-            local safe
-            local out
-
-            base="$(basename "$img")"
-            stem="${base%.*}"
-            safe="$(sanitize_name "$stem")"
-            [[ -n "$safe" ]] || safe="wallpaper_${index}"
-
-            out="$scaled_dir/$(printf '%03d' "$index")-${safe}-${width}x${height}.png"
-
-            log "Scaling wallpaper: $base -> $(basename "$out")"
-            magick "$img" \
-                -auto-orient \
-                -resize "${width}x${height}^" \
-                -gravity center \
-                -extent "${width}x${height}" \
-                "$out" || {
-                    warn "Scaling failed for $img. Copying raw fallback."
-                    cp -a "$img" "$scaled_dir/$(printf '%03d' "$index")-${safe}-raw.${base##*.}"
-                }
-        done
-    else
-        warn "ImageMagick unavailable. Using raw wallpapers without physical scaling."
-        cp -a "$raw_dir"/. "$scaled_dir"/
-    fi
-
-    safe_chown_user "$target_user" "$wall_root"
-
-    log "Wallpaper files prepared:"
-    find "$scaled_dir" -maxdepth 1 -type f | sort | sed 's/^/[WALLPAPER] /' | tee -a "$LOG_FILE" || true
+    log "Wallpaper files installed:"
+    find "$wall_dest" -maxdepth 1 -type f | sort | sed 's/^/[WALLPAPER] /' | tee -a "$LOG_FILE" || true
 }
 
 write_wallpaper_rotator() {
@@ -323,26 +246,22 @@ write_wallpaper_rotator() {
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-RAW_DIR="$HOME/.local/share/backgrounds/rice/wallpapers/raw"
-SCALED_DIR="$HOME/.local/share/backgrounds/rice/wallpapers/scaled"
+DIR="$HOME/.local/share/backgrounds/rice/wallpapers"
 INTERVAL="${RICE_WALLPAPER_INTERVAL:-5}"
 
-choose_dir() {
-    if find "$SCALED_DIR" -maxdepth 1 -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' \) | grep -q .; then
-        printf '%s\n' "$SCALED_DIR"
-    else
-        printf '%s\n' "$RAW_DIR"
-    fi
-}
+apply_fit_mode() {
+    gsettings set org.gnome.desktop.background picture-options 'scaled' || true
+    gsettings set org.gnome.desktop.background primary-color '#000000' || true
+    gsettings set org.gnome.desktop.background secondary-color '#000000' || true
+    gsettings set org.gnome.desktop.background color-shading-type 'solid' || true
 
-apply_scaling_options() {
-    gsettings set org.gnome.desktop.background picture-options 'zoom' || true
-    gsettings set org.gnome.desktop.screensaver picture-options 'zoom' || true
+    gsettings set org.gnome.desktop.screensaver picture-options 'scaled' || true
+    gsettings set org.gnome.desktop.screensaver primary-color '#000000' || true
+    gsettings set org.gnome.desktop.screensaver secondary-color '#000000' || true
+    gsettings set org.gnome.desktop.screensaver color-shading-type 'solid' || true
 }
 
 while true; do
-    DIR="$(choose_dir)"
-
     mapfile -t files < <(
         find "$DIR" -maxdepth 1 -type f \
             \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' \) \
@@ -357,7 +276,7 @@ while true; do
     for img in "${files[@]}"; do
         uri="file://$img"
 
-        apply_scaling_options
+        apply_fit_mode
 
         gsettings set org.gnome.desktop.background picture-uri "$uri" || true
         gsettings set org.gnome.desktop.background picture-uri-dark "$uri" || true
@@ -387,7 +306,7 @@ SERVICE
 [Desktop Entry]
 Type=Application
 Name=Rice Wallpaper Rotator
-Comment=Rotate scaled ArchRicePack wallpapers every 5 seconds
+Comment=Rotate ArchRicePack wallpapers every 5 seconds using fit-to-screen mode
 Exec=$target_home/.local/bin/rice-wallpaper-rotator
 X-GNOME-Autostart-enabled=true
 Terminal=false
@@ -404,18 +323,17 @@ DESKTOP
         systemctl --user daemon-reload || true
         systemctl --user enable --now rice-wallpaper-rotator.service || warn "Could not enable wallpaper rotator user service."
 
-        safe_gsettings org.gnome.desktop.background picture-options zoom
-        safe_gsettings org.gnome.desktop.screensaver picture-options zoom
+        apply_fit_wallpaper_settings_now
 
         local first_wallpaper
-        first_wallpaper="$(find "$target_home/.local/share/backgrounds/rice/wallpapers/scaled" -maxdepth 1 -type f | sort | head -n 1 || true)"
+        first_wallpaper="$(find "$target_home/.local/share/backgrounds/rice/wallpapers" -maxdepth 1 -type f | sort | head -n 1 || true)"
 
         if [[ -n "$first_wallpaper" ]]; then
             local uri="file://$first_wallpaper"
             safe_gsettings org.gnome.desktop.background picture-uri "$uri"
             safe_gsettings org.gnome.desktop.background picture-uri-dark "$uri"
             safe_gsettings org.gnome.desktop.screensaver picture-uri "$uri"
-            log "Applied initial scaled wallpaper: $first_wallpaper"
+            log "Applied initial fit-to-screen wallpaper: $first_wallpaper"
         fi
     else
         warn "No active GNOME user session. Wallpaper rotator installed through autostart and will activate on first login."
@@ -434,10 +352,10 @@ main() {
 
     install_grub_background
     install_gdm_background "$target_user" "$target_home"
-    prepare_wallpapers "$target_user" "$target_home"
+    install_wallpapers_raw_only "$target_user" "$target_home"
     write_wallpaper_rotator "$target_user" "$target_home"
 
-    log "Asset, GDM, GRUB, and scaled wallpaper setup complete."
+    log "Asset, GDM, GRUB, and fit-to-screen wallpaper setup complete."
 }
 
 main "$@"
