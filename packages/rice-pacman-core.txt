@@ -38,3 +38,8 @@ tldr
 chafa
 p7zip
 7zip
+docker
+docker-compose
+ollama
+imagemagick
+xdg-utils

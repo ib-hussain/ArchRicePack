@@ -240,3 +240,61 @@ This project is inspired by and adapted from:
 - Pre-configured VS Code extensions and keybindings
 - Automated nautilus-python integrations
 - Streamlined post-install scripts with logging
+## Local AI: Ollama + Open WebUI
+
+ArchRicePack now includes an optional local AI setup.
+
+Installed/configured by `scripts/10-setup-local-ai-ollama-openwebui.sh`:
+
+- `ollama` from Arch repositories
+- `ollama-cuda` only if NVIDIA is detected
+- `gemma3:1b` through `ollama pull gemma3:1b`
+- Docker service
+- Open WebUI container at `http://localhost:3000`
+- `Open WebUI` launcher in All Apps
+- Open WebUI pinned to the dock
+
+To skip this during install:
+
+```bash
+SKIP_LOCAL_AI=1 ./install-rice.sh
+````
+
+## VS Code sync
+
+VS Code configuration is restored from:
+
+```text
+assets/vscode/User
+assets/vscode/extensions
+```
+
+Destination paths on Arch:
+
+```text
+~/.config/Code/User
+~/.vscode/extensions
+```
+
+The installer replaces those destination folders when assets exist.
+
+## Custom dock Arch icon
+
+The final dock Show Applications icon patch is:
+
+```text
+scripts/11-apply-custom-showapps-icon.sh
+```
+
+It uses the first available file from:
+
+```text
+assets/icons/show-apps/arch-show-apps.png
+assets/icons/show-apps/arch-show-apps.webp
+assets/icons/show-apps/arch-show-apps.svg
+assets/arch-icons/arch-logo.png
+assets/arch-icons/arch-logo.webp
+assets/arch-icons/arch-logo.svg
+```
+
+This script must remain near the end of `install-rice.sh` because earlier theme/icon scripts can overwrite it.

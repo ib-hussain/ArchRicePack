@@ -24,9 +24,18 @@ STEPS=(
     "06-setup-nautilus-code.sh"
     "07-setup-assets-grub-gdm-wallpaper.sh"
     "08-finalize-and-verify.sh"
+    "09-setup-vscode.sh"
+    "10-setup-local-ai-ollama-openwebui.sh"
+    "11-apply-custom-showapps-icon.sh"
+    "08-finalize-and-verify.sh"
 )
 
 for step in "${STEPS[@]}"; do
+    if [[ "${SKIP_LOCAL_AI:-0}" == "1" && "$step" == "10-setup-local-ai-ollama-openwebui.sh" ]]; then
+        warn "Skipping $step because SKIP_LOCAL_AI=1."
+        continue
+    fi
+
     log "Running $step"
     bash "$ROOT_DIR/scripts/$step"
 done
