@@ -24,17 +24,17 @@ copy_dir_contents "$REPO_ROOT/configs/local-bin" "$HOME/.local/bin"
 chmod +x "$HOME/.local/bin/"* 2>/dev/null || true
 
 if [[ -f "$REPO_ROOT/configs/bashrc" ]]; then
-    cp "$REPO_ROOT/configs/bashrc" "$HOME/.bashrc"
+    cp -a "$REPO_ROOT/configs/bashrc" "$HOME/.bashrc"
     log "Restored .bashrc"
 fi
 
 if [[ -f "$REPO_ROOT/configs/bash_profile" ]]; then
-    cp "$REPO_ROOT/configs/bash_profile" "$HOME/.bash_profile"
+    cp -a "$REPO_ROOT/configs/bash_profile" "$HOME/.bash_profile"
     log "Restored .bash_profile"
 fi
 
 if [[ -f "$REPO_ROOT/configs/profile" ]]; then
-    cp "$REPO_ROOT/configs/profile" "$HOME/.profile"
+    cp -a "$REPO_ROOT/configs/profile" "$HOME/.profile"
     log "Restored .profile"
 fi
 
