@@ -31,7 +31,7 @@ backup_file() {
     local file="$1"
     if [[ -e "$file" || -L "$file" ]]; then
         mkdir -p "$BACKUP_DIR/home"
-        cp -a "$file" "$BACKUP_DIR/home/$(basename "$file").before"
+        cp "$file" "$BACKUP_DIR/home/$(basename "$file").before"
         log "Backed up: $file"
     else
         log "Backup skip, missing: $file"

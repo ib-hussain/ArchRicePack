@@ -132,7 +132,7 @@ backup_path() {
     if [[ -e "$src" || -L "$src" ]]; then
         local rel="${src#$HOME/}"
         mkdir -p "$BACKUP_DIR/home/$(dirname "$rel")"
-        cp -a "$src" "$BACKUP_DIR/home/$rel"
+        cp "$src" "$BACKUP_DIR/home/$rel"
         log "Backed up: $src"
     else
         log "Backup skip, missing: $src"

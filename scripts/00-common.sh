@@ -66,7 +66,7 @@ backup_path() {
 
     if [[ -e "$path" || -L "$path" ]]; then
         mkdir -p "$backup_root/$(dirname "${path#$HOME/}")"
-        cp -a "$path" "$backup_root/${path#$HOME/}" 2>/dev/null || true
+        cp "$path" "$backup_root/${path#$HOME/}" 2>/dev/null || true
         log "Backed up $path to $backup_root"
     fi
 }
@@ -77,7 +77,7 @@ copy_dir_contents() {
 
     if [[ -d "$src" ]]; then
         mkdir -p "$dest"
-        cp -a "$src"/. "$dest"/
+        cp "$src"/. "$dest"/
         log "Copied $src -> $dest"
     else
         warn "Directory missing, skipped: $src"
@@ -90,7 +90,7 @@ copy_file() {
 
     if [[ -f "$src" ]]; then
         mkdir -p "$(dirname "$dest")"
-        cp -a "$src" "$dest"
+        cp "$src" "$dest"
         log "Copied $src -> $dest"
     else
         warn "File missing, skipped: $src"

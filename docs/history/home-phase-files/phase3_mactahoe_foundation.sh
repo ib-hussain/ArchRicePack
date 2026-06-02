@@ -54,7 +54,7 @@ for path in "$HOME/.config/gtk-3.0" "$HOME/.config/gtk-4.0" "$HOME/.themes" "$HO
     if [[ -e "$path" || -L "$path" ]]; then
         log "Backing up $path"
         mkdir -p "$BACKUP_ROOT$(dirname "$path")"
-        cp -a "$path" "$BACKUP_ROOT$path"
+        cp "$path" "$BACKUP_ROOT$path"
     else
         log "Backup skip, missing: $path"
     fi

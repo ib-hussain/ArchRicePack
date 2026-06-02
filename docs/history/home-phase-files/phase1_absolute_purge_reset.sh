@@ -61,7 +61,7 @@ copy_to_backup() {
     if [[ -e "${src}" || -L "${src}" ]]; then
         mkdir -p "$(dirname "${dest}")"
         log "Copying ${src} -> ${dest}"
-        cp -a "${src}" "${dest}"
+        cp "${src}" "${dest}"
     else
         log "Preserve skip, missing: ${src}"
     fi

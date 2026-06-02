@@ -120,7 +120,7 @@ backup_path() {
     if [[ -e "$src" || -L "$src" ]]; then
         local rel="${src#$HOME/}"
         mkdir -p "$BACKUP_DIR/home/$(dirname "$rel")"
-        cp -a "$src" "$BACKUP_DIR/home/$rel"
+        cp "$src" "$BACKUP_DIR/home/$rel"
         log "Backed up: $src"
     else
         log "Backup skip, missing: $src"
@@ -465,7 +465,7 @@ EOFTHEME
 
         while IFS= read -r -d '' target; do
             mkdir -p "$BACKUP_DIR/system-icons"
-            cp -a "$target" "$BACKUP_DIR/system-icons/$(echo "$target" | sed 's#/#_#g').before" 2>/dev/null || true
+            cp "$target" "$BACKUP_DIR/system-icons/$(echo "$target" | sed 's#/#_#g').before" 2>/dev/null || true
             sudo cp "$ARCH_ICON_SRC" "$target" || true
             log "Patched icon file: $target"
         done < <(

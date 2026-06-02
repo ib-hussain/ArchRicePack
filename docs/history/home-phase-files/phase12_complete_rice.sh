@@ -115,7 +115,7 @@ backup_path() {
     if [[ -e "$src" || -L "$src" ]]; then
         local rel="${src#$HOME/}"
         mkdir -p "$BACKUP_DIR/home/$(dirname "$rel")"
-        cp -a "$src" "$BACKUP_DIR/home/$rel"
+        cp "$src" "$BACKUP_DIR/home/$rel"
         log "Backed up: $src"
     else
         log "Backup skip, missing: $src"
@@ -467,7 +467,7 @@ EOFSVG
             [[ -e "$media_file" ]] || continue
 
             backup_target="$BACKUP_DIR/$(echo "$media_file" | sed 's#/#_#g').before"
-            cp -a "$media_file" "$backup_target" 2>/dev/null || sudo cp -a "$media_file" "$backup_target" 2>/dev/null || true
+            cp "$media_file" "$backup_target" 2>/dev/null || sudo cp "$media_file" "$backup_target" 2>/dev/null || true
 
             if [[ -w "$media_file" ]]; then
                 cp "$BACKUP_DIR/arch-dock-icon.svg" "$media_file" || true
@@ -588,7 +588,7 @@ safe_desktop_clock_attempt() {
         warn "Skipping forced desktop Conky clock because GNOME Wayland desktop-layer placement is unreliable. Top bar clock remains the safe clock."
         mkdir -p "$HOME/.config/autostart"
         if [[ -f "$CLOCK_DESKTOP" ]]; then
-            cp -a "$CLOCK_DESKTOP" "$BACKUP_DIR/rice-desktop-clock.desktop.before" || true
+            cp "$CLOCK_DESKTOP" "$BACKUP_DIR/rice-desktop-clock.desktop.before" || true
             sed -i 's/^X-GNOME-Autostart-enabled=.*/X-GNOME-Autostart-enabled=false/' "$CLOCK_DESKTOP" || true
             sed -i 's/^Hidden=.*/Hidden=true/' "$CLOCK_DESKTOP" || true
             log "Disabled previous Conky clock autostart to avoid invisible/background widget clutter."

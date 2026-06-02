@@ -110,7 +110,7 @@ backup_path() {
     if [[ -e "$src" || -L "$src" ]]; then
         local rel="${src#$HOME/}"
         mkdir -p "$BACKUP_DIR/home/$(dirname "$rel")"
-        cp -a "$src" "$BACKUP_DIR/home/$rel"
+        cp "$src" "$BACKUP_DIR/home/$rel"
         log "Backed up: $src"
     else
         log "Backup skip, missing: $src"
@@ -411,7 +411,7 @@ patch_dash_show_apps_icon() {
 
         while IFS= read -r -d '' file; do
             safe_name="$(echo "$file" | sed 's#/#_#g')"
-            cp -a "$file" "$BACKUP_DIR/${safe_name}.before" 2>/dev/null || sudo cp -a "$file" "$BACKUP_DIR/${safe_name}.before" 2>/dev/null || true
+            cp "$file" "$BACKUP_DIR/${safe_name}.before" 2>/dev/null || sudo cp "$file" "$BACKUP_DIR/${safe_name}.before" 2>/dev/null || true
 
             if [[ -w "$file" ]]; then
                 cp "$ARCH_ICON_SRC" "$file" || true
@@ -640,7 +640,7 @@ clock_policy() {
     mkdir -p "$HOME/.config/autostart"
 
     if [[ -f "$HOME/.config/autostart/rice-desktop-clock.desktop" ]]; then
-        cp -a "$HOME/.config/autostart/rice-desktop-clock.desktop" "$BACKUP_DIR/rice-desktop-clock.desktop.before" || true
+        cp "$HOME/.config/autostart/rice-desktop-clock.desktop" "$BACKUP_DIR/rice-desktop-clock.desktop.before" || true
         sed -i 's/^X-GNOME-Autostart-enabled=.*/X-GNOME-Autostart-enabled=false/' "$HOME/.config/autostart/rice-desktop-clock.desktop" || true
         sed -i 's/^Hidden=.*/Hidden=true/' "$HOME/.config/autostart/rice-desktop-clock.desktop" || true
     fi

@@ -87,7 +87,7 @@ copy_dir_root_to_user() {
 
     if [[ -d "$src" ]]; then
         mkdir -p "$dest"
-        cp -a "$src"/. "$dest"/
+        cp "$src"/. "$dest"/
         chown -R "$TARGET_USER:$TARGET_USER" "$dest"
         log "Copied directory: $src -> $dest"
     else
@@ -101,7 +101,7 @@ copy_file_root_to_user() {
 
     if [[ -f "$src" ]]; then
         mkdir -p "$(dirname "$dest")"
-        cp -a "$src" "$dest"
+        cp "$src" "$dest"
         chown "$TARGET_USER:$TARGET_USER" "$dest"
         log "Copied file: $src -> $dest"
     else
@@ -150,14 +150,14 @@ log "Installing VS Code asset folders during chroot stage if present."
 if [[ -d "$REPO_ROOT/assets/vscode/User" ]]; then
     rm -rf "$TARGET_HOME/.config/Code/User"
     mkdir -p "$TARGET_HOME/.config/Code/User"
-    cp -a "$REPO_ROOT/assets/vscode/User"/. "$TARGET_HOME/.config/Code/User"/
+    cp "$REPO_ROOT/assets/vscode/User"/. "$TARGET_HOME/.config/Code/User"/
     chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.config/Code"
 fi
 
 if [[ -d "$REPO_ROOT/assets/vscode/extensions" ]]; then
     rm -rf "$TARGET_HOME/.vscode/extensions"
     mkdir -p "$TARGET_HOME/.vscode/extensions"
-    cp -a "$REPO_ROOT/assets/vscode/extensions"/. "$TARGET_HOME/.vscode/extensions"/
+    cp "$REPO_ROOT/assets/vscode/extensions"/. "$TARGET_HOME/.vscode/extensions"/
     chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.vscode"
 fi
 
@@ -165,7 +165,7 @@ log "Installing GRUB/GDM assets that can be applied in chroot."
 
 if [[ -f "$REPO_ROOT/assets/bg.png" ]]; then
     mkdir -p /boot/grub
-    cp -a "$REPO_ROOT/assets/bg.png" /boot/grub/bg.png
+    sudo cp "$REPO_ROOT/assets/bg.png" /boot/grub/bg.png
     chmod 644 /boot/grub/bg.png
 
     if [[ -f /etc/default/grub ]]; then
@@ -180,7 +180,7 @@ fi
 
 if [[ -f "$REPO_ROOT/assets/ib.png" ]]; then
     mkdir -p /usr/share/backgrounds/rice /etc/dconf/db/gdm.d
-    cp -a "$REPO_ROOT/assets/ib.png" /usr/share/backgrounds/rice/ib.png
+    sudo cp "$REPO_ROOT/assets/ib.png" /usr/share/backgrounds/rice/ib.png
     chmod 644 /usr/share/backgrounds/rice/ib.png
 
     cat > /etc/dconf/db/gdm.d/90-rice-login-background <<'GDMBG'

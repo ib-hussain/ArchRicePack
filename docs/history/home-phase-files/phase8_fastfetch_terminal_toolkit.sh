@@ -36,7 +36,7 @@ log "Backing up current terminal and fetch-related files."
 for path in "$BASHRC" "$HOME/.bash_profile" "$HOME/.config/fastfetch" "$HOME/.config/neofetch"; do
     if [[ -e "$path" || -L "$path" ]]; then
         mkdir -p "$BACKUP_DIR$(dirname "$path")"
-        cp -a "$path" "$BACKUP_DIR$path"
+        cp "$path" "$BACKUP_DIR$path"
         log "Backed up: $path"
     else
         log "Backup skip, missing: $path"

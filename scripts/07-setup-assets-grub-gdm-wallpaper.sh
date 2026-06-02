@@ -10,10 +10,10 @@ log "Applying assets: GRUB background, GDM background, wallpaper rotation."
 if [[ -f "$REPO_ROOT/assets/bg.png" ]]; then
     log "Installing GRUB background from assets/bg.png."
     sudo mkdir -p /boot/grub
-    sudo cp -a "$REPO_ROOT/assets/bg.png" /boot/grub/bg.png
+    sudo cp "$REPO_ROOT/assets/bg.png" /boot/grub/bg.png
 
     if [[ -f /etc/default/grub ]]; then
-        sudo cp -a /etc/default/grub "/etc/default/grub.rice-backup-$(date +%Y%m%d-%H%M%S)"
+        sudo cp /etc/default/grub "/etc/default/grub.rice-backup-$(date +%Y%m%d-%H%M%S)"
         if grep -q '^#\?GRUB_BACKGROUND=' /etc/default/grub; then
             sudo sed -i 's|^#\?GRUB_BACKGROUND=.*|GRUB_BACKGROUND="/boot/grub/bg.png"|' /etc/default/grub
         else
@@ -34,7 +34,8 @@ if [[ -f "$REPO_ROOT/assets/ib.png" ]]; then
     log "Installing GDM/login background from assets/ib.png."
     sudo mkdir -p /usr/share/backgrounds/rice
     sudo cp -a "$REPO_ROOT/assets/ib.png" /usr/share/backgrounds/rice/ib.png
-    sudo chmod 644 /usr/share/backgrounds/rice/ib.png
+    sudo cp -a "$REPO_ROOT/assets/ib.png" "$REPO_ROOT/../.face"
+    sudo chmod 644 /usr/share/backgrounds/rice/ib.png "$REPO_ROOT/../.face"
 
     sudo mkdir -p /etc/dconf/db/gdm.d
     sudo tee /etc/dconf/db/gdm.d/90-rice-login-background >/dev/null <<'GDMBG'
@@ -52,18 +53,17 @@ else
     warn "assets/ib.png missing. Skipping login background."
 fi
 
-WALL_SRC="$REPO_ROOT/assets/wallpapers"
+WALL_SRC="$REPO_ROOT/assets/wallpapers/"
 WALL_DEST="$HOME/.local/share/backgrounds/rice/wallpapers"
 
 mkdir -p "$WALL_DEST"
 
-if find "$WALL_SRC" -maxdepth 1 -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' \) | grep -q .; then
-    log "Installing rotating wallpapers."
-    cp -a "$WALL_SRC"/* "$WALL_DEST"/
+log "Installing rotating wallpapers."
+cp "$WALL_SRC"/* "$WALL_DEST"/
 
-    mkdir -p "$HOME/.local/bin" "$HOME/.config/systemd/user"
+mkdir -p "$HOME/.local/bin" "$HOME/.config/systemd/user"
 
-    cat > "$HOME/.local/bin/rice-wallpaper-rotator" <<'ROTATOR'
+cat > "$HOME/.local/bin/rice-wallpaper-rotator" <<'ROTATOR'
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
@@ -85,9 +85,9 @@ while true; do
 done
 ROTATOR
 
-    chmod +x "$HOME/.local/bin/rice-wallpaper-rotator"
+chmod +x "$HOME/.local/bin/rice-wallpaper-rotator"
 
-    cat > "$HOME/.config/systemd/user/rice-wallpaper-rotator.service" <<'SERVICE'
+cat > "$HOME/.config/systemd/user/rice-wallpaper-rotator.service" <<'SERVICE'
 [Unit]
 Description=Rice wallpaper rotator
 
@@ -100,8 +100,5 @@ RestartSec=2
 WantedBy=default.target
 SERVICE
 
-    systemctl --user daemon-reload || true
-    systemctl --user enable --now rice-wallpaper-rotator.service || warn "Could not enable wallpaper rotator."
-else
-    warn "No wallpapers in assets/wallpapers. Leaving wallpaper rotation unchanged."
-fi
+systemctl --user daemon-reload || true
+systemctl --user enable --now rice-wallpaper-rotator.service || warn "Could not enable wallpaper rotator."

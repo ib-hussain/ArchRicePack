@@ -22,7 +22,7 @@ if [[ -d "$VSCODE_USER_SRC" ]]; then
     backup_path "$VSCODE_USER_DEST"
     rm -rf "$VSCODE_USER_DEST"
     mkdir -p "$VSCODE_USER_DEST"
-    cp -a "$VSCODE_USER_SRC"/. "$VSCODE_USER_DEST"/
+    cp "$VSCODE_USER_SRC"/. "$VSCODE_USER_DEST"/
 else
     warn "VS Code User config asset missing: $VSCODE_USER_SRC"
 fi
@@ -32,7 +32,7 @@ if [[ -d "$VSCODE_EXT_SRC" ]]; then
     backup_path "$VSCODE_EXT_DEST"
     rm -rf "$VSCODE_EXT_DEST"
     mkdir -p "$VSCODE_EXT_DEST"
-    cp -a "$VSCODE_EXT_SRC"/. "$VSCODE_EXT_DEST"/
+    cp "$VSCODE_EXT_SRC"/. "$VSCODE_EXT_DEST"/
 else
     warn "VS Code extensions asset missing: $VSCODE_EXT_SRC"
 fi
