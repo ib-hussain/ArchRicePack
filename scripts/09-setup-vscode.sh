@@ -10,7 +10,7 @@ log "Setting up Visual Studio Code from ArchRicePack assets."
 
 install_aur_package visual-studio-code-bin
 
-VSCODE_ASSET_DIR="$REPO_ROOT/assets/vscode"
+VSCODE_ASSET_DIR="$REPO_ROOT/vscode"
 VSCODE_USER_SRC="$VSCODE_ASSET_DIR/User"
 VSCODE_EXT_SRC="$VSCODE_ASSET_DIR/extensions"
 
@@ -20,9 +20,8 @@ VSCODE_EXT_DEST="$HOME/.vscode/extensions"
 if [[ -d "$VSCODE_USER_SRC" ]]; then
     log "Replacing VS Code User config."
     backup_path "$VSCODE_USER_DEST"
-    rm -rf "$VSCODE_USER_DEST"
     mkdir -p "$VSCODE_USER_DEST"
-    cp "$VSCODE_USER_SRC"/. "$VSCODE_USER_DEST"/
+    cp -r "$VSCODE_USER_SRC"/. "$VSCODE_USER_DEST"/
 else
     warn "VS Code User config asset missing: $VSCODE_USER_SRC"
 fi
@@ -30,9 +29,8 @@ fi
 if [[ -d "$VSCODE_EXT_SRC" ]]; then
     log "Replacing VS Code extensions folder."
     backup_path "$VSCODE_EXT_DEST"
-    rm -rf "$VSCODE_EXT_DEST"
     mkdir -p "$VSCODE_EXT_DEST"
-    cp "$VSCODE_EXT_SRC"/. "$VSCODE_EXT_DEST"/
+    cp -r "$VSCODE_EXT_SRC"/. "$VSCODE_EXT_DEST"/
 else
     warn "VS Code extensions asset missing: $VSCODE_EXT_SRC"
 fi
