@@ -73,5 +73,5 @@ fi
 # <<< phase14-rice-terminal-final <<<
 
 # claude code config
-export ANTHROPIC_AUTH_TOKEN=ollama
-export ANTHROPIC_BASE_URL=http://localhost:11434
+# export ANTHROPIC_AUTH_TOKEN=ollama
+# export ANTHROPIC_BASE_URL=http://localhost:11434

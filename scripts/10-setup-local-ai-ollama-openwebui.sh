@@ -59,7 +59,7 @@ else
     warn "Ollama API did not become reachable. Skipping model pull."
 fi
 
-log "Working on claude code"
+# log "Working on claude code"
 # let's complete this later
 # if any dependency for claude code is needed then it needs to be added to the docker container above
 
