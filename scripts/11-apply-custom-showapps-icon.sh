@@ -15,9 +15,6 @@ ICON_THEME="$HOME/.local/share/icons/Rice-Papirus"
 SRC=""
 
 for f in \
-    "$REPO_ROOT/assets/icons/show-apps/arch-show-apps.png" \
-    "$REPO_ROOT/assets/icons/show-apps/arch-show-apps.webp" \
-    "$REPO_ROOT/assets/icons/show-apps/arch-show-apps.svg" \
     "$REPO_ROOT/assets/arch-icons/arch-logo.png" \
     "$REPO_ROOT/assets/arch-icons/arch-logo.webp" \
     "$REPO_ROOT/assets/arch-icons/arch-logo.svg"
