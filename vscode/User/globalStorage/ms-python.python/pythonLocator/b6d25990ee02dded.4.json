@@ -1,0 +1,24 @@
+{
+  "environment": {
+    "executable": "C:\\msys64\\mingw64\\bin\\python3.11.exe",
+    "prefix": "C:\\msys64\\mingw64",
+    "version": "3.11.9.final.0",
+    "is64Bit": true,
+    "symlinks": [
+      "C:\\msys64\\mingw64\\bin\\python3.11.exe"
+    ]
+  },
+  "symlinks": [
+    [
+      "C:\\msys64\\mingw64\\bin\\python3.11.exe",
+      {
+        "secs_since_epoch": 1712915731,
+        "nanos_since_epoch": 0
+      },
+      {
+        "secs_since_epoch": 1757757584,
+        "nanos_since_epoch": 184751900
+      }
+    ]
+  ]
+}
