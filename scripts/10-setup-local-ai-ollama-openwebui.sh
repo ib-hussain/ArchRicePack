@@ -45,11 +45,23 @@ for i in {1..30}; do
 done
 
 if curl -fsS http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
-    log "Pulling gemma3:1b."
+    log "Pulling deepseek-coder:6.7b"
+    ollama pull deepseek-coder:6.7b || warn "Could not pull deepseek-coder:6.7b. It can be pulled later with: ollama pull deepseek-coder:6.7b"
+    log "Pulling gemma3:1b"
     ollama pull gemma3:1b || warn "Could not pull gemma3:1b. It can be pulled later with: ollama pull gemma3:1b"
+    log "Pulling deepseek-r1"
+    ollama pull deepseek-r1 || warn "Could not pull deepseek-r1. It can be pulled later with: ollama pull deepseek-r1"
+    log "Pulling deepseek-coder:1.3b"
+    ollama pull deepseek-coder:1.3b || warn "Could not pull deepseek-coder:1.3b. It can be pulled later with: ollama pull deepseek-coder:1.3b"
+    log "Pulling qwen2.5-coder:3b"
+    ollama pull qwen2.5-coder:3b || warn "Could not pull qwen2.5-coder:3b. It can be pulled later with: ollama pull qwen2.5-coder:3b"
 else
     warn "Ollama API did not become reachable. Skipping model pull."
 fi
+
+log "Working on claude code"
+# let's complete this later
+# if any dependency for claude code is needed then it needs to be added to the docker container above
 
 log "Installing Open WebUI Docker container."
 
@@ -74,27 +86,16 @@ if command -v google-chrome-stable >/dev/null 2>&1; then
     exec google-chrome-stable --app="$URL" --class=OpenWebUI
 elif command -v google-chrome >/dev/null 2>&1; then
     exec google-chrome --app="$URL" --class=OpenWebUI
-elif command -v chromium >/dev/null 2>&1; then
-    exec chromium --app="$URL" --class=OpenWebUI
 elif command -v firefox >/dev/null 2>&1; then
     exec firefox "$URL"
-else
-    exec xdg-open "$URL"
+elif command -v chromium >/dev/null 2>&1; then
+    exec chromium --app="$URL" --class=OpenWebUI
 fi
 LAUNCHER
 
 chmod +x "$HOME/.local/bin/openwebui-launcher"
-
-cat > "$HOME/.local/share/icons/hicolor/scalable/apps/openwebui.svg" <<'ICON'
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-  <rect width="256" height="256" rx="56" fill="#111827"/>
-  <circle cx="88" cy="94" r="36" fill="#22d3ee"/>
-  <circle cx="166" cy="94" r="36" fill="#a78bfa"/>
-  <path d="M60 154c28 35 108 35 136 0" fill="none" stroke="#f8fafc" stroke-width="18" stroke-linecap="round"/>
-  <path d="M76 63l52 130 52-130" fill="none" stroke="#ffffff" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>
-</svg>
-ICON
-
+cp assets/arch-icons/open-webui.svg "$HOME/.local/share/icons/hicolor/scalable/apps/openwebui.svg"
+chmod +x "$HOME/.local/share/icons/hicolor/scalable/apps/openwebui.svg"
 gtk-update-icon-cache -f -t "$HOME/.local/share/icons/hicolor" >/dev/null 2>&1 || true
 
 cat > "$HOME/.local/share/applications/openwebui.desktop" <<'DESKTOP'

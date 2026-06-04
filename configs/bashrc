@@ -70,9 +70,8 @@ fi
 if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init bash)"
 fi
-
-alias cls='clear'
-alias please='sudo'
-alias ports='ss -tulpen'
-alias myip='ip -brief addr'
 # <<< phase14-rice-terminal-final <<<
+
+# claude code config
+export ANTHROPIC_AUTH_TOKEN=ollama
+export ANTHROPIC_BASE_URL=http://localhost:11434
