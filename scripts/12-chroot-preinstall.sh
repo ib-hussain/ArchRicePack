@@ -147,17 +147,15 @@ copy_file_root_to_user "$REPO_ROOT/configs/profile" "$TARGET_HOME/.profile"
 chmod +x "$TARGET_HOME/.local/bin/"* 2>/dev/null || true
 
 log "Installing VS Code asset folders during chroot stage if present."
-if [[ -d "$REPO_ROOT/assets/vscode/User" ]]; then
-    rm -rf "$TARGET_HOME/.config/Code/User"
+if [[ -d "$REPO_ROOT/vscode/User" ]]; then
     mkdir -p "$TARGET_HOME/.config/Code/User"
-    cp "$REPO_ROOT/assets/vscode/User"/. "$TARGET_HOME/.config/Code/User"/
+    cp "$REPO_ROOT/vscode/User"/. "$TARGET_HOME/.config/Code/User"/
     chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.config/Code"
 fi
 
-if [[ -d "$REPO_ROOT/assets/vscode/extensions" ]]; then
-    rm -rf "$TARGET_HOME/.vscode/extensions"
+if [[ -d "$REPO_ROOT/vscode/extensions" ]]; then
     mkdir -p "$TARGET_HOME/.vscode/extensions"
-    cp "$REPO_ROOT/assets/vscode/extensions"/. "$TARGET_HOME/.vscode/extensions"/
+    cp "$REPO_ROOT/vscode/extensions"/. "$TARGET_HOME/.vscode/extensions"/
     chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.vscode"
 fi
 

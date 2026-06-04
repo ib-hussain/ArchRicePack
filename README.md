@@ -371,9 +371,6 @@ If the directory contains images, the installer enables a user-level wallpaper r
 The final dock icon patch uses the first available file from this list:
 
 ```text
-assets/icons/show-apps/arch-show-apps.png
-assets/icons/show-apps/arch-show-apps.webp
-assets/icons/show-apps/arch-show-apps.svg
 assets/arch-icons/arch-logo.png
 assets/arch-icons/arch-logo.webp
 assets/arch-icons/arch-logo.svg
@@ -382,7 +379,7 @@ assets/arch-icons/arch-logo.svg
 Best recommended file:
 
 ```text
-assets/icons/show-apps/arch-show-apps.png
+assets/arch-icons/arch-logo.png
 ```
 
 Recommended format:

@@ -1,0 +1,1 @@
+replace all icons in this dir and its sub directories with the proper icon
