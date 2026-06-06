@@ -59,15 +59,14 @@ ensure_yay_for_target_user() {
         return 0
     fi
 
-    # log "Installing yay for $TARGET_USER."
-    # install_pacman_direct git
-    # install_pacman_direct base-devel
+    log "Installing yay for $TARGET_USER."
+    install_pacman_direct git
+    install_pacman_direct base-devel
 
-    # rm -rf "$TARGET_HOME/.cache/rice-aur-builds/yay"
-    # install -d -o "$TARGET_USER" -g "$TARGET_USER" "$TARGET_HOME/.cache/rice-aur-builds"
-    # run_as_user "git clone https://aur.archlinux.org/yay.git ~/.cache/rice-aur-builds/yay"
-    # run_as_user "cd ~/.cache/rice-aur-builds/yay && chmod +x ~/.cache/rice-aur-builds/yay/* && MAKEFLAGS=\"-j4\" makepkg -si --noconfirm"
-    ensure_yay
+    rm -rf "$TARGET_HOME/.cache/rice-aur-builds/yay"
+    install -d -o "$TARGET_USER" -g "$TARGET_USER" "$TARGET_HOME/.cache/rice-aur-builds"
+    run_as_user "git clone https://aur.archlinux.org/yay-bin.git ~/.cache/rice-aur-builds/yay"
+    run_as_user "cd ~/.cache/rice-aur-builds/yay && chmod +x ~/.cache/rice-aur-builds/yay/* && MAKEFLAGS=\"-j4\" makepkg -si "
 }
 
 install_aur_package_for_target_user() {
