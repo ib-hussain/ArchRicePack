@@ -126,9 +126,8 @@ ensure_yay() {
     rm -rf "$build_dir"
     sudo mkdir -p "$(dirname "$build_dir")"
     sudo git clone https://aur.archlinux.org/yay.git "$build_dir"
-    sudo chown -R "$USER" "$build_dir"
-    sudo chmod -R 755 "$build_dir"
-    (sudo cd "$build_dir" && sudo makepkg -si --noconfirm)
+    sudo chmod +x "$build_dir"
+    (sudo cd "$build_dir" && sudo MAKEFLAGS="-j4" makepkg -si --noconfirm)
 }
 
 install_aur_package() {
