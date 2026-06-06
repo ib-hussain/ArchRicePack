@@ -153,13 +153,13 @@ chmod +x "$TARGET_HOME/.local/bin/"* 2>/dev/null || true
 log "Installing VS Code asset folders during chroot stage if present."
 if [[ -d "$REPO_ROOT/vscode/User" ]]; then
     mkdir -p "$TARGET_HOME/.config/Code/User"
-    cp "$REPO_ROOT/vscode/User"/. "$TARGET_HOME/.config/Code/User"/
+    cp -r "$REPO_ROOT/vscode/User"/. "$TARGET_HOME/.config/Code/User"/
     chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.config/Code"
 fi
 
 if [[ -d "$REPO_ROOT/vscode/extensions" ]]; then
     mkdir -p "$TARGET_HOME/.vscode/extensions"
-    cp "$REPO_ROOT/vscode/extensions"/. "$TARGET_HOME/.vscode/extensions"/
+    cp -r "$REPO_ROOT/vscode/extensions"/. "$TARGET_HOME/.vscode/extensions"/
     chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.vscode"
 fi
 
