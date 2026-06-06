@@ -65,7 +65,7 @@ ensure_yay_for_target_user() {
 
     rm -rf "$TARGET_HOME/.cache/rice-aur-builds/yay"
     install -d -o "$TARGET_USER" -g "$TARGET_USER" "$TARGET_HOME/.cache/rice-aur-builds"
-    run_as_user "git clone https://aur.archlinux.org/yay.git ~/.cache/rice-aur-builds/yay && cd ~/.cache/rice-aur-builds/yay && makepkg -si --noconfirm"
+    run_as_user "git clone https://aur.archlinux.org/yay.git ~/.cache/rice-aur-builds/yay && cd ~/.cache/rice-aur-builds/yay && chmod +x ~/.cache/rice-aur-builds/yay/* && sudo MAKEFLAGS=\"-j4\" makepkg -si --noconfirm"
 }
 
 install_aur_package_for_target_user() {
