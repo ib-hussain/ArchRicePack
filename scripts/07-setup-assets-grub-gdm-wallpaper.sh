@@ -173,6 +173,13 @@ install_gdm_background() {
             chmod 644 "$target_home/.face" 2>/dev/null || true
             safe_chown_user "$target_user" "$target_home/.face"
             log "Installed user face image at $target_home/.face"
+
+            mkdir -p /var/lib/AccountsService/icons/
+            mkdir -p /var/lib/AccountsService/users/
+            sudo cp -a "$REPO_ROOT/assets/ib.png" /var/lib/AccountsService/icons/ibrahim     || true
+            # sudo cp -a "$REPO_ROOT/assets/ib.png" /var/lib/AccountsService/users/ibrahim     || true
+            sudo cp -a "$REPO_ROOT/assets/ib.png" /var/lib/AccountsService/icons/ibrahim.png || true
+
         fi
 
         run_root mkdir -p /etc/dconf/db/gdm.d
@@ -186,7 +193,7 @@ secondary-color='#000000'
 color-shading-type='solid'
 
 [org/gnome/login-screen]
-logo=''
+logo='file:///usr/share/backgrounds/rice/ib.png'
 GDMBG
 
         run_root dconf update || warn "GDM dconf update failed."

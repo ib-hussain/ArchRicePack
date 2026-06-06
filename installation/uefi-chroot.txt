@@ -6,7 +6,7 @@
 set -euo pipefail
 DISK="/dev/sda"
 INSTALL_MODE="uefi"
-KERNEL_CHOICE="linux"
+KERNEL_CHOICE="linux-lts"
 GPU_PROFILE="standard"
 USER_NAME="ibrahim"
 HOST_NAME="ibLaptop"
