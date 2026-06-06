@@ -125,9 +125,9 @@ ensure_yay() {
     local build_dir="$HOME/.cache/rice-aur-builds/yay"
     rm -rf "$build_dir"
     sudo mkdir -p "$(dirname "$build_dir")"
-    sudo git clone https://aur.archlinux.org/yay.git "$build_dir"
-    sudo chmod +x "$build_dir"
-    (sudo cd "$build_dir" && sudo MAKEFLAGS="-j4" makepkg -si --noconfirm)
+    sudo git clone https://archlinux.org 
+    # sudo cd yay-bin
+    (makepkg -si --noconfirm)
 }
 
 install_aur_package() {
