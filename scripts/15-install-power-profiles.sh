@@ -4,14 +4,27 @@ set -Eeuo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/00-common.sh"
 
+require_user_session
+
 log "Installing power profile system."
 
-sudo mkdir -p /opt/ib-power-profiles
+mkdir -p "$HOME/.local/bin"
 
-sudo cp -r "$REPO_ROOT/battery-profiles/"* /opt/ib-power-profiles/
+copy_file \
+"$REPO_ROOT/configs/local-bin/ib-power-mode" \
+"$HOME/.local/bin/ib-power-mode"
 
-sudo chmod +x /opt/ib-power-profiles/*.sh
+copy_file \
+"$REPO_ROOT/configs/local-bin/ib-power-menu" \
+"$HOME/.local/bin/ib-power-menu"
 
-echo balanced | sudo tee /etc/ib-power-profile >/dev/null
+chmod +x "$HOME/.local/bin/ib-power-mode"
+chmod +x "$HOME/.local/bin/ib-power-menu"
 
-log "Power profile system installed."   
+sudo touch /etc/ib-power-profile
+
+if [[ ! -s /etc/ib-power-profile ]]; then
+    echo balanced | sudo tee /etc/ib-power-profile >/dev/null
+fi
+
+log "Power profile system installed."

@@ -1,0 +1,128 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+PROFILE_FILE="/etc/ib-power-profile"
+
+require_root() {
+    if [[ $EUID -ne 0 ]]; then
+        exec sudo "$0" "$@"
+    fi
+}
+
+set_governor() {
+    local gov="$1"
+
+    if command -v cpupower >/dev/null 2>&1; then
+        cpupower frequency-set -g "$gov" >/dev/null
+    fi
+}
+
+set_epp() {
+    local mode="$1"
+
+    if command -v x86_energy_perf_policy >/dev/null 2>&1; then
+        x86_energy_perf_policy "$mode" >/dev/null 2>&1 || true
+    fi
+}
+
+apply_profile() {
+
+    local profile="$1"
+
+    case "$profile" in
+
+        powersaver)
+            set_governor powersave
+            set_epp power
+            ;;
+
+        balanced)
+            set_governor powersave
+            set_epp balance-performance
+            ;;
+
+        performance)
+            set_governor performance
+            set_epp balance-performance
+            ;;
+
+        maximum)
+            set_governor performance
+            set_epp performance
+            ;;
+
+        *)
+            echo "Unknown profile."
+            exit 1
+            ;;
+    esac
+
+    echo "$profile" > "$PROFILE_FILE"
+
+    echo "Applied profile: $profile"
+}
+
+restore_profile() {
+
+    if [[ -f "$PROFILE_FILE" ]]; then
+        apply_profile "$(cat "$PROFILE_FILE")"
+    else
+        apply_profile balanced
+    fi
+}
+
+current_profile() {
+
+    if [[ -f "$PROFILE_FILE" ]]; then
+        cat "$PROFILE_FILE"
+    else
+        echo balanced
+    fi
+}
+
+status() {
+
+    echo
+    echo "Stored profile:"
+    current_profile
+
+    echo
+    echo "Governor:"
+    cpupower frequency-info 2>/dev/null | grep "The governor" || true
+
+    echo
+}
+
+case "${1:-}" in
+
+    set)
+        require_root "$@"
+        apply_profile "${2:-balanced}"
+        ;;
+
+    restore)
+        require_root "$@"
+        restore_profile
+        ;;
+
+    current)
+        current_profile
+        ;;
+
+    status)
+        status
+        ;;
+
+    *)
+        echo
+        echo "Usage:"
+        echo "ib-power-mode set powersaver"
+        echo "ib-power-mode set balanced"
+        echo "ib-power-mode set performance"
+        echo "ib-power-mode set maximum"
+        echo "ib-power-mode restore"
+        echo "ib-power-mode status"
+        echo
+        exit 1
+        ;;
+esac

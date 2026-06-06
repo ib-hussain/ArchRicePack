@@ -37,6 +37,8 @@ chafa
 p7zip
 7zip
 docker
+cpupower
+zenity
 docker-compose
 ollama
 imagemagick
