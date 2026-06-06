@@ -91,7 +91,7 @@ copy_dir_root_to_user() {
 
     if [[ -d "$src" ]]; then
         mkdir -p "$dest"
-        cp "$src"/. "$dest"/
+        cp -r "$src"/. "$dest"/
         chown -R "$TARGET_USER:$TARGET_USER" "$dest"
         log "Copied directory: $src -> $dest"
     else
