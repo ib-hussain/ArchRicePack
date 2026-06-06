@@ -39,6 +39,7 @@ p7zip
 docker
 cpupower
 zenity
+gnome-keyring
 docker-compose
 ollama
 imagemagick
