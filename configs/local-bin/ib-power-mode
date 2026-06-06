@@ -3,126 +3,218 @@ set -Eeuo pipefail
 
 PROFILE_FILE="/etc/ib-power-profile"
 
-require_root() {
-    if [[ $EUID -ne 0 ]]; then
-        exec sudo "$0" "$@"
-    fi
+reexec_sudo() {
+if [[ $EUID -ne 0 ]]; then
+exec sudo "$0" "$@"
+fi
 }
 
-set_governor() {
-    local gov="$1"
+reset_system() {
 
-    if command -v cpupower >/dev/null 2>&1; then
-        cpupower frequency-set -g "$gov" >/dev/null
-    fi
+```
+if command -v cpupower >/dev/null 2>&1; then
+    cpupower frequency-set -g powersave >/dev/null 2>&1 || true
+fi
+
+if command -v x86_energy_perf_policy >/dev/null 2>&1; then
+    x86_energy_perf_policy balance-performance >/dev/null 2>&1 || true
+fi
+
+if [[ -w /sys/devices/system/cpu/intel_pstate/no_turbo ]]; then
+    echo 0 > /sys/devices/system/cpu/intel_pstate/no_turbo
+fi
+
+if [[ -w /sys/kernel/mm/transparent_hugepage/enabled ]]; then
+    echo always > /sys/kernel/mm/transparent_hugepage/enabled
+fi
+
+if [[ -w /sys/kernel/mm/transparent_hugepage/defrag ]]; then
+    echo always > /sys/kernel/mm/transparent_hugepage/defrag
+fi
+
+for f in /sys/devices/system/cpu/cpu*/cpuidle/state*/disable; do
+    [[ -w "$f" ]] && echo 0 > "$f"
+done
+```
+
 }
 
-set_epp() {
-    local mode="$1"
+apply_powersaver() {
 
-    if command -v x86_energy_perf_policy >/dev/null 2>&1; then
-        x86_energy_perf_policy "$mode" >/dev/null 2>&1 || true
-    fi
+```
+cpupower frequency-set -g powersave >/dev/null 2>&1 || true
+
+if command -v x86_energy_perf_policy >/dev/null 2>&1; then
+    x86_energy_perf_policy power >/dev/null 2>&1 || true
+fi
+```
+
 }
 
-apply_profile() {
+apply_balanced() {
 
-    local profile="$1"
+```
+cpupower frequency-set -g powersave >/dev/null 2>&1 || true
 
-    case "$profile" in
+if command -v x86_energy_perf_policy >/dev/null 2>&1; then
+    x86_energy_perf_policy balance-performance >/dev/null 2>&1 || true
+fi
+```
 
-        powersaver)
-            set_governor powersave
-            set_epp power
-            ;;
+}
 
-        balanced)
-            set_governor powersave
-            set_epp balance-performance
-            ;;
+apply_performance() {
 
-        performance)
-            set_governor performance
-            set_epp balance-performance
-            ;;
+```
+cpupower frequency-set -g performance >/dev/null 2>&1 || true
 
-        maximum)
-            set_governor performance
-            set_epp performance
-            ;;
+if command -v x86_energy_perf_policy >/dev/null 2>&1; then
+    x86_energy_perf_policy balance-performance >/dev/null 2>&1 || true
+fi
+```
 
-        *)
-            echo "Unknown profile."
-            exit 1
-            ;;
-    esac
+}
 
-    echo "$profile" > "$PROFILE_FILE"
+apply_maximum() {
 
-    echo "Applied profile: $profile"
+```
+cpupower frequency-set -g performance >/dev/null 2>&1 || true
+
+if command -v x86_energy_perf_policy >/dev/null 2>&1; then
+    x86_energy_perf_policy performance >/dev/null 2>&1 || true
+fi
+
+if [[ -w /sys/devices/system/cpu/intel_pstate/no_turbo ]]; then
+    echo 0 > /sys/devices/system/cpu/intel_pstate/no_turbo
+fi
+
+if [[ -w /sys/kernel/mm/transparent_hugepage/enabled ]]; then
+    echo never > /sys/kernel/mm/transparent_hugepage/enabled
+fi
+
+if [[ -w /sys/kernel/mm/transparent_hugepage/defrag ]]; then
+    echo never > /sys/kernel/mm/transparent_hugepage/defrag
+fi
+
+for f in /sys/devices/system/cpu/cpu*/cpuidle/state*/disable; do
+    [[ -w "$f" ]] && echo 1 > "$f"
+done
+```
+
+}
+
+set_profile() {
+
+```
+local profile="$1"
+
+reset_system
+
+case "$profile" in
+
+    powersaver)
+        apply_powersaver
+        ;;
+
+    balanced)
+        apply_balanced
+        ;;
+
+    performance)
+        apply_performance
+        ;;
+
+    maximum)
+        apply_maximum
+        ;;
+
+    *)
+        echo "Unknown profile"
+        exit 1
+        ;;
+esac
+
+echo "$profile" > "$PROFILE_FILE"
+
+echo "Applied profile: $profile"
+```
+
 }
 
 restore_profile() {
 
-    if [[ -f "$PROFILE_FILE" ]]; then
-        apply_profile "$(cat "$PROFILE_FILE")"
-    else
-        apply_profile balanced
-    fi
+```
+if [[ -f "$PROFILE_FILE" ]]; then
+    set_profile "$(cat "$PROFILE_FILE")"
+else
+    set_profile balanced
+fi
+```
+
 }
 
 current_profile() {
 
-    if [[ -f "$PROFILE_FILE" ]]; then
-        cat "$PROFILE_FILE"
-    else
-        echo balanced
-    fi
+```
+if [[ -f "$PROFILE_FILE" ]]; then
+    cat "$PROFILE_FILE"
+else
+    echo balanced
+fi
+```
+
 }
 
-status() {
+status_profile() {
 
-    echo
-    echo "Stored profile:"
-    current_profile
+```
+echo
+echo "Profile:"
+current_profile
 
-    echo
-    echo "Governor:"
-    cpupower frequency-info 2>/dev/null | grep "The governor" || true
+echo
 
-    echo
+cpupower frequency-info 2>/dev/null | grep governor || true
+
+echo
+```
+
 }
 
 case "${1:-}" in
 
-    set)
-        require_root "$@"
-        apply_profile "${2:-balanced}"
-        ;;
+```
+set)
+    reexec_sudo "$@"
+    set_profile "${2:-balanced}"
+    ;;
 
-    restore)
-        require_root "$@"
-        restore_profile
-        ;;
+restore)
+    reexec_sudo "$@"
+    restore_profile
+    ;;
 
-    current)
-        current_profile
-        ;;
+current)
+    current_profile
+    ;;
 
-    status)
-        status
-        ;;
+status)
+    status_profile
+    ;;
 
-    *)
-        echo
-        echo "Usage:"
-        echo "ib-power-mode set powersaver"
-        echo "ib-power-mode set balanced"
-        echo "ib-power-mode set performance"
-        echo "ib-power-mode set maximum"
-        echo "ib-power-mode restore"
-        echo "ib-power-mode status"
-        echo
-        exit 1
-        ;;
+*)
+    echo
+    echo "Usage:"
+    echo "ib-power-mode set powersaver"
+    echo "ib-power-mode set balanced"
+    echo "ib-power-mode set performance"
+    echo "ib-power-mode set maximum"
+    echo "ib-power-mode restore"
+    echo "ib-power-mode current"
+    echo "ib-power-mode status"
+    echo
+    exit 1
+    ;;
+```
+
 esac
