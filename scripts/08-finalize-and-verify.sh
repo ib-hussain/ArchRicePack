@@ -38,7 +38,7 @@ log "Verification summary:"
     echo "Overview=$(gsettings get org.gnome.shell.keybindings toggle-overview 2>/dev/null || echo unavailable)"
     echo "Apps=$(gsettings get org.gnome.shell.keybindings toggle-application-view 2>/dev/null || echo unavailable)"
     echo "Favourites=$(gsettings get org.gnome.shell favorite-apps 2>/dev/null || echo unavailable)"
-    echo "Power=$(powerprofilesctl get 2>/dev/null || echo unavailable)"
+    # echo "Power=$(powerprofilesctl get 2>/dev/null || echo unavailable)"
     echo
     echo "Dash-to-Dock:"
     dconf dump /org/gnome/shell/extensions/dash-to-dock/ 2>/dev/null || true

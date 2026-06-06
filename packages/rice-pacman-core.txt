@@ -19,8 +19,6 @@ gnome-terminal
 gnome-system-monitor
 nautilus
 nautilus-python
-power-profiles-daemon
-upower
 fastfetch
 papirus-icon-theme
 gtk-update-icon-cache

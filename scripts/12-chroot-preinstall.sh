@@ -197,8 +197,6 @@ fi
 log "Enabling system services for first boot."
 systemctl enable NetworkManager.service || true
 systemctl enable gdm.service || true
-systemctl enable power-profiles-daemon.service || true
-systemctl enable upower.service || true
 systemctl enable docker.service || true
 systemctl enable ollama.service || true
 systemctl set-default graphical.target || true

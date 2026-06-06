@@ -85,6 +85,8 @@ case "$MODE" in
             "09-setup-vscode.sh"
             "10-setup-local-ai-ollama-openwebui.sh"
             "11-apply-custom-showapps-icon.sh"
+            "14-system-stability.sh"
+            "15-install-power-profiles.sh"
             "08-finalize-and-verify.sh"
         )
 

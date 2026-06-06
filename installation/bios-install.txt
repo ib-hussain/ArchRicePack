@@ -77,8 +77,7 @@ fi
 # BASE SYSTEM
 # ==========================================================
 
-if [[ "$KERNEL_CHOICE" == "linux-lts" ]]; then
-    pacstrap /mnt base linux-lts linux-firmware
+    pacstrap /mnt base "$KERNEL_CHOICE" linux-firmware
 else
     echo "Invalid KERNEL_CHOICE."
     exit 1
