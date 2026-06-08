@@ -14,18 +14,25 @@ fi
 log "Setting up Ollama + Gemma 3 1B + Open WebUI."
 
 install_pacman_package ollama
+install_pacman_package ollama-cuda
 install_pacman_package docker
 install_pacman_package docker-compose
 install_pacman_package xdg-utils
 install_pacman_package imagemagick
 
-if command -v nvidia-smi >/dev/null 2>&1; then
-    log "NVIDIA detected. Installing ollama-cuda."
-    install_pacman_package ollama-cuda
-else
-    log "No NVIDIA runtime detected. Using base ollama package."
-fi
+# ----- Ensure Ollama listens on all interfaces for Docker access -----
+log "Configuring Ollama to listen on 0.0.0.0 so Docker can reach it."
+sudo mkdir -p /etc/systemd/system/ollama.service.d
 
+sudo tee /etc/systemd/system/ollama.service.d/override.conf <<'EOF' >/dev/null
+[Service]
+Environment=OLLAMA_HOST=0.0.0.0:11434
+EOF
+
+sudo systemctl daemon-reload
+# Restart if already running (e.g., on re-runs)
+sudo systemctl try-restart ollama.service 2>/dev/null || true
+# ---------------------------------------------------------------------
 log "Enabling services."
 sudo systemctl enable --now ollama.service || warn "Could not enable/start ollama.service."
 sudo systemctl enable --now docker.service || warn "Could not enable/start docker.service."
@@ -94,7 +101,7 @@ fi
 LAUNCHER
 
 chmod +x "$HOME/.local/bin/openwebui-launcher"
-cp assets/arch-icons/open-webui.svg "$HOME/.local/share/icons/hicolor/scalable/apps/openwebui.svg"
+cp "$HOME/ArchRicePack/assets/arch-icons/open-webui.svg" "$HOME/.local/share/icons/hicolor/scalable/apps/openwebui.svg"
 chmod +x "$HOME/.local/share/icons/hicolor/scalable/apps/openwebui.svg"
 gtk-update-icon-cache -f -t "$HOME/.local/share/icons/hicolor" >/dev/null 2>&1 || true
 
