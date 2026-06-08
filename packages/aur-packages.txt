@@ -1,5 +1,6 @@
 gnome-shell-extension-dash-to-dock-git
 google-chrome
 visual-studio-code-bin
+ventoy-bin
 yay
 yay-debug
