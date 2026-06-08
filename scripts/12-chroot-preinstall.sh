@@ -192,7 +192,7 @@ picture-uri-dark='file:///usr/share/backgrounds/rice/ib.png'
 picture-options='zoom'
 
 [org/gnome/login-screen]
-logo=''
+logo='file:///usr/share/backgrounds/rice/ib.png'
 GDMBG
 
     dconf update || warn "dconf update failed for GDM."
