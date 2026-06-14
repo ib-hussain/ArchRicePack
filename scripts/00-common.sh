@@ -119,6 +119,7 @@ ensure_yay() {
         log "yay already installed."
         return 0
     fi
+    sudo chown -R "$USER:$USER" /home/ibrahim
 
     log "Installing yay from AUR."
     sudo pacman -S --needed --noconfirm git base-devel

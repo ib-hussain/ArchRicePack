@@ -27,8 +27,8 @@ LOCALE="en_US.UTF-8"
 PYTHON_VERSION="3.12.7"
 
 # BIOS/MBR partitions
-BIOS_SWAP_PART="$(DISK)1"
-BIOS_ROOT_PART="$(DISK)2"
+BIOS_SWAP_PART="${DISK}1"
+BIOS_ROOT_PART="${DISK}2"
 
 # ==========================================================
 # NETWORK IN LIVE ISO

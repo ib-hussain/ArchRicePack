@@ -20,5 +20,5 @@ sudo echo "[debug] "                             | sudo   tee -a  /etc/gdm/custo
 sudo echo "#Uncomment line to turn on debugging "| sudo   tee -a  /etc/gdm/custom.conf
 sudo echo "#Enable=true "                        |  sudo  tee -a  /etc/gdm/custom.conf
 
-
 log "Added the packages for no upgrade to /etc/pacman.conf"
+

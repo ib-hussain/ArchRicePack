@@ -79,7 +79,6 @@ case "$MODE" in
             "03-setup-terminal.sh"
             "04-setup-extensions.sh"
             "05-apply-gnome-settings.sh"
-            "06-setup-nautilus-code.sh"
             "07-setup-assets-grub-gdm-wallpaper.sh"
             "08-finalize-and-verify.sh"
             "09-setup-vscode.sh"

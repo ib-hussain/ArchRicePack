@@ -11,10 +11,10 @@ if [[ "${SKIP_LOCAL_AI:-0}" == "1" ]]; then
     exit 0
 fi
 
-log "Setting up Ollama + Gemma 3 1B + Open WebUI."
+log "Setting up Ollama + Open WebUI."
 
 install_pacman_package ollama
-install_pacman_package ollama-cuda
+# install_pacman_package ollama-cuda
 install_pacman_package docker
 install_pacman_package docker-compose
 install_pacman_package xdg-utils
@@ -52,14 +52,10 @@ for i in {1..30}; do
 done
 
 if curl -fsS http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
-    log "Pulling deepseek-coder:6.7b"
-    ollama pull deepseek-coder:6.7b || warn "Could not pull deepseek-coder:6.7b. It can be pulled later with: ollama pull deepseek-coder:6.7b"
     log "Pulling gemma3:1b"
     ollama pull gemma3:1b || warn "Could not pull gemma3:1b. It can be pulled later with: ollama pull gemma3:1b"
     log "Pulling deepseek-r1"
     ollama pull deepseek-r1 || warn "Could not pull deepseek-r1. It can be pulled later with: ollama pull deepseek-r1"
-    log "Pulling deepseek-coder:1.3b"
-    ollama pull deepseek-coder:1.3b || warn "Could not pull deepseek-coder:1.3b. It can be pulled later with: ollama pull deepseek-coder:1.3b"
     log "Pulling qwen2.5-coder:3b"
     ollama pull qwen2.5-coder:3b || warn "Could not pull qwen2.5-coder:3b. It can be pulled later with: ollama pull qwen2.5-coder:3b"
 else

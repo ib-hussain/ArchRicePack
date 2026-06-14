@@ -24,9 +24,9 @@ TIMEZONE="Asia/Karachi"
 LOCALE="en_US.UTF-8"
 PYTHON_VERSION="3.12.7"
 # UEFI/GPT partitions
-EFI_PART="$(DISK)1"
-SWAP_PART="$(DISK)2"
-ROOT_PART="$(DISK)3"
+EFI_PART="${DISK}1"
+SWAP_PART="${DISK}2"
+ROOT_PART="${DISK}3"
 
 # ==========================================================
 # NETWORK IN LIVE ISO

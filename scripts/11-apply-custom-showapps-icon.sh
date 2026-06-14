@@ -30,8 +30,7 @@ if [[ -z "$SRC" ]]; then
     exit 0
 fi
 
-install_pacman_package imagemagick
-install_pacman_package gtk3
+install_pacman_package imagemagick gtk3
 
 mkdir -p "$ICON_THEME" "$EXT_DIR/icons"
 
@@ -42,11 +41,14 @@ mkdir -p "$WORK"
 MASTER="$WORK/arch-show-apps.png"
 
 log "Using source icon: $SRC"
-magick "$SRC" -background none -alpha on -resize 1024x1024 -gravity center -extent 1024x1024 "$MASTER"
+# magick "$SRC" -background none -alpha on -resize 1024x1024 -gravity center -extent 1024x1024 "$MASTER"
+cp "$REPO_ROOT/assets/arch-icons/arch-logo-1024x1024.png" "$MASTER"
 
 log "Writing PNG directly into GNOME Shell extension."
-magick "$MASTER" -resize 512x512 "$EXT_DIR/icons/arch-show-apps.png"
-magick "$MASTER" -resize 512x512 "$EXT_DIR/arch-show-apps.png"
+# magick "$MASTER" -resize 512x512 "$EXT_DIR/icons/arch-show-apps.png"
+cp "$REPO_ROOT/assets/arch-icons/arch-logo-512x512.png" "$EXT_DIR/icons/arch-show-apps.png"
+# magick "$MASTER" -resize 512x512 "$EXT_DIR/arch-show-apps.png"
+cp "$REPO_ROOT/assets/arch-icons/arch-logo-512x512.png" "$EXT_DIR/arch-show-apps.png"
 
 cat > "$EXT_DIR/metadata.json" <<'EOFJSON'
 {
@@ -211,13 +213,6 @@ for size in "${SIZES[@]}"; do
         done
     done
 done
-
-dconf_write /org/gnome/shell/extensions/dash-to-dock/show-show-apps-button true
-dconf_write /org/gnome/shell/extensions/dash-to-dock/show-apps-at-top true
-
-gs_set org.gnome.shell.extensions.dash-to-dock show-show-apps-button true
-gs_set org.gnome.shell.extensions.dash-to-dock show-apps-at-top true
-gs_set org.gnome.desktop.interface icon-theme "Rice-Papirus"
 
 gtk-update-icon-cache -f -t "$ICON_THEME" >/dev/null 2>&1 || true
 
