@@ -66,9 +66,9 @@ class IBContextTools(GObject.GObject, Nautilus.MenuProvider):
 
         code_item = Nautilus.MenuItem(
             name="IBContextTools::OpenInCode",
-            label="Open in Code",
-            tip="Open this folder in Visual Studio Code",
-            icon="visual-studio-code"
+            label="Open with Code",
+            tip="Open selected file or folder in Visual Studio Code",
+            icon="code"
         )
         code_item.connect("activate", self._open_code, path)
 
