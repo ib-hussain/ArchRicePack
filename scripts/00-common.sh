@@ -125,9 +125,10 @@ ensure_yay() {
     local build_dir="$HOME/.cache/rice-aur-builds/yay"
     rm -rf "$build_dir"
     sudo mkdir -p "$(dirname "$build_dir")"
+    sudo chown -R "$USER:$USER" "$(dirname "$build_dir")"
     git clone https://aur.archlinux.org/yay-bin.git "$build_dir"
     cd "$build_dir" 
-    (chmod +x ~/.cache/rice-aur-builds/yay/* && MAKEFLAGS=\"-j4\" makepkg -si  --noconfirm)
+    (chown -R "$USER:$USER" "$build_dir" && MAKEFLAGS=\"-j4\" makepkg -si  --noconfirm)
 }
 
 install_aur_package() {

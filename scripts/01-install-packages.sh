@@ -18,11 +18,3 @@ while IFS= read -r pkg; do
     [[ -z "$pkg" || "$pkg" =~ ^[[:space:]]*# ]] && continue
     install_aur_package "$pkg"
 done < "$REPO_ROOT/packages/rice-aur-core.txt"
-
-# log "Enabling power services."
-# sudo systemctl enable --now power-profiles-daemon.service || warn "Could not enable power-profiles-daemon."
-# sudo systemctl enable --now upower.service || warn "Could not enable upower."
-
-# if command -v powerprofilesctl >/dev/null 2>&1; then
-    # powerprofilesctl set balanced || true
-# fi
