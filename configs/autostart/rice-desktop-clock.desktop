@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Rice Desktop Clock
-Comment=Transparent desktop clock widget for the Arch GNOME rice
-Exec=/usr/bin/conky --daemonize --config /home/ibrahim/.config/conky/rice-clock.conf
-X-GNOME-Autostart-enabled=false
-Terminal=false
-Hidden=true

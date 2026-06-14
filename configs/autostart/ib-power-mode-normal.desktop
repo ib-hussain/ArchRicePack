@@ -1,6 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=IB Power Restore
-Exec=/home/ibrahim/.local/bin/ib-power-mode restore
-X-GNOME-Autostart-enabled=true
-NoDisplay=true
