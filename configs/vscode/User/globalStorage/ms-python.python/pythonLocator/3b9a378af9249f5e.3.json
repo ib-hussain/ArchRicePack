@@ -1,0 +1,24 @@
+{
+  "environment": {
+    "executable": "C:\\Users\\ibrahim\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+    "prefix": "C:\\Users\\ibrahim\\AppData\\Local\\Programs\\Python\\Python312",
+    "version": "3.12.7.final.0",
+    "is64Bit": true,
+    "symlinks": [
+      "C:\\Users\\ibrahim\\AppData\\Local\\Programs\\Python\\Python312\\python.exe"
+    ]
+  },
+  "symlinks": [
+    [
+      "C:\\Users\\ibrahim\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+      {
+        "secs_since_epoch": 1727737472,
+        "nanos_since_epoch": 0
+      },
+      {
+        "secs_since_epoch": 1727737472,
+        "nanos_since_epoch": 0
+      }
+    ]
+  ]
+}
