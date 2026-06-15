@@ -5,4 +5,6 @@
 .DS_Store
 **pycache**/
 *.ps1
+**ignore**.*
+**.*ignore**
 Screenshot*.png

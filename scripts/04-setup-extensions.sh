@@ -18,9 +18,10 @@ done
 
 for uuid in \
     "user-theme@gnome-shell-extensions.gcampax.github.com" \
-    "dash-to-dock@micxgx.gmail.com" \
+    "dash-to-dock@micxgx.gmail.com" \ 
     "hidetopbar@mathieu.bidon.ca" \
-    "rice-arch-showapps@local"
+    "arch-dock-icon@ib-hussain"
+    # the above extension is accounted for 
 do
     if gnome-extensions list | grep -qx "$uuid"; then
         gnome-extensions enable "$uuid" || warn "Could not enable extension: $uuid"
