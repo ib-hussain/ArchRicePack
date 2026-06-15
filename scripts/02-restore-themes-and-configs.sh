@@ -17,6 +17,7 @@ mkdir -p "$HOME/.themes" "$HOME/.config" "$HOME/.local/bin" "$HOME/.local/share/
 
 copy_dir_contents "$REPO_ROOT/configs/themes" "$HOME/.themes"
 copy_dir_contents "$REPO_ROOT/configs/gtk-3.0" "$HOME/.config/gtk-3.0"
+copy_dir_contents "$REPO_ROOT/cluster-work" "$HOME/Downloads/cluster-work"
 copy_dir_contents "$REPO_ROOT/configs/gtk-4.0" "$HOME/.config/gtk-4.0"
 copy_dir_contents "$REPO_ROOT/configs/local-bin" "$HOME/.local/bin"
 

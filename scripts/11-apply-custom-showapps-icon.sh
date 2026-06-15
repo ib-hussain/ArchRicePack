@@ -8,7 +8,7 @@ require_user_session
 
 log "Applying final custom Show Applications dock icon."
 
-EXT_UUID="rice-arch-showapps@local"
+EXT_UUID="arch-dock-icon@ib-hussain"
 EXT_DIR="$HOME/.local/share/gnome-shell/extensions/$EXT_UUID"
 ICON_THEME="$HOME/.local/share/icons/Rice-Papirus"
 
@@ -50,141 +50,7 @@ cp "$REPO_ROOT/assets/arch-icons/arch-logo-512x512.png" "$EXT_DIR/icons/arch-sho
 # magick "$MASTER" -resize 512x512 "$EXT_DIR/arch-show-apps.png"
 cp "$REPO_ROOT/assets/arch-icons/arch-logo-512x512.png" "$EXT_DIR/arch-show-apps.png"
 
-cat > "$EXT_DIR/metadata.json" <<'EOFJSON'
-{
-  "uuid": "rice-arch-showapps@local",
-  "name": "Rice Arch Show Apps Icon",
-  "description": "Forces Dash-to-Dock Show Applications icon to use a custom Arch image.",
-  "shell-version": ["50"],
-  "version": 2
-}
-EOFJSON
-
-cat > "$EXT_DIR/stylesheet.css" <<'EOFCSS'
-#dashtodockContainer .show-apps .overview-icon,
-#dashtodockContainer .show-apps .show-apps-icon,
-#dash .show-apps .overview-icon,
-#dash .show-apps .show-apps-icon,
-.show-apps .overview-icon,
-.show-apps .show-apps-icon {
-    background-image: url("icons/arch-show-apps.png");
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-EOFCSS
-
-cat > "$EXT_DIR/extension.js" <<'EOFJS'
-import Gio from 'gi://Gio';
-import GLib from 'gi://GLib';
-import St from 'gi://St';
-import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
-import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-
-export default class RiceArchShowAppsIconExtension extends Extension {
-    enable() {
-        this._timeoutId = 0;
-        this._iconFile = this.dir.get_child('icons').get_child('arch-show-apps.png');
-        this._gicon = new Gio.FileIcon({file: this._iconFile});
-        this._patchAll();
-
-        this._timeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, () => {
-            this._patchAll();
-            return GLib.SOURCE_CONTINUE;
-        });
-    }
-
-    disable() {
-        if (this._timeoutId) {
-            GLib.source_remove(this._timeoutId);
-            this._timeoutId = 0;
-        }
-    }
-
-    _patchAll() {
-        try { this._walk(Main.uiGroup); } catch (e) {}
-        try { this._walk(Main.layoutManager.uiGroup); } catch (e) {}
-    }
-
-    _walk(actor) {
-        if (!actor)
-            return;
-
-        this._maybePatch(actor);
-
-        let children = [];
-        try {
-            if (typeof actor.get_children === 'function')
-                children = actor.get_children();
-        } catch (e) {
-            children = [];
-        }
-
-        for (const child of children)
-            this._walk(child);
-    }
-
-    _styleClass(actor) {
-        try {
-            if (typeof actor.get_style_class_name === 'function')
-                return actor.get_style_class_name() || '';
-        } catch (e) {}
-        return '';
-    }
-
-    _iconName(actor) {
-        try {
-            if (typeof actor.get_icon_name === 'function')
-                return actor.get_icon_name() || '';
-        } catch (e) {}
-        try {
-            return actor.icon_name || '';
-        } catch (e) {}
-        return '';
-    }
-
-    _hasShowAppsParent(actor) {
-        let current = actor;
-
-        for (let i = 0; i < 8 && current; i++) {
-            const klass = this._styleClass(current).toLowerCase();
-
-            if (klass.includes('show-apps') || klass.includes('showapps') || klass.includes('show-applications'))
-                return true;
-
-            try {
-                current = current.get_parent();
-            } catch (e) {
-                current = null;
-            }
-        }
-
-        return false;
-    }
-
-    _maybePatch(actor) {
-        if (!(actor instanceof St.Icon))
-            return;
-
-        const name = this._iconName(actor).toLowerCase();
-        const parentMatch = this._hasShowAppsParent(actor);
-
-        const nameMatch =
-            name.includes('view-app-grid') ||
-            name.includes('applications-all') ||
-            name.includes('applications-system') ||
-            name.includes('start-here');
-
-        if (!parentMatch && !nameMatch)
-            return;
-
-        try { actor.set_gicon(this._gicon); } catch (e) { try { actor.gicon = this._gicon; } catch (e2) {} }
-        try { actor.set_icon_name(null); } catch (e) {}
-        try { actor.set_icon_size(52); } catch (e) {}
-        try { actor.visible = true; actor.opacity = 255; } catch (e) {}
-    }
-}
-EOFJS
+cp -r "$REPO_ROOT/configs/gnome-shell/extensions-local/arch-dock-icon@ib-hussain"/* "$EXT_DIR/"
 
 # log "Writing icon-theme PNG fallbacks."
 
