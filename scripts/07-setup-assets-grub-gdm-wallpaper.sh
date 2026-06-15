@@ -126,26 +126,6 @@ install_grub_background() {
         run_root chmod 644 /boot/grub/bg.png
 
         if [[ -f /etc/default/grub ]]; then
-            run_root cp /etc/default/grub "/etc/default/grub.rice-backup-$(date +%Y%m%d-%H%M%S)"
-
-            if grep -q '^#\?GRUB_BACKGROUND=' /etc/default/grub; then
-                run_root sed -i 's|^#\?GRUB_BACKGROUND=.*|GRUB_BACKGROUND="/boot/grub/bg.png"|' /etc/default/grub
-            else
-                echo 'GRUB_BACKGROUND="/boot/grub/bg.png"' | run_root tee -a /etc/default/grub >/dev/null
-            fi
-
-            if grep -q '^#\?GRUB_GFXMODE=' /etc/default/grub; then
-                run_root sed -i 's|^#\?GRUB_GFXMODE=.*|GRUB_GFXMODE=auto|' /etc/default/grub
-            else
-                echo 'GRUB_GFXMODE=auto' | run_root tee -a /etc/default/grub >/dev/null
-            fi
-
-            if grep -q '^#\?GRUB_GFXPAYLOAD_LINUX=' /etc/default/grub; then
-                run_root sed -i 's|^#\?GRUB_GFXPAYLOAD_LINUX=.*|GRUB_GFXPAYLOAD_LINUX=keep|' /etc/default/grub
-            else
-                echo 'GRUB_GFXPAYLOAD_LINUX=keep' | run_root tee -a /etc/default/grub >/dev/null
-            fi
-
             if command -v grub-mkconfig >/dev/null 2>&1; then
                 run_root grub-mkconfig -o /boot/grub/grub.cfg || warn "grub-mkconfig failed."
             fi
@@ -208,21 +188,7 @@ install_wallpapers_raw_only() {
 
     local wall_src="$REPO_ROOT/assets/wallpapers"
     local wall_dest="$target_home/.local/share/backgrounds/rice/wallpapers"
-
-    mkdir -p "$wall_dest"
-
-    mapfile -t source_images < <(
-        find "$wall_src" -maxdepth 1 -type f \
-            \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' \) \
-            | sort
-    )
-
-    if [[ "${#source_images[@]}" -eq 0 ]]; then
-        warn "No wallpaper images found in assets/wallpapers. Wallpaper rotation will not be changed."
-        safe_chown_user "$target_user" "$wall_dest"
-        return 0
-    fi
-
+    
     log "Installing ${#source_images[@]} wallpaper image(s) without resizing."
 
     rm -rf "$wall_dest"

@@ -15,10 +15,9 @@ require_user_session
 
 mkdir -p "$HOME/.themes" "$HOME/.config" "$HOME/.local/bin" "$HOME/.local/share/icons"
 
-copy_dir_contents -r "$REPO_ROOT/configs/themes" "$HOME/.themes"
+copy_dir_contents "$REPO_ROOT/configs/themes" "$HOME/.themes"
 copy_dir_contents "$REPO_ROOT/configs/gtk-3.0" "$HOME/.config/gtk-3.0"
 copy_dir_contents "$REPO_ROOT/configs/gtk-4.0" "$HOME/.config/gtk-4.0"
-copy_dir_contents "$REPO_ROOT/configs/icons" "$HOME/.local/share/icons"
 copy_dir_contents "$REPO_ROOT/configs/local-bin" "$HOME/.local/bin"
 
 chmod +x "$HOME/.local/bin/"* 2>/dev/null || true
