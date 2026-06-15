@@ -58,14 +58,6 @@ dconf_write /org/gnome/shell/extensions/dash-to-dock/show-mounts false
 dconf_write /org/gnome/shell/extensions/dash-to-dock/show-trash true
 dconf_write /org/gnome/shell/extensions/dash-to-dock/show-show-apps-button true
 
-
-dconf_write /org/gnome/shell/extensions/dash-to-dock/show-show-apps-button true
-dconf_write /org/gnome/shell/extensions/dash-to-dock/show-apps-at-top true
-
-gs_set org.gnome.shell.extensions.dash-to-dock show-show-apps-button true
-gs_set org.gnome.shell.extensions.dash-to-dock show-apps-at-top true
-gs_set org.gnome.desktop.interface icon-theme "Rice-Papirus"
-
 gs_set org.gnome.shell.extensions.dash-to-dock animation-time 0.15
 gs_set org.gnome.shell.extensions.dash-to-dock autohide true
 gs_set org.gnome.shell.extensions.dash-to-dock hide-delay 0.16

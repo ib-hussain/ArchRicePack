@@ -186,33 +186,39 @@ export default class RiceArchShowAppsIconExtension extends Extension {
 }
 EOFJS
 
-log "Writing icon-theme PNG fallbacks."
+# log "Writing icon-theme PNG fallbacks."
 
-ICON_NAMES=(
-    "applications-all"
-    "applications-all-symbolic"
-    "applications-system-symbolic"
-    "view-app-grid"
-    "view-app-grid-symbolic"
-    "start-here"
-    "start-here-symbolic"
-    "start-here-archlinux"
-    "distributor-logo-archlinux"
-)
+# ICON_NAMES=(
+#     "applications-all"
+#     "applications-all-symbolic"
+#     "applications-system-symbolic"
+#     "view-app-grid"
+#     "view-app-grid-symbolic"
+#     "start-here"
+#     "start-here-symbolic"
+#     "start-here-archlinux"
+#     "distributor-logo-archlinux"
+# )
 
-SIZES=(16 22 24 32 48 64 96 128 256 512)
+# SIZES=(16 22 24 32 48 64 96 128 256 512)
 
-for size in "${SIZES[@]}"; do
-    for context in apps actions categories places panel symbolic/actions symbolic/categories symbolic/places; do
-        dir="$ICON_THEME/${size}x${size}/$context"
-        mkdir -p "$dir"
+# for size in "${SIZES[@]}"; do
+#     for context in apps actions categories places panel symbolic/actions symbolic/categories symbolic/places; do
+#         dir="$ICON_THEME/${size}x${size}/$context"
+#         mkdir -p "$dir"
 
-        for name in "${ICON_NAMES[@]}"; do
-            magick "$MASTER" -resize "${size}x${size}" "$dir/$name.png"
-            rm -f "$dir/$name.svg"
-        done
-    done
-done
+#         for name in "${ICON_NAMES[@]}"; do
+#             magick "$MASTER" -resize "${size}x${size}" "$dir/$name.png"
+#             rm -f "$dir/$name.svg"
+#         done
+#     done
+# done
+
+dconf_write /org/gnome/shell/extensions/dash-to-dock/show-show-apps-button true
+dconf_write /org/gnome/shell/extensions/dash-to-dock/show-apps-at-top true
+gs_set org.gnome.shell.extensions.dash-to-dock show-show-apps-button true
+gs_set org.gnome.shell.extensions.dash-to-dock show-apps-at-top true
+gs_set org.gnome.desktop.interface icon-theme "Rice-Papirus"
 
 gtk-update-icon-cache -f -t "$ICON_THEME" >/dev/null 2>&1 || true
 

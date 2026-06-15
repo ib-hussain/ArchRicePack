@@ -5,17 +5,18 @@
 # arch-chroot /mnt
 set -euo pipefail
 DISK="/dev/sda"
-INSTALL_MODE="bios"
+INSTALL_MODE="uefi"
 KERNEL_CHOICE="linux-lts"
-GPU_PROFILE="nouveau"
+GPU_PROFILE="standard"
 USER_NAME="ibrahim"
-HOST_NAME="worker2"
+HOST_NAME="ibLaptop"
 TIMEZONE="Asia/Karachi"
 LOCALE="en_US.UTF-8"
 PYTHON_VERSION="3.12.7"
-# BIOS/MBR partitions
-BIOS_SWAP_PART="${DISK}1"
-BIOS_ROOT_PART="${DISK}2"
+# UEFI/GPT partitions
+EFI_PART="${DISK}1"
+SWAP_PART="${DISK}2"
+ROOT_PART="${DISK}3"
 # ==========================================================
 # TIMEZONE AND CLOCK
 # ==========================================================
@@ -100,18 +101,18 @@ chown "$USER_NAME:$USER_NAME" "/home/${USER_NAME}/.bashrc"
 # ==========================================================
 # BOOTLOADER
 # ==========================================================
+pacman -S --needed --noconfirm grub efibootmgr os-prober
 
-pacman -S --needed --noconfirm grub os-prober
-grub-install --target=i386-pc "$DISK"
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=ArchLinux
 
-sed -i 's/^#GRUB_DISABLE_OS_PROBER=false/GRUB_DISABLE_OS_PROBER=false/' /etc/default/grub || true
-sed -i 's/^#GRUB_COLOR_NORMAL="light-blue/black"/GRUB_COLOR_NORMAL="light-blue/black"/' /etc/default/grub || true
-sed -i 's/^#GRUB_COLOR_HIGHLIGHT="light-cyan/blue"/GRUB_COLOR_HIGHLIGHT="light-cyan/blue"/' /etc/default/grub || true
+echo 'GRUB_DISABLE_OS_PROBER=false' >> /etc/default/grub
+echo 'GRUB_COLOR_NORMAL="light-blue/black"' >> /etc/default/grub
+echo 'GRUB_COLOR_HIGHLIGHT="light-cyan/blue"' >> /etc/default/grub
 sed -i 's/^GRUB_TIMEOUT=5/GRUB_TIMEOUT=3/' /etc/default/grub || true
+echo 'GRUB_INIT_TUNE="480 440 1"' >> /etc/default/grub
+echo 'GRUB_BACKGROUND="/boot/grub/bg.png"' >> /etc/default/grub
+echo 'GRUB_SAVEDEFAULT="true"' >> /etc/default/grub
 sed -i 's/^GRUB_DEFAULT=0/GRUB_DEFAULT=saved/' /etc/default/grub || true
-sed -i 's/^#GRUB_INIT_TUNE="480 440 1"/GRUB_INIT_TUNE="480 440 1"/' /etc/default/grub || true
-sed -i 's/^#GRUB_BACKGROUND="/path/to/wallpaper"/GRUB_BACKGROUND="/boot/grub/bg.png"/' /etc/default/grub || true
-sed -i 's/^#GRUB_SAVEDEFAULT="true"/GRUB_SAVEDEFAULT="true"/' /etc/default/grub || true
 
 grub-mkconfig -o /boot/grub/grub.cfg
 
@@ -120,7 +121,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # NETWORK
 # ==========================================================
 
-pacman -S --needed --noconfirm networkmanager mesa xf86-video-nouveau
+pacman -S --needed --noconfirm networkmanager xf86-video-nouveau mesa
 systemctl enable NetworkManager
 
 # ==========================================================

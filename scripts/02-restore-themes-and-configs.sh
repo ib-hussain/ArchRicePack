@@ -5,13 +5,13 @@ source "$SCRIPT_DIR/00-common.sh"
 
 require_user_session
 
-log "Restoring themes, GTK config, icons, local binaries, and shell config."
+# log "Restoring themes, GTK config, icons, local binaries, and shell config."
 
-backup_path "$HOME/.themes"
-backup_path "$HOME/.config/gtk-3.0"
-backup_path "$HOME/.config/gtk-4.0"
-backup_path "$HOME/.local/share/icons"
-backup_path "$HOME/.bashrc"
+# backup_path "$HOME/.themes"
+# backup_path "$HOME/.config/gtk-3.0"
+# backup_path "$HOME/.config/gtk-4.0"
+# backup_path "$HOME/.local/share/icons"
+# backup_path "$HOME/.bashrc"
 
 mkdir -p "$HOME/.themes" "$HOME/.config" "$HOME/.local/bin" "$HOME/.local/share/icons"
 
@@ -23,19 +23,14 @@ copy_dir_contents "$REPO_ROOT/configs/local-bin" "$HOME/.local/bin"
 
 chmod +x "$HOME/.local/bin/"* 2>/dev/null || true
 
-if [[ -f "$REPO_ROOT/configs/bashrc" ]]; then
-    cp -a "$REPO_ROOT/configs/bashrc" "$HOME/.bashrc"
+if [[ -f "$REPO_ROOT/configs/.bashrc" ]]; then
+    cp -a "$REPO_ROOT/configs/.bashrc" "$HOME/.bashrc"
     log "Restored .bashrc"
 fi
 
-if [[ -f "$REPO_ROOT/configs/bash_profile" ]]; then
-    cp -a "$REPO_ROOT/configs/bash_profile" "$HOME/.bash_profile"
+if [[ -f "$REPO_ROOT/configs/.bash_profile" ]]; then
+    cp -a "$REPO_ROOT/configs/.bash_profile" "$HOME/.bash_profile"
     log "Restored .bash_profile"
-fi
-
-if [[ -f "$REPO_ROOT/configs/profile" ]]; then
-    cp -a "$REPO_ROOT/configs/profile" "$HOME/.profile"
-    log "Restored .profile"
 fi
 
 if [[ ! -x "$HOME/.local/bin/ff-blue" ]]; then

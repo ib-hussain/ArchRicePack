@@ -15,6 +15,6 @@ chmod +x "$HOME/.local/bin/ff-blue"
 
 touch "$HOME/.bashrc"
 
-cat "$REPO_ROOT/configs/bashrc" >> "$HOME/.bashrc" 
+cat "$REPO_ROOT/configs/.bashrc" >> "$HOME/.bashrc" 
 
 bash -n "$HOME/.bashrc"

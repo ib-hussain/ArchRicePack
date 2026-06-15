@@ -81,6 +81,7 @@ fi
 pacstrap /mnt base "$KERNEL_CHOICE" linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 
+# arch-chroot /mnt
 # ==========================================================
 # FINISH
 # ==========================================================

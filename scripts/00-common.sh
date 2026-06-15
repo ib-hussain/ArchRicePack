@@ -7,6 +7,8 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 LOG_DIR="$HOME/.local/state/arch-rice-pack"
 mkdir -p "$LOG_DIR"
 LOG_FILE="${LOG_FILE:-$LOG_DIR/install-rice-$(date +%Y%m%d-%H%M%S).log}"
+TARGET_USER="ibrahim"
+# USER="ibrahim"
 
 log() {
     echo "[INFO] $*" | tee -a "$LOG_FILE"
@@ -119,7 +121,7 @@ ensure_yay() {
         log "yay already installed."
         return 0
     fi
-    sudo chown -R "$USER:$USER" /home/ibrahim
+    sudo chown -R "$USER:$USER" "/home/$USER"
 
     log "Installing yay from AUR."
     sudo pacman -S --needed --noconfirm git base-devel

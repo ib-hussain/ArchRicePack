@@ -5,7 +5,7 @@ IFS=$'\n\t'
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/00-common.sh"
 
-TARGET_USER="ibrahim"
+
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -65,8 +65,8 @@ ensure_yay_for_target_user() {
 
     rm -rf "$TARGET_HOME/.cache/rice-aur-builds/yay"
     install -d -o "$TARGET_USER" -g "$TARGET_USER" "$TARGET_HOME/.cache/rice-aur-builds"
-    # run_as_user "git clone https://aur.archlinux.org/yay-bin.git ~/.cache/rice-aur-builds/yay"
-    # run_as_user "cd ~/.cache/rice-aur-builds/yay && chmod +x ~/.cache/rice-aur-builds/yay/* && MAKEFLAGS=\"-j4\" makepkg -si "
+    run_as_user "git clone https://aur.archlinux.org/yay-bin.git ~/.cache/rice-aur-builds/yay"
+    run_as_user "cd ~/.cache/rice-aur-builds/yay && chmod +x ~/.cache/rice-aur-builds/yay/* && MAKEFLAGS=\"-j4\" makepkg -si "
 
     run_as_user "git clone https://aur.archlinux.org/yay.git ~/.cache/rice-aur-builds/yay"
     run_as_user "cd ~/.cache/rice-aur-builds/yay && chmod +x ~/.cache/rice-aur-builds/yay/* && MAKEFLAGS=\"-j4\" makepkg -si --noconfirm"
@@ -135,49 +135,34 @@ install -d -o "$TARGET_USER" -g "$TARGET_USER" \
     "$TARGET_HOME/.local/share/nautilus-python/extensions" \
     "$TARGET_HOME/.themes"
 
-copy_dir_root_to_user "$REPO_ROOT/configs/themes" "$TARGET_HOME/.themes"
-copy_dir_root_to_user "$REPO_ROOT/configs/gtk-3.0" "$TARGET_HOME/.config/gtk-3.0"
-copy_dir_root_to_user "$REPO_ROOT/configs/gtk-4.0" "$TARGET_HOME/.config/gtk-4.0"
-copy_dir_root_to_user "$REPO_ROOT/configs/icons" "$TARGET_HOME/.local/share/icons"
-copy_dir_root_to_user "$REPO_ROOT/configs/fastfetch" "$TARGET_HOME/.config/fastfetch"
-copy_dir_root_to_user "$REPO_ROOT/configs/local-bin" "$TARGET_HOME/.local/bin"
-copy_dir_root_to_user "$REPO_ROOT/configs/nautilus-python/extensions" "$TARGET_HOME/.local/share/nautilus-python/extensions"
-copy_dir_root_to_user "$REPO_ROOT/configs/gnome-shell/extensions-local" "$TARGET_HOME/.local/share/gnome-shell/extensions"
+copy_dir_root_to_user "$REPO_ROOT/configs/themes"                           "$TARGET_HOME/.themes"
+copy_dir_root_to_user "$REPO_ROOT/configs/gtk-3.0"                          "$TARGET_HOME/.config/gtk-3.0"
+copy_dir_root_to_user "$REPO_ROOT/configs/gtk-4.0"                          "$TARGET_HOME/.config/gtk-4.0"
+copy_dir_root_to_user "$REPO_ROOT/configs/icons"                            "$TARGET_HOME/.local/share/icons"
+copy_dir_root_to_user "$REPO_ROOT/configs/fastfetch"                        "$TARGET_HOME/.config/fastfetch"
+copy_dir_root_to_user "$REPO_ROOT/configs/local-bin"                        "$TARGET_HOME/.local/bin"
+copy_dir_root_to_user "$REPO_ROOT/configs/nautilus-python"                  "$TARGET_HOME/.local/share/nautilus-python/extensions"
+copy_dir_root_to_user "$REPO_ROOT/configs/gnome-shell/extensions-local"     "$TARGET_HOME/.local/share/gnome-shell/extensions"
 
-copy_file_root_to_user "$REPO_ROOT/configs/bashrc" "$TARGET_HOME/.bashrc"
-copy_file_root_to_user "$REPO_ROOT/configs/bash_profile" "$TARGET_HOME/.bash_profile"
-copy_file_root_to_user "$REPO_ROOT/configs/profile" "$TARGET_HOME/.profile"
 
 chmod +x "$TARGET_HOME/.local/bin/"* 2>/dev/null || true
 
-log "Installing VS Code asset folders during chroot stage if present."
-if [[ -d "$REPO_ROOT/vscode/User" ]]; then
-    mkdir -p "$TARGET_HOME/.config/Code/User"
-    cp -r "$REPO_ROOT/vscode/User"/. "$TARGET_HOME/.config/Code/User"/
-    chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.config/Code"
-fi
-
-if [[ -d "$REPO_ROOT/vscode/extensions" ]]; then
-    mkdir -p "$TARGET_HOME/.vscode/extensions"
-    cp -r "$REPO_ROOT/vscode/extensions"/. "$TARGET_HOME/.vscode/extensions"/
-    chown -R "$TARGET_USER:$TARGET_USER" "$TARGET_HOME/.vscode"
-fi
-
+# everything under this is done
 log "Installing GRUB/GDM assets that can be applied in chroot."
 
 if [[ -f "$REPO_ROOT/assets/bg.png" ]]; then
     mkdir -p /boot/grub
     sudo cp "$REPO_ROOT/assets/bg.png" /boot/grub/bg.png
     chmod 644 /boot/grub/bg.png
-
-    if [[ -f /etc/default/grub ]]; then
-        if grep -q '^#\?GRUB_BACKGROUND=' /etc/default/grub; then
-            sed -i 's|^#\?GRUB_BACKGROUND=.*|GRUB_BACKGROUND="/boot/grub/bg.png"|' /etc/default/grub
-        else
-            echo 'GRUB_BACKGROUND="/boot/grub/bg.png"' >> /etc/default/grub
-        fi
-        grub-mkconfig -o /boot/grub/grub.cfg || warn "grub-mkconfig failed."
-    fi
+    # if [[ -f /etc/default/grub ]]; then
+    #     if grep -q '^#\?GRUB_BACKGROUND=' /etc/default/grub; then
+    #         sed -i 's|^#\?GRUB_BACKGROUND=.*|GRUB_BACKGROUND="/boot/grub/bg.png"|' /etc/default/grub
+    #     else
+    #         echo 'GRUB_BACKGROUND="/boot/grub/bg.png"' >> /etc/default/grub
+    #     fi
+    #     grub-mkconfig -o /boot/grub/grub.cfg || warn "grub-mkconfig failed."
+    # fi
+    grub-mkconfig -o /boot/grub/grub.cfg || warn "grub-mkconfig failed."
 fi
 
 if [[ -f "$REPO_ROOT/assets/ib.png" ]]; then
