@@ -138,7 +138,6 @@ install -d -o "$TARGET_USER" -g "$TARGET_USER" \
 copy_dir_root_to_user "$REPO_ROOT/configs/themes"                           "$TARGET_HOME/.themes"
 copy_dir_root_to_user "$REPO_ROOT/configs/gtk-3.0"                          "$TARGET_HOME/.config/gtk-3.0"
 copy_dir_root_to_user "$REPO_ROOT/configs/gtk-4.0"                          "$TARGET_HOME/.config/gtk-4.0"
-copy_dir_root_to_user "$REPO_ROOT/configs/icons"                            "$TARGET_HOME/.local/share/icons"
 copy_dir_root_to_user "$REPO_ROOT/configs/fastfetch"                        "$TARGET_HOME/.config/fastfetch"
 copy_dir_root_to_user "$REPO_ROOT/configs/local-bin"                        "$TARGET_HOME/.local/bin"
 copy_dir_root_to_user "$REPO_ROOT/configs/nautilus-python"                  "$TARGET_HOME/.local/share/nautilus-python/extensions"
