@@ -70,8 +70,8 @@ gs_set org.gnome.shell.extensions.dash-to-dock show-delay 0.0
 gs_set org.gnome.shell.extensions.dash-to-dock show-show-apps-button true
 
 # [org/gnome/shell/keybindings]
-gs_set org.gnome.shell.keybindings toggle-overview "['<Super>', '<Super>s']"
-gs_set org.gnome.shell.keybindings toggle-application-view "['<Super>a', '<Super>Tab']"
+gs_set org.gnome.shell.keybindings toggle-overview "['<Super>a', '<Super>Tab']"
+gs_set org.gnome.shell.keybindings toggle-application-view "['<Super>', '<Super>s']"
 
 # [org/gnome/desktop/wm/keybindings]
 gs_set org.gnome.desktop.wm.keybindings close "['<Super>q', '<Ctrl>w']"
