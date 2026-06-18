@@ -36,16 +36,16 @@ if schema_exists org.gnome.shell.extensions.user-theme; then
 fi
 
 # [org/gnome/shell/extensions/dash-to-dock]
-dconf_write /org/gnome/shell/extensions/dash-to-dock/animation-time 0.15
+dconf_write /org/gnome/shell/extensions/dash-to-dock/animation-time 0.16
 dconf_write /org/gnome/shell/extensions/dash-to-dock/autohide true
 dconf_write /org/gnome/shell/extensions/dash-to-dock/click-action "'minimize-or-previews'"
 dconf_write /org/gnome/shell/extensions/dash-to-dock/custom-theme-shrink true
-dconf_write /org/gnome/shell/extensions/dash-to-dock/dash-max-icon-size 36
+dconf_write /org/gnome/shell/extensions/dash-to-dock/dash-max-icon-size 52
 dconf_write /org/gnome/shell/extensions/dash-to-dock/dock-fixed false
 dconf_write /org/gnome/shell/extensions/dash-to-dock/dock-position "'BOTTOM'"
 dconf_write /org/gnome/shell/extensions/dash-to-dock/extend-height false
 dconf_write /org/gnome/shell/extensions/dash-to-dock/force-straight-corner false
-dconf_write /org/gnome/shell/extensions/dash-to-dock/hide-delay 0.16
+dconf_write /org/gnome/shell/extensions/dash-to-dock/hide-delay 0.18
 dconf_write /org/gnome/shell/extensions/dash-to-dock/intellihide true
 dconf_write /org/gnome/shell/extensions/dash-to-dock/intellihide-mode "'ALL_WINDOWS'"
 dconf_write /org/gnome/shell/extensions/dash-to-dock/pressure-threshold 0.0
@@ -58,9 +58,9 @@ dconf_write /org/gnome/shell/extensions/dash-to-dock/show-mounts false
 dconf_write /org/gnome/shell/extensions/dash-to-dock/show-trash true
 dconf_write /org/gnome/shell/extensions/dash-to-dock/show-show-apps-button true
 
-gs_set org.gnome.shell.extensions.dash-to-dock animation-time 0.15
+gs_set org.gnome.shell.extensions.dash-to-dock animation-time 0.16
 gs_set org.gnome.shell.extensions.dash-to-dock autohide true
-gs_set org.gnome.shell.extensions.dash-to-dock hide-delay 0.16
+gs_set org.gnome.shell.extensions.dash-to-dock hide-delay 0.18
 gs_set org.gnome.shell.extensions.dash-to-dock intellihide true
 gs_set org.gnome.shell.extensions.dash-to-dock intellihide-mode "ALL_WINDOWS"
 gs_set org.gnome.shell.extensions.dash-to-dock pressure-threshold 0.0
