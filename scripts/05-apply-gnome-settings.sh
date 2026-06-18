@@ -7,6 +7,7 @@ require_user_session
 
 log "Applying GNOME, dock, theme, and keybinding settings."
 
+# Load all dconf configuration files
 if [[ -f "$REPO_ROOT/configs/dconf/gnome-interface.ini" ]]; then
     dconf load /org/gnome/desktop/interface/ < "$REPO_ROOT/configs/dconf/gnome-interface.ini" || true
 fi
@@ -30,6 +31,61 @@ fi
 if [[ -f "$REPO_ROOT/configs/dconf/mutter.ini" ]]; then
     dconf load /org/gnome/mutter/ < "$REPO_ROOT/configs/dconf/mutter.ini" || true
 fi
+
+if [[ -f "$REPO_ROOT/configs/dconf/app-folders.ini" ]]; then
+    dconf load /org/gnome/desktop/app-folders/ < "$REPO_ROOT/configs/dconf/app-folders.ini" || true
+fi
+
+if [[ -f "$REPO_ROOT/configs/dconf/notifications.ini" ]]; then
+    dconf load /org/gnome/desktop/notifications/ < "$REPO_ROOT/configs/dconf/notifications.ini" || true
+fi
+
+if [[ -f "$REPO_ROOT/configs/dconf/background.ini" ]]; then
+    dconf load /org/gnome/desktop/background/ < "$REPO_ROOT/configs/dconf/background.ini" || true
+fi
+
+if [[ -f "$REPO_ROOT/configs/dconf/screensaver.ini" ]]; then
+    dconf load /org/gnome/desktop/screensaver/ < "$REPO_ROOT/configs/dconf/screensaver.ini" || true
+fi
+
+if [[ -f "$REPO_ROOT/configs/dconf/input-sources.ini" ]]; then
+    dconf load /org/gnome/desktop/ < "$REPO_ROOT/configs/dconf/input-sources.ini" || true
+fi
+
+if [[ -f "$REPO_ROOT/configs/dconf/system-monitor.ini" ]]; then
+    dconf load /org/gnome/gnome-system-monitor/ < "$REPO_ROOT/configs/dconf/system-monitor.ini" || true
+fi
+
+if [[ -f "$REPO_ROOT/configs/dconf/nautilus.ini" ]]; then
+    dconf load /org/gnome/nautilus/ < "$REPO_ROOT/configs/dconf/nautilus.ini" || true
+fi
+
+if [[ -f "$REPO_ROOT/configs/dconf/terminal.ini" ]]; then
+    dconf load /org/gnome/terminal/ < "$REPO_ROOT/configs/dconf/terminal.ini" || true
+fi
+
+if [[ -f "$REPO_ROOT/configs/dconf/control-center.ini" ]]; then
+    dconf load /org/gnome/control-center/ < "$REPO_ROOT/configs/dconf/control-center.ini" || true
+fi
+
+if [[ -f "$REPO_ROOT/configs/dconf/extension-manager.ini" ]]; then
+    dconf load /com/mattjakeman/ExtensionManager/ < "$REPO_ROOT/configs/dconf/extension-manager.ini" || true
+fi
+
+if [[ -f "$REPO_ROOT/configs/dconf/housekeeping.ini" ]]; then
+    dconf load /org/gnome/settings-daemon/plugins/housekeeping/ < "$REPO_ROOT/configs/dconf/housekeeping.ini" || true
+fi
+
+if [[ -f "$REPO_ROOT/configs/dconf/portal.ini" ]]; then
+    dconf load /org/gnome/portal/filechooser/ < "$REPO_ROOT/configs/dconf/portal.ini" || true
+fi
+
+if [[ -f "$REPO_ROOT/configs/dconf/gtk4.ini" ]]; then
+    dconf load /org/gtk/gtk4/ < "$REPO_ROOT/configs/dconf/gtk4.ini" || true
+fi
+
+# Apply core settings with gs_set for permanence
+log "Applying core gsettings with permanence..."
 
 # [org/gnome/desktop/interface]
 gs_set org.gnome.desktop.interface color-scheme "prefer-dark"
@@ -236,6 +292,8 @@ gs_set "$PROFILE_PATH" visible-name "IB Glass Terminal"
 # [org/gtk/gtk4/settings/file-chooser]
 gs_set org.gtk.gtk4.settings.file-chooser show-hidden false
 gs_set org.gtk.gtk4.settings.file-chooser sort-directories-first false
+# All settings now loaded via dconf load from individual .ini files
+# This approach is more robust as dconf load gracefully skips missing keys/schemas
 
 python - <<'PY'
 from pathlib import Path
