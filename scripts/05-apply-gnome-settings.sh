@@ -118,12 +118,15 @@ gs_set org.gnome.desktop.notifications application-children "['gnome-about-panel
 
 # [org/gnome/desktop/notifications/application/firefox]
 dconf_write /org/gnome/desktop/notifications/application/firefox/application-id "'firefox.desktop'"
+gs_set org.gnome.desktop.notifications.application.firefox application-id "firefox.desktop"
 
 # [org/gnome/desktop/notifications/application/gnome-about-panel]
 dconf_write /org/gnome/desktop/notifications/application/gnome-about-panel/application-id "'gnome-about-panel.desktop'"
+gs_set org.gnome.desktop.notifications.application.gnome-about-panel application-id "gnome-about-panel.desktop"
 
 # [org/gnome/desktop/notifications/application/org-gnome-systemmonitor]
 dconf_write /org/gnome/desktop/notifications/application/org-gnome-systemmonitor/application-id "'org.gnome.SystemMonitor.desktop'"
+gs_set org.gnome.desktop.notifications.application.org-gnome-systemmonitor application-id "org.gnome.SystemMonitor.desktop"
 
 # [org/gnome/desktop/app-folders]
 gs_set org.gnome.desktop.app-folders folder-children "['System', 'Utilities']"
@@ -132,10 +135,15 @@ gs_set org.gnome.desktop.app-folders folder-children "['System', 'Utilities']"
 dconf_write /org/gnome/desktop/app-folders/folders/System/apps "['nm-connection-editor.desktop', 'org.gnome.tweaks.desktop']"
 dconf_write /org/gnome/desktop/app-folders/folders/System/name "'X-GNOME-Shell-System.directory'"
 dconf_write /org/gnome/desktop/app-folders/folders/System/translate true
+gs_set org.gnome.desktop.app-folders.folders.System apps "['nm-connection-editor.desktop', 'org.gnome.tweaks.desktop']"
+gs_set org.gnome.desktop.app-folders.folders.System name "X-GNOME-Shell-System.directory"
+gs_set org.gnome.desktop.app-folders.folders.System translate true
 
 # [org/gnome/desktop/app-folders/folders/Utilities]
 dconf_write /org/gnome/desktop/app-folders/folders/Utilities/name "'X-GNOME-Shell-Utilities.directory'"
 dconf_write /org/gnome/desktop/app-folders/folders/Utilities/translate true
+gs_set org.gnome.desktop.app-folders.folders.Utilities name "X-GNOME-Shell-Utilities.directory"
+gs_set org.gnome.desktop.app-folders.folders.Utilities translate true
 
 # [org/gnome/shell] - core settings
 gs_set org.gnome.shell disabled-extensions "@as []"
@@ -168,10 +176,14 @@ gs_set org.gnome.nautilus.preferences migrated-gtk-settings true
 dconf_write /org/gnome/nautilus/window-state/initial-size "(1080, 1080)"
 dconf_write /org/gnome/nautilus/window-state/initial-size-file-chooser "(1080, 720)"
 dconf_write /org/gnome/nautilus/window-state/maximized true
+gs_set org.gnome.nautilus.window-state initial-size "(1080, 1080)"
+gs_set org.gnome.nautilus.window-state initial-size-file-chooser "(1080, 720)"
+gs_set org.gnome.nautilus.window-state maximized true
 
 # [org/gnome/control-center]
 gs_set org.gnome.control-center last-panel "network"
 dconf_write /org/gnome/control-center/window-state "(980, 640, false)"
+gs_set org.gnome.control-center window-state "(980, 640, false)"
 
 # [com/mattjakeman/ExtensionManager]
 gs_set com.mattjakeman.ExtensionManager is-maximized true
@@ -182,27 +194,44 @@ gs_set org.gnome.portal.filechooser.org-chromium-Chromium last-folder-path "$HOM
 
 # [org/gnome/settings-daemon/plugins/housekeeping]
 dconf_write /org/gnome/settings-daemon/plugins/housekeeping/donation-reminder-last-shown 1780349069241737
+gs_set org.gnome.settings-daemon.plugins.housekeeping donation-reminder-last-shown 1780349069241737
 
 # [org/gnome/terminal/legacy/profiles:]
 gs_set org.gnome.terminal.legacy.profiles default "'fc74a141-e2ae-4f89-8a21-5b02e8cd73aa'"
 gs_set org.gnome.terminal.legacy.profiles list "['fc74a141-e2ae-4f89-8a21-5b02e8cd73aa']"
 
 # [org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa]
+PROFILE_PATH="org.gnome.terminal.legacy.profiles:/fc74a141-e2ae-4f89-8a21-5b02e8cd73aa"
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/background-color "'#2e3440'"
+gs_set "$PROFILE_PATH" background-color "#2e3440"
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/bold-is-bright true
+gs_set "$PROFILE_PATH" bold-is-bright true
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/cursor-blink-mode "'on'"
+gs_set "$PROFILE_PATH" cursor-blink-mode "on"
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/cursor-shape "'ibeam'"
+gs_set "$PROFILE_PATH" cursor-shape "ibeam"
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/default-size-columns 50
+gs_set "$PROFILE_PATH" default-size-columns 50
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/default-size-rows 10
+gs_set "$PROFILE_PATH" default-size-rows 10
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/font "'Noto Sans Mono 12'"
+gs_set "$PROFILE_PATH" font "Noto Sans Mono 12"
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/foreground-color "'#eceff4'"
+gs_set "$PROFILE_PATH" foreground-color "#eceff4"
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/palette "['#2e3440', '#bf616a', '#a3be8c', '#ebcb8b', '#81a1c1', '#b48ead', '#88c0d0', '#eceff4', '#4c566a', '#bf616a', '#a3be8c', '#ebcb8b', '#81a1c1', '#b48ead', '#8fbcbb', '#eceff4']"
+gs_set "$PROFILE_PATH" palette "['#2e3440', '#bf616a', '#a3be8c', '#ebcb8b', '#81a1c1', '#b48ead', '#88c0d0', '#eceff4', '#4c566a', '#bf616a', '#a3be8c', '#ebcb8b', '#81a1c1', '#b48ead', '#8fbcbb', '#eceff4']"
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/scroll-on-output false
+gs_set "$PROFILE_PATH" scroll-on-output false
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/scrollback-unlimited true
+gs_set "$PROFILE_PATH" scrollback-unlimited true
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/scrollbar-policy "'always'"
+gs_set "$PROFILE_PATH" scrollbar-policy "always"
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/use-system-font false
+gs_set "$PROFILE_PATH" use-system-font false
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/use-theme-colors false
+gs_set "$PROFILE_PATH" use-theme-colors false
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/visible-name "'IB Glass Terminal'"
+gs_set "$PROFILE_PATH" visible-name "IB Glass Terminal"
 
 # [org/gtk/gtk4/settings/file-chooser]
 gs_set org.gtk.gtk4.settings.file-chooser show-hidden false
