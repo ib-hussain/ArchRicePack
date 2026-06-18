@@ -317,7 +317,7 @@ class RunningIndicatorDots extends RunningIndicatorBase {
         // TODO: move to enable/disableBacklit to apply it only to the running apps?
         // TODO: move to css class for theming support
         const {extension} = Docking.DockManager;
-        this._glossyBackgroundStyle = `background-image: url('${extension.path}/media/glossy.svg');` +
+        this._glossyBackgroundStyle = `background-image: url('${extension.path}/media/arch-logo.png');` +
                                       'background-size: contain;';
     }
 

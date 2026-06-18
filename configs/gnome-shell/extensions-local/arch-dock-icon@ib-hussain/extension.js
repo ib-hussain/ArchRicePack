@@ -7,7 +7,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 export default class RiceArchShowAppsIconExtension extends Extension {
     enable() {
         this._timeoutId = 0;
-        this._iconFile = this.dir.get_child('icons').get_child('arch-show-apps.svg');
+        this._iconFile = this.dir.get_child('icons').get_child('arch-logo.png');
         this._gicon = new Gio.FileIcon({file: this._iconFile});
 
         this._patchAll();

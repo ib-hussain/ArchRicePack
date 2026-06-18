@@ -16,8 +16,7 @@ SRC=""
 
 for f in \
     "$REPO_ROOT/assets/arch-icons/arch-logo.png" \
-    "$REPO_ROOT/assets/arch-icons/arch-logo.webp" \
-    "$REPO_ROOT/assets/arch-icons/arch-logo.svg"
+    "$REPO_ROOT/assets/arch-icons/arch-logo.webp" 
 do
     if [[ -f "$f" ]]; then
         SRC="$f"
@@ -38,17 +37,17 @@ WORK="$HOME/.cache/rice-showapps-png-fix"
 rm -rf "$WORK"
 mkdir -p "$WORK"
 
-MASTER="$WORK/arch-show-apps.png"
+MASTER="$WORK/arch-logo.png"
 
 log "Using source icon: $SRC"
 # magick "$SRC" -background none -alpha on -resize 1024x1024 -gravity center -extent 1024x1024 "$MASTER"
-cp "$REPO_ROOT/assets/arch-icons/arch-logo-1024x1024.png" "$MASTER"
+cp "$REPO_ROOT/assets/arch-icons/arch-logo.png" "$MASTER"
 
 log "Writing PNG directly into GNOME Shell extension."
-# magick "$MASTER" -resize 512x512 "$EXT_DIR/icons/arch-show-apps.png"
-cp "$REPO_ROOT/assets/arch-icons/arch-logo-512x512.png" "$EXT_DIR/icons/arch-show-apps.png"
-# magick "$MASTER" -resize 512x512 "$EXT_DIR/arch-show-apps.png"
-cp "$REPO_ROOT/assets/arch-icons/arch-logo-512x512.png" "$EXT_DIR/arch-show-apps.png"
+# magick "$MASTER" -resize 512x512 "$EXT_DIR/icons/arch-logo.png"
+cp "$REPO_ROOT/assets/arch-icons/arch-logo.png" "$EXT_DIR/icons/arch-logo.png"
+# magick "$MASTER" -resize 512x512 "$EXT_DIR/arch-logo.png"
+cp "$REPO_ROOT/assets/arch-icons/arch-logo.png" "$EXT_DIR/arch-logo.png"
 
 cp -r "$REPO_ROOT/configs/gnome-shell/extensions-local/arch-dock-icon@ib-hussain"/* "$EXT_DIR/"
 
