@@ -19,17 +19,21 @@
 - [Current Status](#current-status)
 - [Installation Modes](#installation-modes)
 - [Recommended Full Install Flow](#recommended-full-install-flow)
+- [Base Arch Installation](#base-arch-installation)
 - [Features](#features)
 - [Repository Structure](#repository-structure)
 - [Script Map](#script-map)
 - [Assets](#assets)
 - [VS Code Sync](#vs-code-sync)
 - [Local AI: Ollama + Open WebUI](#local-ai-ollama--open-webui)
+- [GNOME dconf Configuration](#gnome-dconf-configuration)
 - [Keybindings](#keybindings)
 - [Chroot Workflow Details](#chroot-workflow-details)
+- [System Stability](#system-stability)
 - [Manual Post-Login Install](#manual-post-login-install)
 - [Updating the Pack](#updating-the-pack)
 - [Troubleshooting](#troubleshooting)
+- [Development Notes](#development-notes)
 - [Credits](#credits)
 - [Notes](#notes)
 
@@ -45,8 +49,8 @@ It handles:
 - Dash-to-Dock behaviour
 - Hide Top Bar behaviour
 - terminal and Fastfetch setup
-- package installation
-- AUR package installation
+- package installation from `packages/rice-pacman-core.txt`
+- AUR package installation from `packages/rice-aur-core.txt`
 - Google Chrome
 - Visual Studio Code
 - VS Code settings/extensions sync
@@ -71,7 +75,8 @@ The live rice this repository captures has the following stable behaviour:
 - dock stays out of the way when windows overlap/fullscreen
 - Hide Top Bar behaviour preserved
 - Rice-Papirus icon theme
-- custom Arch-style Show Applications dock icon support
+- custom Arch PNG Show Applications dock icon via `arch-dock-icon@ib-hussain`
+- `start-overlay-in-application-view@Hex_cz` overview behaviour
 - Google Chrome pinned
 - VS Code pinned
 - Terminal pinned
@@ -81,7 +86,9 @@ The live rice this repository captures has the following stable behaviour:
   - `Open Folder with Code`
 - blue Arch Fastfetch terminal banner
 - `power-profiles-daemon` power modes
-- VS Code configuration sync from `assets/vscode/`
+- VS Code configuration sync from `configs/vscode/`
+- Nautilus “Open with Code” via `configs/nautilus-python/`
+- `IB Glass Terminal` profile (110×28, Noto Sans Mono 12)
 - optional Open WebUI pinned to dock when local AI setup is enabled
 
 ---
@@ -122,11 +129,12 @@ This applies user-session dependent settings:
 
 - `gsettings`
 - `dconf`
-- GNOME Shell extension enablement
+- GNOME Shell extension enablement (`user-theme`, `hidetopbar`, `dash-to-dock`, `arch-dock-icon`)
 - Dash-to-Dock settings
+- split `configs/dconf/*.ini` restore plus `gs_set` reinforcement
 - keybindings
-- final dock icon patch
-- Nautilus reload
+- final dock PNG icon patch
+- VS Code + Nautilus “Open with Code”
 - Open WebUI launcher/dock pinning where applicable
 
 ### 3. Normal Mode
@@ -137,7 +145,7 @@ Use this when already logged into GNOME and you want to run everything from a te
 ./install-rice.sh
 ```
 
-This runs the regular installer sequence and then final verification.
+This runs the full installer sequence, including a second pass of GNOME settings after the dock icon patch, `14-system-stability.sh`, and final verification.
 
 ---
 
@@ -147,9 +155,9 @@ The intended full flow is:
 
 ```text
 1. Boot Arch ISO
-2. Run your base partition/install script
+2. Run the matching install script from `installation/` (UEFI or BIOS)
 3. arch-chroot /mnt
-4. Run the correct chroot script
+4. Run the matching chroot script from `installation/`
 5. Chroot script clones archRicePack
 6. Chroot script runs:
    bash install-rice.sh --chroot --target-user "$USER_NAME"
@@ -159,7 +167,7 @@ The intended full flow is:
 10. Reboot once if icon/theme cache needs a clean reload
 ```
 
-The chroot files in `assets/` are intended to call archRicePack like this:
+The chroot scripts in `installation/` are intended to call archRicePack like this:
 
 ```bash
 su - "$USER_NAME" -c "cd ~ && rm -rf archRicePack && git clone https://github.com/ib-hussain/archRicePack"
@@ -167,6 +175,34 @@ cd "/home/${USER_NAME}/archRicePack"
 chmod +x install-rice.sh scripts/*.sh
 bash install-rice.sh --chroot --target-user "$USER_NAME"
 ```
+
+---
+
+## Base Arch Installation
+
+The `installation/` directory contains paired scripts for a full Arch base install plus rice pack integration.
+
+| Script | When to run | Purpose |
+|---|---|---|
+| `installation/uefi-install.sh` | Live ISO | UEFI/GPT partitioning, `pacstrap`, `genfstab` |
+| `installation/bios-install.sh` | Live ISO | BIOS/MBR partitioning, `pacstrap`, `genfstab` |
+| `installation/uefi-chroot.sh` | `arch-chroot /mnt` | Locale, user, GRUB, pyenv, NetworkManager, then `install-rice.sh --chroot` |
+| `installation/bios-chroot.sh` | `arch-chroot /mnt` | BIOS variant of the chroot stage |
+
+Edit the configuration block at the top of each script before running (`DISK`, `USER_NAME`, `HOST_NAME`, `TIMEZONE`, `PYTHON_VERSION`, etc.).
+
+Typical UEFI flow:
+
+```bash
+# From live ISO
+bash installation/uefi-install.sh
+
+# After reboot or before exit
+arch-chroot /mnt
+bash installation/uefi-chroot.sh
+```
+
+The chroot scripts clone archRicePack into the target user home and run the rice pack in chroot mode automatically.
 
 ---
 
@@ -185,8 +221,9 @@ bash install-rice.sh --chroot --target-user "$USER_NAME"
 - dock reveal-on-hover
 - dock hides when overlapped by applications
 - Hide Top Bar extension behaviour
+- `start-overlay-in-application-view@Hex_cz` for overview/application-view behaviour
 - Rice-Papirus icon theme
-- custom Arch Show Applications dock icon patch
+- custom Arch PNG Show Applications dock icon via local `arch-dock-icon@ib-hussain` extension
 - optional 5-second wallpaper rotation
 
 ### Applications
@@ -196,13 +233,14 @@ bash install-rice.sh --chroot --target-user "$USER_NAME"
 - Nautilus
 - GNOME Terminal
 - GNOME System Monitor
-- Extension Manager / GNOME extensions support
+- Extension Manager / GNOME extensions support (`extension-manager`, local `hidetopbar`, `arch-dock-icon`, `start-overlay-in-application-view`)
 - optional Open WebUI web app launcher
 
 ### Terminal
 
 - blue Arch Fastfetch banner
 - `ff` and `fastfetch` routed through the custom blue Arch wrapper
+- `IB Glass Terminal` profile: 110 columns × 28 rows, Noto Sans Mono 12, Nord-style palette
 - modern CLI tools:
   - `eza`
   - `bat`
@@ -219,12 +257,13 @@ bash install-rice.sh --chroot --target-user "$USER_NAME"
 
 ### System
 
-- `power-profiles-daemon`
+- `power-profiles-daemon` (via `cpupower` in package list)
 - UPower
 - GRUB background support
-- GDM login background support
+- GDM login background support (Xorg session; Wayland disabled in GDM)
 - Docker support for Open WebUI
 - optional Ollama local model support
+- pacman `IgnorePkg` pinning for critical GNOME/kernel packages (`scripts/14-system-stability.sh`)
 
 ---
 
@@ -236,38 +275,37 @@ archRicePack/
 ├── README.md
 ├── .gitattributes
 ├── .gitignore
+├── installation/
+│   ├── uefi-install.sh
+│   ├── bios-install.sh
+│   ├── uefi-chroot.sh
+│   └── bios-chroot.sh
 ├── assets/
 │   ├── arch-icons/
 │   │   ├── arch-logo.png
-│   │   └── arch-logo.webp
-│   ├── icons/
-│   │   └── show-apps/
-│   │       └── arch-show-apps.png
-│   ├── vscode/
-│   │   ├── User/
-│   │   └── extensions/
+│   │   ├── arch-logo.webp
+│   │   ├── arch-logo.svg
+│   │   └── arch-show-apps.png
 │   ├── wallpapers/
 │   ├── bg.png
-│   ├── ib.png
-│   ├── install-uefi.txt
-│   ├── install-bios.txt
-│   ├── chroot-uefi.txt
-│   └── chroot-bios.txt
+│   └── ib.png
 ├── configs/
 │   ├── autostart/
 │   ├── dconf/
 │   ├── fastfetch/
 │   ├── gnome-shell/
+│   │   ├── extensions-local/
+│   │   └── extensions-system/
 │   ├── gtk-3.0/
 │   ├── gtk-4.0/
-│   ├── icons/
 │   ├── local-bin/
 │   ├── nautilus-python/
-│   └── themes/
+│   ├── themes/
+│   └── vscode/
+│       ├── User/
+│       └── extensions/
 ├── docs/
 ├── packages/
-│   ├── pacman-packages.txt
-│   ├── aur-packages.txt
 │   ├── rice-pacman-core.txt
 │   └── rice-aur-core.txt
 └── scripts/
@@ -277,14 +315,15 @@ archRicePack/
     ├── 03-setup-terminal.sh
     ├── 04-setup-extensions.sh
     ├── 05-apply-gnome-settings.sh
-    ├── 06-setup-nautilus-code.sh
     ├── 07-setup-assets-grub-gdm-wallpaper.sh
     ├── 08-finalize-and-verify.sh
     ├── 09-setup-vscode.sh
     ├── 10-setup-local-ai-ollama-openwebui.sh
     ├── 11-apply-custom-showapps-icon.sh
     ├── 12-chroot-preinstall.sh
-    └── 13-user-session-apply.sh
+    ├── 13-user-session-apply.sh
+    ├── 14-system-stability.sh
+    └── 15-install-power-profiles.sh
 ```
 
 ---
@@ -295,19 +334,20 @@ archRicePack/
 |---|---|
 | `install-rice.sh` | Main entry point. Supports chroot, user-session, and normal modes. |
 | `scripts/00-common.sh` | Shared helpers, logging, package helpers, safety checks. |
-| `scripts/01-install-packages.sh` | Installs pacman and AUR packages. |
+| `scripts/01-install-packages.sh` | Installs packages from `rice-pacman-core.txt` and `rice-aur-core.txt`. |
 | `scripts/02-restore-themes-and-configs.sh` | Restores themes, icons, GTK config, shell config, local scripts. |
 | `scripts/03-setup-terminal.sh` | Sets up Fastfetch, terminal aliases, modern CLI tooling. |
 | `scripts/04-setup-extensions.sh` | Restores and enables GNOME Shell extensions. |
-| `scripts/05-apply-gnome-settings.sh` | Applies keybindings, GNOME settings, dock settings, favourite apps. |
-| `scripts/06-setup-nautilus-code.sh` | Adds Nautilus “Open with Code” context menu. |
+| `scripts/05-apply-gnome-settings.sh` | Loads split `configs/dconf/*.ini` files, then applies keybindings, GNOME settings, dock settings, favourite apps. |
 | `scripts/07-setup-assets-grub-gdm-wallpaper.sh` | Applies GRUB background, GDM background, wallpaper rotation. |
 | `scripts/08-finalize-and-verify.sh` | Reloads extensions and prints a verification report. |
-| `scripts/09-setup-vscode.sh` | Installs VS Code from AUR and restores VS Code settings/extensions. |
+| `scripts/09-setup-vscode.sh` | Installs VS Code from AUR, restores VS Code settings/extensions, and sets up Nautilus “Open with Code”. |
 | `scripts/10-setup-local-ai-ollama-openwebui.sh` | Optional Ollama + Gemma 3 1B + Open WebUI setup. |
-| `scripts/11-apply-custom-showapps-icon.sh` | Final custom dock Show Applications icon patch. |
+| `scripts/11-apply-custom-showapps-icon.sh` | Final custom dock Show Applications PNG icon patch via `arch-dock-icon@ib-hussain`. |
 | `scripts/12-chroot-preinstall.sh` | Chroot-safe system setup and first-login hook creation. |
 | `scripts/13-user-session-apply.sh` | First-login GNOME user-session stage. |
+| `scripts/14-system-stability.sh` | Pins critical packages in `/etc/pacman.conf`, installs portal/keyring packages, configures GDM for Xorg. |
+| `scripts/15-install-power-profiles.sh` | Reserved placeholder for future power-profile automation. |
 
 ---
 
@@ -368,18 +408,25 @@ If the directory contains images, the installer enables a user-level wallpaper r
 
 ### Dock Show Applications Icon
 
-The final dock icon patch uses the first available file from this list:
+The rice pack now standardises on a single PNG source for the Show Applications button.
+
+Primary file:
+
+```text
+assets/arch-icons/arch-logo.png
+```
+
+Fallback lookup order in `scripts/11-apply-custom-showapps-icon.sh`:
 
 ```text
 assets/arch-icons/arch-logo.png
 assets/arch-icons/arch-logo.webp
-assets/arch-icons/arch-logo.svg
 ```
 
-Best recommended file:
+Also present for reference/copy targets:
 
 ```text
-assets/arch-icons/arch-logo.png
+assets/arch-icons/arch-show-apps.png
 ```
 
 Recommended format:
@@ -388,6 +435,8 @@ Recommended format:
 - 512×512 or larger
 - square canvas
 - visible against dark/translucent dock background
+
+The icon is applied through the local GNOME Shell extension `arch-dock-icon@ib-hussain` and copied into Dash-to-Dock media paths. SVG fallbacks were removed in favour of PNG-only handling.
 
 The final icon patch must run **after** theme/icon setup because earlier icon operations can overwrite the Show Applications icon.
 
@@ -404,7 +453,7 @@ visual-studio-code-bin
 VS Code settings are restored from:
 
 ```text
-assets/vscode/User/
+configs/vscode/User/
 ```
 
 to:
@@ -416,7 +465,7 @@ to:
 VS Code extensions are restored from:
 
 ```text
-assets/vscode/extensions/
+configs/vscode/extensions/
 ```
 
 to:
@@ -471,6 +520,36 @@ This is useful on low-storage VMs, slow internet, or systems where Docker/model 
 
 ---
 
+## GNOME dconf Configuration
+
+GNOME desktop state is stored as split `dconf` export files under `configs/dconf/`. `scripts/05-apply-gnome-settings.sh` loads them with `dconf load`, then reinforces critical values with `gs_set` for persistence.
+
+| File | dconf path |
+|---|---|
+| `gnome-interface.ini` | `/org/gnome/desktop/interface/` |
+| `gnome-wm.ini` | `/org/gnome/desktop/wm/` |
+| `dash-to-dock.ini` | `/org/gnome/shell/extensions/dash-to-dock/` |
+| `media-keys.ini` | `/org/gnome/settings-daemon/plugins/media-keys/` |
+| `gnome-shell.ini` | `/org/gnome/shell/` |
+| `mutter.ini` | `/org/gnome/mutter/` |
+| `app-folders.ini` | `/org/gnome/desktop/app-folders/` |
+| `notifications.ini` | `/org/gnome/desktop/notifications/` |
+| `background.ini` | `/org/gnome/desktop/background/` |
+| `screensaver.ini` | `/org/gnome/desktop/screensaver/` |
+| `input-sources.ini` | `/org/gnome/desktop/` |
+| `system-monitor.ini` | `/org/gnome/gnome-system-monitor/` |
+| `nautilus.ini` | `/org/gnome/nautilus/` |
+| `terminal.ini` | `/org/gnome/terminal/` |
+| `control-center.ini` | `/org/gnome/control-center/` |
+| `extension-manager.ini` | `/com/mattjakeman/ExtensionManager/` |
+| `housekeeping.ini` | `/org/gnome/settings-daemon/plugins/housekeeping/` |
+| `portal.ini` | `/org/gnome/portal/filechooser/` |
+| `gtk4.ini` | `/org/gtk/gtk4/` |
+
+`dconf-complete.ini` is kept as a full reference export. The installer prefers the per-domain files above.
+
+---
+
 ## Keybindings
 
 | Shortcut | Action |
@@ -478,18 +557,18 @@ This is useful on low-storage VMs, slow internet, or systems where Docker/model 
 | `Super` | GNOME overview via Mutter overlay key |
 | `Super+A` | Applications grid |
 | `Super+S` | Overview/search |
-| `Super+Tab` | Overview/search |
+| `Super+Tab` | Applications grid (paired with `Super+A`) |
 | `Alt+Tab` | Standard app switching |
 | `Shift+Alt+Tab` | Reverse app switching |
 | `Ctrl+Alt+T` | Terminal |
 | `Ctrl+Shift+Esc` | GNOME System Monitor |
-| `Super+Return` | Terminal |
 | `Super+E` | Files / Nautilus |
 | `Super+C` | VS Code |
 | `Super+B` | Browser |
+| `Super+I` | Settings |
 | `Super+D` | Show desktop |
 | `Super+F` | Toggle fullscreen |
-| `Super+Q` / `Alt+F4` | Close window |
+| `Super+Q` / `Ctrl+W` | Close window |
 | `Super+Up` | Maximize |
 | `Super+Down` | Unmaximize |
 
@@ -528,6 +607,24 @@ After reboot and first GNOME login, the user-session stage completes:
 - dock icon patch
 - Nautilus refresh
 - Open WebUI launcher integration
+
+Normal mode (`./install-rice.sh`) also runs `14-system-stability.sh` after the dock icon patch. The first-login user-session stage does not run that script automatically.
+
+---
+
+## System Stability
+
+`scripts/14-system-stability.sh` is intended for a logged-in GNOME session after the rice is applied. It:
+
+- sets `IgnorePkg` in `/etc/pacman.conf` for critical GNOME, kernel, firmware, and graphics packages
+- installs `gnome-keyring`, `evolution-data-server`, `at-spi2-core`, `xdg-desktop-portal`, and `xdg-desktop-portal-gnome`
+- writes `/etc/gdm/custom.conf` with `WaylandEnable=false` for a stable Xorg GDM session
+
+Run manually after updates if needed:
+
+```bash
+bash scripts/14-system-stability.sh
+```
 
 ---
 
@@ -583,6 +680,12 @@ Run local AI setup later:
 
 ```bash
 bash scripts/10-setup-local-ai-ollama-openwebui.sh
+```
+
+Re-apply system stability settings:
+
+```bash
+bash scripts/14-system-stability.sh
 ```
 
 ---
@@ -670,7 +773,7 @@ org.gnome.mutter overlay-key = 'Super_L'
 Run:
 
 ```bash
-bash scripts/06-setup-nautilus-code.sh
+bash scripts/09-setup-vscode.sh
 nautilus -q
 ```
 
@@ -778,12 +881,13 @@ git push
 Use a fresh VM and test in this order:
 
 ```text
-1. UEFI install path
-2. BIOS install path
+1. UEFI install path (`installation/uefi-install.sh` + `uefi-chroot.sh`)
+2. BIOS install path (`installation/bios-install.sh` + `bios-chroot.sh`)
 3. chroot mode
 4. first GNOME login autostart/user-session mode
 5. manual rerun of --user-session
-6. local AI setup with and without SKIP_LOCAL_AI=1
+6. normal mode with `14-system-stability.sh`
+7. local AI setup with and without SKIP_LOCAL_AI=1
 ```
 
 ---
