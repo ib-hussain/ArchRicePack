@@ -188,7 +188,21 @@ install_wallpapers_raw_only() {
 
     local wall_src="$REPO_ROOT/assets/wallpapers"
     local wall_dest="$target_home/.local/share/backgrounds/rice/wallpapers"
-    
+
+    mkdir -p "$wall_dest"
+
+    mapfile -t source_images < <(
+        find "$wall_src" -maxdepth 1 -type f \
+            \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.webp' \) \
+            | sort
+    )
+
+    if [[ "${#source_images[@]}" -eq 0 ]]; then
+        warn "No wallpaper images found in assets/wallpapers. Wallpaper rotation will not be changed."
+        safe_chown_user "$target_user" "$wall_dest"
+        return 0
+    fi
+
     log "Installing ${#source_images[@]} wallpaper image(s) without resizing."
 
     rm -rf "$wall_dest"
