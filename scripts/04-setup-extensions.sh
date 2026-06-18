@@ -17,10 +17,7 @@ for ext in "$HOME/.local/share/gnome-shell/extensions/"*; do
 done
 
 for uuid in \
-    "user-theme@gnome-shell-extensions.gcampax.github.com" \
-    "dash-to-dock@micxgx.gmail.com" \ 
-    "hidetopbar@mathieu.bidon.ca" \
-    "arch-dock-icon@ib-hussain"
+    "user-theme@gnome-shell-extensions.gcampax.github.com" "arch-dock-icon@ib-hussain" "dash-to-dock@micxgx.gmail.com" "hidetopbar@mathieu.bidon.ca" 
 do
     if gnome-extensions list | grep -qx "$uuid"; then
         gnome-extensions enable "$uuid" || warn "Could not enable extension: $uuid"
