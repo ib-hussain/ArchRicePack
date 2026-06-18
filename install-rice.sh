@@ -26,7 +26,7 @@ while [[ $# -gt 0 ]]; do
             ;;
         --help|-h)
             cat <<EOF_HELP
-ArchRicePack installer
+archRicePack installer
 
 Usage:
   ./install-rice.sh
@@ -53,7 +53,7 @@ EOF_HELP
 done
 
 log "============================================================"
-log "ArchRicePack installer started"
+log "archRicePack installer started"
 log "Mode: $MODE"
 log "Repository: $ROOT_DIR"
 log "Target user: $TARGET_USER"
@@ -103,5 +103,5 @@ case "$MODE" in
 esac
 
 log "============================================================"
-log "ArchRicePack installation stage complete"
+log "archRicePack installation stage complete"
 log "============================================================"

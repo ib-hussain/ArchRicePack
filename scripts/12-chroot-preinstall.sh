@@ -29,7 +29,7 @@ if ! id "$TARGET_USER" >/dev/null 2>&1; then
     fail "Target user does not exist: $TARGET_USER"
 fi
 
-log "Starting ArchRicePack chroot-safe preinstall for user: $TARGET_USER"
+log "Starting archRicePack chroot-safe preinstall for user: $TARGET_USER"
 log "Target home: $TARGET_HOME"
 
 install_pacman_direct() {
@@ -204,10 +204,10 @@ set -Eeuo pipefail
 LOG="$HOME/arch-rice-postlogin-$(date +%Y%m%d-%H%M%S).log"
 
 {
-    echo "[INFO] ArchRicePack post-login stage started."
-    cd "$HOME/ArchRicePack"
+    echo "[INFO] archRicePack post-login stage started."
+    cd "$HOME/archRicePack"
     ./install-rice.sh --user-session
-    echo "[INFO] ArchRicePack post-login stage complete."
+    echo "[INFO] archRicePack post-login stage complete."
 } 2>&1 | tee -a "$LOG"
 
 mkdir -p "$HOME/.config/autostart"
@@ -216,7 +216,7 @@ if [[ -f "$HOME/.config/autostart/arch-rice-postlogin.desktop" ]]; then
 fi
 
 if command -v notify-send >/dev/null 2>&1; then
-    notify-send "ArchRicePack" "Post-login rice stage completed. Reboot once if icons/cache look stale." || true
+    notify-send "archRicePack" "Post-login rice stage completed. Reboot once if icons/cache look stale." || true
 fi
 RUNNER
 
@@ -225,7 +225,7 @@ chmod +x "$TARGET_HOME/.local/bin/arch-rice-postlogin-runner"
 cat > "$TARGET_HOME/.config/autostart/arch-rice-postlogin.desktop" <<'DESKTOP'
 [Desktop Entry]
 Type=Application
-Name=ArchRicePack Post-Login Apply
+Name=archRicePack Post-Login Apply
 Comment=Apply GNOME user-session rice settings after first login
 Exec=/home/ibrahim/.local/bin/arch-rice-postlogin-runner
 X-GNOME-Autostart-enabled=true

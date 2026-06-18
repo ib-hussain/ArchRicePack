@@ -7,7 +7,7 @@ source "$SCRIPT_DIR/00-common.sh"
 
 require_user_session
 
-log "Starting ArchRicePack GNOME user-session stage."
+log "Starting archRicePack GNOME user-session stage."
 
 STEPS=(
     "02-restore-themes-and-configs.sh"

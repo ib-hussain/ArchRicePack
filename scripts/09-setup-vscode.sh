@@ -14,7 +14,7 @@ if [[ -d "$REPO_ROOT/configs/nautilus-python" ]]; then
 fi
 nautilus -q >/dev/null 2>&1 || true
 
-log "Setting up Visual Studio Code from ArchRicePack assets."
+log "Setting up Visual Studio Code from archRicePack assets."
 
 install_aur_package visual-studio-code-bin
 

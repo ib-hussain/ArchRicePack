@@ -1,4 +1,4 @@
-<h1 align="center">ArchRicePack</h1>
+<h1 align="center">archRicePack</h1>
 
 <p align="center">
   <strong>A reproducible Arch Linux GNOME rice pack with MacTahoe styling, Dash-to-Dock, Fastfetch, VS Code sync, Google Chrome, and optional local AI tooling.</strong>
@@ -37,7 +37,7 @@
 
 ## Overview
 
-**ArchRicePack** is a portable post-install rice pack for Arch Linux systems using GNOME Shell. It is built to reproduce a polished macOS/Tahoe-inspired desktop on top of a clean Arch base installation.
+**archRicePack** is a portable post-install rice pack for Arch Linux systems using GNOME Shell. It is built to reproduce a polished macOS/Tahoe-inspired desktop on top of a clean Arch base installation.
 
 It handles:
 
@@ -88,7 +88,7 @@ The live rice this repository captures has the following stable behaviour:
 
 ## Installation Modes
 
-ArchRicePack supports three practical modes.
+archRicePack supports three practical modes.
 
 ### 1. Chroot Mode
 
@@ -150,7 +150,7 @@ The intended full flow is:
 2. Run your base partition/install script
 3. arch-chroot /mnt
 4. Run the correct chroot script
-5. Chroot script clones ArchRicePack
+5. Chroot script clones archRicePack
 6. Chroot script runs:
    bash install-rice.sh --chroot --target-user "$USER_NAME"
 7. Reboot
@@ -159,11 +159,11 @@ The intended full flow is:
 10. Reboot once if icon/theme cache needs a clean reload
 ```
 
-The chroot files in `assets/` are intended to call ArchRicePack like this:
+The chroot files in `assets/` are intended to call archRicePack like this:
 
 ```bash
-su - "$USER_NAME" -c "cd ~ && rm -rf ArchRicePack && git clone https://github.com/ib-hussain/ArchRicePack"
-cd "/home/${USER_NAME}/ArchRicePack"
+su - "$USER_NAME" -c "cd ~ && rm -rf archRicePack && git clone https://github.com/ib-hussain/archRicePack"
+cd "/home/${USER_NAME}/archRicePack"
 chmod +x install-rice.sh scripts/*.sh
 bash install-rice.sh --chroot --target-user "$USER_NAME"
 ```
@@ -231,7 +231,7 @@ bash install-rice.sh --chroot --target-user "$USER_NAME"
 ## Repository Structure
 
 ```text
-ArchRicePack/
+archRicePack/
 ├── install-rice.sh
 ├── README.md
 ├── .gitattributes
@@ -431,7 +431,7 @@ The installer replaces those destination directories if the repo assets exist.
 
 ## Local AI: Ollama + Open WebUI
 
-ArchRicePack includes optional local AI setup.
+archRicePack includes optional local AI setup.
 
 The script is:
 
@@ -506,13 +506,13 @@ arch-chroot /mnt
 The pack is cloned into the target user’s home:
 
 ```bash
-su - "$USER_NAME" -c "cd ~ && rm -rf ArchRicePack && git clone https://github.com/ib-hussain/ArchRicePack"
+su - "$USER_NAME" -c "cd ~ && rm -rf archRicePack && git clone https://github.com/ib-hussain/archRicePack"
 ```
 
 Then the chroot stage is run:
 
 ```bash
-cd "/home/${USER_NAME}/ArchRicePack"
+cd "/home/${USER_NAME}/archRicePack"
 chmod +x install-rice.sh scripts/*.sh
 bash install-rice.sh --chroot --target-user "$USER_NAME"
 ```
@@ -537,8 +537,8 @@ If Arch and GNOME are already installed, use:
 
 ```bash
 cd ~
-git clone https://github.com/ib-hussain/ArchRicePack
-cd ArchRicePack
+git clone https://github.com/ib-hussain/archRicePack
+cd archRicePack
 chmod +x install-rice.sh scripts/*.sh
 ./install-rice.sh | tee install-output.txt
 ```
@@ -562,7 +562,7 @@ sudo reboot
 Pull changes:
 
 ```bash
-cd ~/ArchRicePack
+cd ~/archRicePack
 git pull
 chmod +x install-rice.sh scripts/*.sh
 ```

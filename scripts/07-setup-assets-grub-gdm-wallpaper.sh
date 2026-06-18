@@ -279,7 +279,7 @@ SERVICE
 [Desktop Entry]
 Type=Application
 Name=Rice Wallpaper Rotator
-Comment=Rotate ArchRicePack wallpapers every 5 seconds using fit-to-screen mode
+Comment=Rotate archRicePack wallpapers every 5 seconds using fit-to-screen mode
 Exec=$target_home/.local/bin/rice-wallpaper-rotator
 X-GNOME-Autostart-enabled=true
 Terminal=false

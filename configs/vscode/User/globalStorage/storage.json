@@ -216,7 +216,7 @@
             "file:///d%3A/Downloads/University/AI%20Lab": "__default__profile__",
             "file:///d%3A/Downloads": "__default__profile__",
             "file:///e%3A/vscode_backup/User/snippets": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/ArchRicePack": "__default__profile__"
+            "file:///d%3A/Downloads/Repositories/archRicePack": "__default__profile__"
         },
         "emptyWindows": {}
     },
@@ -226,7 +226,7 @@
         "workspaces": [],
         "folders": [
             {
-                "folderUri": "file:///d%3A/Downloads/Repositories/ArchRicePack"
+                "folderUri": "file:///d%3A/Downloads/Repositories/archRicePack"
             }
         ],
         "emptyWindows": [
@@ -264,7 +264,7 @@
     },
     "windowsState": {
         "lastActiveWindow": {
-            "folder": "file:///d%3A/Downloads/Repositories/ArchRicePack",
+            "folder": "file:///d%3A/Downloads/Repositories/archRicePack",
             "backupPath": "C:\\Users\\ibrahim\\AppData\\Roaming\\Code\\Backups\\7e038e5b92ed25c85f7eccb69c57c61d",
             "uiState": {
                 "mode": 0,

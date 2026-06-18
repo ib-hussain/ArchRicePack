@@ -97,7 +97,7 @@ fi
 LAUNCHER
 
 chmod +x "$HOME/.local/bin/openwebui-launcher"
-cp "$HOME/ArchRicePack/assets/arch-icons/open-webui.svg" "$HOME/.local/share/icons/hicolor/scalable/apps/openwebui.svg"
+cp "$HOME/archRicePack/assets/arch-icons/open-webui.svg" "$HOME/.local/share/icons/hicolor/scalable/apps/openwebui.svg"
 chmod +x "$HOME/.local/share/icons/hicolor/scalable/apps/openwebui.svg"
 gtk-update-icon-cache -f -t "$HOME/.local/share/icons/hicolor" >/dev/null 2>&1 || true
 

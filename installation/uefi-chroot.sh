@@ -158,8 +158,8 @@ su - "$USER_NAME" -c "PYENV_ROOT=\"\$HOME/.pyenv\" pyenv exec python --version"
 # ==========================================================
 # Arch Display Install
 # ==========================================================
-su - "$USER_NAME" -c "cd ~ && rm -rf ArchRicePack && git clone https://github.com/ib-hussain/ArchRicePack"
-cd "/home/${USER_NAME}/ArchRicePack"
+su - "$USER_NAME" -c "cd ~ && rm -rf archRicePack && git clone https://github.com/ib-hussain/archRicePack"
+cd "/home/${USER_NAME}/archRicePack"
 chmod +x install-rice.sh scripts/*.sh
 bash install-rice.sh --chroot --target-user "$USER_NAME"
 
