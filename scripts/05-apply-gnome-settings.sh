@@ -266,10 +266,10 @@ dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8
 gs_set "$PROFILE_PATH" cursor-blink-mode "on"
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/cursor-shape "'ibeam'"
 gs_set "$PROFILE_PATH" cursor-shape "ibeam"
-dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/default-size-columns 50
-gs_set "$PROFILE_PATH" default-size-columns 50
-dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/default-size-rows 10
-gs_set "$PROFILE_PATH" default-size-rows 10
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/default-size-columns 110
+gs_set "$PROFILE_PATH" default-size-columns 110
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/default-size-rows 28
+gs_set "$PROFILE_PATH" default-size-rows 28
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/font "'Noto Sans Mono 12'"
 gs_set "$PROFILE_PATH" font "Noto Sans Mono 12"
 dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/foreground-color "'#eceff4'"
