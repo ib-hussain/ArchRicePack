@@ -19,6 +19,18 @@ if [[ -f "$REPO_ROOT/configs/dconf/dash-to-dock.ini" ]]; then
     dconf load /org/gnome/shell/extensions/dash-to-dock/ < "$REPO_ROOT/configs/dconf/dash-to-dock.ini" || true
 fi
 
+if [[ -f "$REPO_ROOT/configs/dconf/media-keys.ini" ]]; then
+    dconf load /org/gnome/settings-daemon/plugins/media-keys/ < "$REPO_ROOT/configs/dconf/media-keys.ini" || true
+fi
+
+if [[ -f "$REPO_ROOT/configs/dconf/gnome-shell.ini" ]]; then
+    dconf load /org/gnome/shell/ < "$REPO_ROOT/configs/dconf/gnome-shell.ini" || true
+fi
+
+if [[ -f "$REPO_ROOT/configs/dconf/mutter.ini" ]]; then
+    dconf load /org/gnome/mutter/ < "$REPO_ROOT/configs/dconf/mutter.ini" || true
+fi
+
 # [org/gnome/desktop/interface]
 gs_set org.gnome.desktop.interface color-scheme "prefer-dark"
 gs_set org.gnome.desktop.interface gtk-theme "MacTahoe-Dark-blue"
@@ -70,8 +82,8 @@ gs_set org.gnome.shell.extensions.dash-to-dock show-delay 0.0
 gs_set org.gnome.shell.extensions.dash-to-dock show-show-apps-button true
 
 # [org/gnome/shell/keybindings]
-gs_set org.gnome.shell.keybindings toggle-overview "['<Super>a', '<Super>Tab']"
-gs_set org.gnome.shell.keybindings toggle-application-view "['<Super>', '<Super>s']"
+gs_set org.gnome.shell.keybindings toggle-overview "['<Super>', '<Super>s']"
+gs_set org.gnome.shell.keybindings toggle-application-view "['<Super>a', '<Super>Tab']"
 
 # [org/gnome/desktop/wm/keybindings]
 gs_set org.gnome.desktop.wm.keybindings close "['<Super>q', '<Ctrl>w']"
@@ -80,6 +92,121 @@ gs_set org.gnome.desktop.wm.keybindings show-desktop "['<Super>d']"
 gs_set org.gnome.desktop.wm.keybindings switch-applications "['<Alt>Tab']"
 gs_set org.gnome.desktop.wm.keybindings toggle-fullscreen "['<Super>f']"
 gs_set org.gnome.desktop.wm.keybindings unmaximize "['<Super>Down']"
+
+# [org/gnome/desktop/background]
+gs_set org.gnome.desktop.background color-shading-type "solid"
+gs_set org.gnome.desktop.background picture-options "scaled"
+gs_set org.gnome.desktop.background picture-uri "file://$HOME/archRicePack/assets/bg.png"
+gs_set org.gnome.desktop.background picture-uri-dark "file://$HOME/archRicePack/assets/bg.png"
+gs_set org.gnome.desktop.background primary-color "#000000"
+gs_set org.gnome.desktop.background secondary-color "#000000"
+
+# [org/gnome/desktop/screensaver]
+gs_set org.gnome.desktop.screensaver picture-options "scaled"
+gs_set org.gnome.desktop.screensaver picture-uri "file://$HOME/archRicePack/assets/bg.png"
+gs_set org.gnome.desktop.screensaver primary-color "#000000"
+gs_set org.gnome.desktop.screensaver secondary-color "#000000"
+
+# [org/gnome/desktop/input-sources]
+gs_set org.gnome.desktop.input-sources sources "[('xkb', 'us')]"
+
+# [org/gnome/desktop/peripherals/keyboard]
+gs_set org.gnome.desktop.peripherals.keyboard numlock-state true
+
+# [org/gnome/desktop/notifications]
+gs_set org.gnome.desktop.notifications application-children "['gnome-about-panel', 'org-gnome-systemmonitor', 'firefox']"
+
+# [org/gnome/desktop/notifications/application/firefox]
+dconf_write /org/gnome/desktop/notifications/application/firefox/application-id "'firefox.desktop'"
+
+# [org/gnome/desktop/notifications/application/gnome-about-panel]
+dconf_write /org/gnome/desktop/notifications/application/gnome-about-panel/application-id "'gnome-about-panel.desktop'"
+
+# [org/gnome/desktop/notifications/application/org-gnome-systemmonitor]
+dconf_write /org/gnome/desktop/notifications/application/org-gnome-systemmonitor/application-id "'org.gnome.SystemMonitor.desktop'"
+
+# [org/gnome/desktop/app-folders]
+gs_set org.gnome.desktop.app-folders folder-children "['System', 'Utilities']"
+
+# [org/gnome/desktop/app-folders/folders/System]
+dconf_write /org/gnome/desktop/app-folders/folders/System/apps "['nm-connection-editor.desktop', 'org.gnome.tweaks.desktop']"
+dconf_write /org/gnome/desktop/app-folders/folders/System/name "'X-GNOME-Shell-System.directory'"
+dconf_write /org/gnome/desktop/app-folders/folders/System/translate true
+
+# [org/gnome/desktop/app-folders/folders/Utilities]
+dconf_write /org/gnome/desktop/app-folders/folders/Utilities/name "'X-GNOME-Shell-Utilities.directory'"
+dconf_write /org/gnome/desktop/app-folders/folders/Utilities/translate true
+
+# [org/gnome/shell] - core settings
+gs_set org.gnome.shell disabled-extensions "@as []"
+gs_set org.gnome.shell enabled-extensions "['user-theme@gnome-shell-extensions.gcampax.github.com', 'hidetopbar@mathieu.bidon.ca', 'start-overlay-in-application-view@Hex_cz', 'dash-to-dock@micxgx.gmail.com', 'arch-dock-icon@ib-hussain']"
+gs_set org.gnome.shell last-selected-power-profile "power-saver"
+gs_set org.gnome.shell welcome-dialog-last-shown-version "50.2"
+
+# [org/gnome/gnome-system-monitor]
+gs_set org.gnome.gnome-system-monitor current-tab "resources"
+gs_set org.gnome.gnome-system-monitor maximized true
+gs_set org.gnome.gnome-system-monitor show-dependencies false
+gs_set org.gnome.gnome-system-monitor show-whose-processes "user"
+gs_set org.gnome.gnome-system-monitor window-height 720
+gs_set org.gnome.gnome-system-monitor window-width 1080
+
+# [org/gnome/gnome-system-monitor/proctree]
+dconf_write /org/gnome/gnome-system-monitor/proctree/col-0-visible true
+dconf_write /org/gnome/gnome-system-monitor/proctree/col-0-width 472
+dconf_write /org/gnome/gnome-system-monitor/proctree/col-24-visible true
+dconf_write /org/gnome/gnome-system-monitor/proctree/col-24-width 407
+dconf_write /org/gnome/gnome-system-monitor/proctree/col-26-visible false
+dconf_write /org/gnome/gnome-system-monitor/proctree/col-26-width 0
+dconf_write /org/gnome/gnome-system-monitor/proctree/col-8-visible true
+dconf_write /org/gnome/gnome-system-monitor/proctree/col-8-width 111
+
+# [org/gnome/nautilus/preferences]
+gs_set org.gnome.nautilus.preferences migrated-gtk-settings true
+
+# [org/gnome/nautilus/window-state]
+dconf_write /org/gnome/nautilus/window-state/initial-size "(1080, 1080)"
+dconf_write /org/gnome/nautilus/window-state/initial-size-file-chooser "(1080, 720)"
+dconf_write /org/gnome/nautilus/window-state/maximized true
+
+# [org/gnome/control-center]
+gs_set org.gnome.control-center last-panel "network"
+dconf_write /org/gnome/control-center/window-state "(980, 640, false)"
+
+# [com/mattjakeman/ExtensionManager]
+gs_set com.mattjakeman.ExtensionManager is-maximized true
+gs_set com.mattjakeman.ExtensionManager width 555
+
+# [org/gnome/portal/filechooser/org.chromium.Chromium]
+gs_set org.gnome.portal.filechooser.org-chromium-Chromium last-folder-path "$HOME"
+
+# [org/gnome/settings-daemon/plugins/housekeeping]
+dconf_write /org/gnome/settings-daemon/plugins/housekeeping/donation-reminder-last-shown 1780349069241737
+
+# [org/gnome/terminal/legacy/profiles:]
+gs_set org.gnome.terminal.legacy.profiles default "'fc74a141-e2ae-4f89-8a21-5b02e8cd73aa'"
+gs_set org.gnome.terminal.legacy.profiles list "['fc74a141-e2ae-4f89-8a21-5b02e8cd73aa']"
+
+# [org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa]
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/background-color "'#2e3440'"
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/bold-is-bright true
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/cursor-blink-mode "'on'"
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/cursor-shape "'ibeam'"
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/default-size-columns 50
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/default-size-rows 10
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/font "'Noto Sans Mono 12'"
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/foreground-color "'#eceff4'"
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/palette "['#2e3440', '#bf616a', '#a3be8c', '#ebcb8b', '#81a1c1', '#b48ead', '#88c0d0', '#eceff4', '#4c566a', '#bf616a', '#a3be8c', '#ebcb8b', '#81a1c1', '#b48ead', '#8fbcbb', '#eceff4']"
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/scroll-on-output false
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/scrollback-unlimited true
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/scrollbar-policy "'always'"
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/use-system-font false
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/use-theme-colors false
+dconf_write /org/gnome/terminal/legacy/profiles:/:fc74a141-e2ae-4f89-8a21-5b02e8cd73aa/visible-name "'IB Glass Terminal'"
+
+# [org/gtk/gtk4/settings/file-chooser]
+gs_set org.gtk.gtk4.settings.file-chooser show-hidden false
+gs_set org.gtk.gtk4.settings.file-chooser sort-directories-first false
 
 python - <<'PY'
 from pathlib import Path
@@ -160,5 +287,10 @@ apps = [
 apps = [x for x in apps if x]
 fav = "[" + ", ".join("'" + x + "'" for x in apps) + "]"
 run(["gsettings", "set", "org.gnome.shell", "favorite-apps", fav], check=True)
+
+# Set app-picker-layout from dconf-complete
+picker_layout = "[{'ib-arch-menu.desktop': <{'position': <0>}>, 'blueman-manager.desktop': <{'position': <1>}>, 'ca.desrt.dconf-editor.desktop': <{'position': <2>}>, 'com.mattjakeman.ExtensionManager.desktop': <{'position': <3>}>, 'org.flameshot.Flameshot.desktop': <{'position': <4>}>, 'htop.desktop': <{'position': <5>}>, 'ib-power-modes.desktop': <{'position': <6>}>, 'org.gnome.Screenshot.desktop': <{'position': <7>}>, 'btop.desktop': <{'position': <8>}>, 'org.pulseaudio.pavucontrol.desktop': <{'position': <9>}>, 'System': <{'position': <10>}>, 'conky.desktop': <{'position': <11>}>, 'org.gnome.Settings.desktop': <{'position': <12>}>, 'org.gnome.SystemMonitor.desktop': <{'position': <13>}>, 'firefox.desktop': <{'position': <14>}>, 'audacious.desktop': <{'position': <15>}>}]"
+run(["gsettings", "set", "org.gnome.shell", "app-picker-layout", picker_layout], check=True)
+
 print(fav)
 PY
