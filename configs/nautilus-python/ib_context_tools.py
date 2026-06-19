@@ -145,3 +145,4 @@ Key features of this combined version:
 The script will appear when you right-click in any folder or on any file selection in Nautilus.
 
 '''
+
