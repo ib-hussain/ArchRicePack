@@ -1,0 +1,8 @@
+arch-dock-icon@ib-hussain
+hidetopbar@mathieu.bidon.ca
+start-overlay-in-application-view@Hex_cz
+launch-new-instance@gnome-shell-extensions.gcampax.github.com
+places-menu@gnome-shell-extensions.gcampax.github.com
+system-monitor@gnome-shell-extensions.gcampax.github.com
+user-theme@gnome-shell-extensions.gcampax.github.com
+dash-to-dock@micxgx.gmail.com
