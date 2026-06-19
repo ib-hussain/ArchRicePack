@@ -144,7 +144,7 @@ copy_dir_root_to_user "$REPO_ROOT/configs/gtk-4.0"                          "$TA
 copy_dir_root_to_user "$REPO_ROOT/configs/fastfetch"                        "$TARGET_HOME/.config/fastfetch"
 copy_dir_root_to_user "$REPO_ROOT/configs/local-bin"                        "$TARGET_HOME/.local/bin"
 copy_dir_root_to_user "$REPO_ROOT/configs/nautilus-python"                  "$TARGET_HOME/.local/share/nautilus-python/extensions"
-copy_dir_root_to_user "$REPO_ROOT/configs/gnome-shell/extensions-local"     "$TARGET_HOME/.local/share/gnome-shell/extensions"
+copy_dir_root_to_user "$REPO_ROOT/configs/extensions/extensions-local"     "$TARGET_HOME/.local/share/gnome-shell/extensions"
 
 
 chmod +x "$TARGET_HOME/.local/bin/"* 2>/dev/null || true

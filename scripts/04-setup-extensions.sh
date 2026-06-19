@@ -7,11 +7,11 @@ require_user_session
 
 log "Restoring GNOME Shell extensions."
 
-mkdir -p "$HOME/.local/share/gnome-shell/extensions"
+mkdir -p "$HOME/.local/share/extensions/extensions"
 
-copy_dir_contents "$REPO_ROOT/configs/gnome-shell/extensions-local" "$HOME/.local/share/gnome-shell/extensions"
+copy_dir_contents "$REPO_ROOT/configs/extensions/extensions-local" "$HOME/.local/share/extensions/extensions"
 
-for ext in "$HOME/.local/share/gnome-shell/extensions/"*; do
+for ext in "$HOME/.local/share/extensions/extensions/"*; do
     [[ -d "$ext/schemas" ]] || continue
     glib-compile-schemas "$ext/schemas" || true
 done
