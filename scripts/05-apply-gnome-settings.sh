@@ -13,7 +13,7 @@ if [[ -f "$REPO_ROOT/configs/dconf/dconf-complete.ini" ]]; then
 fi
 
 # Apply core settings with gs_set for permanence
-log "Applying core gsettings with permanence..."
+# log "Applying core gsettings with permanence..."
 
 
 python - <<'PY'
@@ -53,7 +53,6 @@ for path in paths:
         clean.append(path)
 
 entries = {
-    base + "browser/": ("Open Browser", "google-chrome-stable", "<Super>b"),
     base + "code/": ("Open VS Code", "code", "<Super>c"),
     base + "files/": ("Open Files", "nautilus", "<Super>e"),
     base + "settings/": ("Open Settings", "gnome-control-center", "<Super>i"),
