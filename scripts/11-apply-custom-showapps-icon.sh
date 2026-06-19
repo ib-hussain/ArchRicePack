@@ -49,7 +49,7 @@ cp "$REPO_ROOT/assets/arch-icons/arch-logo.png" "$EXT_DIR/icons/arch-logo.png"
 # magick "$MASTER" -resize 512x512 "$EXT_DIR/arch-logo.png"
 cp "$REPO_ROOT/assets/arch-icons/arch-logo.png" "$EXT_DIR/arch-logo.png"
 
-cp -r "$REPO_ROOT/configs/extensions/extensions-local/arch-dock-icon@ib-hussain"/* "$EXT_DIR/"
+cp -r "$REPO_ROOT/configs/extensions/arch-dock-icon@ib-hussain"/* "$EXT_DIR/"
 
 # log "Writing icon-theme PNG fallbacks."
 

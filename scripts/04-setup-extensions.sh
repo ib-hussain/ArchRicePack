@@ -9,7 +9,7 @@ log "Restoring GNOME Shell extensions."
 
 mkdir -p "$HOME/.local/share/extensions/extensions"
 
-copy_dir_contents "$REPO_ROOT/configs/extensions/extensions-local" "$HOME/.local/share/extensions/extensions"
+copy_dir_contents "$REPO_ROOT/configs/extensions" "$HOME/.local/share/extensions/extensions"
 
 for ext in "$HOME/.local/share/extensions/extensions/"*; do
     [[ -d "$ext/schemas" ]] || continue
