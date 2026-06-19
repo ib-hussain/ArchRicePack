@@ -230,7 +230,7 @@ The chroot scripts clone archRicePack into the target user home and run the rice
 
 - Google Chrome from AUR
 - Visual Studio Code from `visual-studio-code-bin`
-- Nautilus
+- Nautilus 50.2
 - GNOME Terminal
 - GNOME System Monitor
 - Extension Manager / GNOME extensions support (`extension-manager`, local `hidetopbar`, `arch-dock-icon`, `start-overlay-in-application-view`)
