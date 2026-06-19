@@ -79,7 +79,7 @@ install_aur_package_for_target_user() {
     local pkg="$1"
     [[ -z "$pkg" || "$pkg" =~ ^[[:space:]]*# ]] && return 0
 
-    ensure_yay_for_target_user
+#    ensure_yay_for_target_user
 
     if pacman -Qq "$pkg" >/dev/null 2>&1; then
         log "AUR package already installed: $pkg"

@@ -8,10 +8,12 @@ wget
 unzip
 python
 python-gobject
+less
 gtk3
 gtk4
 libadwaita
 dconf
+qbittorrent
 gnome-shell
 gnome-shell-extensions
 gnome-tweaks
@@ -132,7 +134,6 @@ magic-wormhole
 mesa
 nano
 nautilus
-nautilus-python
 ncdu
 network-manager-applet
 networkmanager

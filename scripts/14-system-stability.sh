@@ -23,3 +23,12 @@ sudo echo "#Enable=true "                        |  sudo  tee -a  /etc/gdm/custo
 
 log "Added the packages for no upgrade to /etc/pacman.conf"
 
+git config --global user.name "Ibrahim Hussain"
+git config --global user.email "ibrahimbeaconarion@gmail.com"
+git config --global init.defaultBranch main
+git config core.editor "nano"
+git config --global merge.tool vscode
+git config --global mergetool.vscode.cmd "code --wait $MERGED"
+git config --global push.default simple
+# git config --global pull.rebase true
+# git config --global pull.merge true
