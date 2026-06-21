@@ -1,28 +1,40 @@
 import Gio from 'gi://Gio';
-import GLib from 'gi://GLib';
 import St from 'gi://St';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 export default class RiceArchShowAppsIconExtension extends Extension {
     enable() {
-        this._timeoutId = 0;
         this._iconFile = this.dir.get_child('icons').get_child('arch-logo.png');
         this._gicon = new Gio.FileIcon({file: this._iconFile});
+        this._signalIds = [];
 
+        // Patch once now (covers the icon already on screen, e.g. in the dash)
         this._patchAll();
 
-        this._timeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 750, () => {
-            this._patchAll();
-            return GLib.SOURCE_CONTINUE;
-        });
+        // Re-patch only when the overview is shown/hidden, since that's the
+        // only time the "Show Apps" icon actually gets created/recreated.
+        // This replaces the old 750ms full-tree-walk polling loop, which
+        // was the cause of the periodic Shell freezes.
+        const overviewShownId = Main.overview.connect('showing', () => this._patchAll());
+        const overviewHiddenId = Main.overview.connect('hidden', () => this._patchAll());
+        this._signalIds.push([Main.overview, overviewShownId]);
+        this._signalIds.push([Main.overview, overviewHiddenId]);
+
+        // Dash-to-Dock rebuilds its "Show Apps" button when its settings
+        // change (position, icon size, etc). If dash-to-dock is installed,
+        // listen for that too so the icon survives dock reconfiguration.
+        if (Main.overview.dash && Main.overview.dash._showAppsIcon) {
+            const dash = Main.overview.dash;
+            const dashId = dash.connect('notify::visible', () => this._patchAll());
+            this._signalIds.push([dash, dashId]);
+        }
     }
 
     disable() {
-        if (this._timeoutId) {
-            GLib.source_remove(this._timeoutId);
-            this._timeoutId = 0;
-        }
+        for (const [obj, id] of this._signalIds)
+            obj.disconnect(id);
+        this._signalIds = [];
     }
 
     _patchAll() {
@@ -129,3 +141,4 @@ export default class RiceArchShowAppsIconExtension extends Extension {
         }
     }
 }
+
