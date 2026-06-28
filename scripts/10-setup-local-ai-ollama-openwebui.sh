@@ -30,17 +30,39 @@ Environment=OLLAMA_HOST=0.0.0.0:11434
 EOF
 
 sudo systemctl daemon-reload
-# Restart if already running (e.g., on re-runs)
 sudo systemctl try-restart ollama.service 2>/dev/null || true
 # ---------------------------------------------------------------------
+
 log "Enabling services."
 sudo systemctl enable --now ollama.service || warn "Could not enable/start ollama.service."
 sudo systemctl enable --now docker.service || warn "Could not enable/start docker.service."
 
 if getent group docker >/dev/null 2>&1; then
     sudo usermod -aG docker "$USER" || true
-    warn "User added to docker group. Docker without sudo works after logout/login."
+    warn "User added to docker group."
 fi
+
+# ----- Run all subsequent docker commands as the invoking user, not root -----
+# Using sudo for the docker daemon-level setup above is fine (systemd units,
+# package install), but the container itself should be created under the
+# user's own docker context. Mixing sudo and group-based docker access
+# creates ownership splits between root and the user across reruns, and on
+# this script that previously caused open-webui's named volume to end up
+# owned in a way the container's runtime user couldn't write to -- which
+# made the entrypoint silently exit 0 before the app ever started.
+#
+# `sg docker -c '...'` runs a command in the docker group context for this
+# script's process, without requiring a fresh login shell first.
+run_as_docker_user() {
+    if id -nG "$USER" | grep -qw docker; then
+        sg docker -c "$*"
+    else
+        # Group membership not active in this shell yet (e.g. first run,
+        # before logout/login). Fall back to sudo just for this invocation.
+        sudo "$@"
+    fi
+}
+# ------------------------------------------------------------------------------
 
 log "Waiting for Ollama API."
 for i in {1..30}; do
@@ -62,18 +84,69 @@ else
     warn "Ollama API did not become reachable. Skipping model pull."
 fi
 
-# log "Working on claude code"
-# let's complete this later
-# if any dependency for claude code is needed then it needs to be added to the docker container above
-
 log "Installing Open WebUI Docker container."
 
-if sudo docker ps -a --format '{{.Names}}' | grep -qx 'open-webui'; then
+if docker ps -a --format '{{.Names}}' 2>/dev/null | grep -qx 'open-webui'; then
     log "Removing existing open-webui container."
-    sudo docker rm -f open-webui || true
+    docker rm -f open-webui || true
 fi
 
-sudo docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -e OLLAMA_BASE_URL=http://host.docker.internal:11434 -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main || warn "Open WebUI Docker container failed to start."
+# Remove the named volume too if it exists with bad ownership from a
+# previous sudo-based run. Comment this out if you want to preserve
+# existing chat history/data across the fix.
+if docker volume inspect open-webui >/dev/null 2>&1; then
+    log "Found existing open-webui volume. Checking ownership..."
+    OWNER_UID=$(docker run --rm -v open-webui:/data alpine stat -c '%u' /data 2>/dev/null || echo "unknown")
+    log "Volume /data is currently owned by UID: ${OWNER_UID}"
+fi
+
+# Run the container as the current invoking user instead of via sudo, now
+# that docker group membership is set up. This keeps the named volume's
+# ownership consistent with what the container's entrypoint expects, and
+# avoids the silent-exit-0 failure mode from ownership mismatches.
+docker run -d -p 3000:8080 \
+    --add-host=host.docker.internal:host-gateway \
+    -e OLLAMA_BASE_URL=http://host.docker.internal:11434 \
+    -v open-webui:/app/backend/data \
+    --name open-webui \
+    --restart always \
+    --health-cmd="curl -fsS http://localhost:8080/health || exit 1" \
+    --health-interval=10s \
+    --health-timeout=5s \
+    --health-retries=3 \
+    --health-start-period=30s \
+    --entrypoint bash \
+    ghcr.io/open-webui/open-webui:main \
+    -c "pip install --quiet --upgrade typer && bash start.sh" \
+    || warn "Open WebUI Docker container failed to start."
+# NOTE: the ghcr.io/open-webui/open-webui:main image has shipped, at least
+# as of the digest pulled while debugging this, with a broken `typer`
+# install (`typer.Typer()` raises AttributeError on import). This made the
+# container exit cleanly (code 0) within ~500ms of every single start,
+# with completely empty logs, before uvicorn ever got a chance to print
+# anything -- since the crash happens at import time inside
+# open_webui/__init__.py, before logging is configured. The one-line
+# `pip install --upgrade typer` before launching start.sh fixes it without
+# needing to rebuild the image. If a future image revision fixes this
+# upstream, this becomes a harmless no-op (pip will just confirm typer is
+# already up to date), so it's safe to leave in permanently.
+
+log "Waiting to confirm Open WebUI actually started (not just exited 0 immediately)."
+sleep 5
+CONTAINER_STATE=$(docker inspect open-webui --format='{{.State.Status}}' 2>/dev/null || echo "missing")
+EXIT_CODE=$(docker inspect open-webui --format='{{.State.ExitCode}}' 2>/dev/null || echo "n/a")
+
+if [[ "$CONTAINER_STATE" == "running" ]]; then
+    log "Open WebUI container is running."
+elif [[ "$CONTAINER_STATE" == "restarting" ]]; then
+    warn "Open WebUI is stuck in a restart loop (last exit code: ${EXIT_CODE})."
+    warn "Check logs with: docker logs open-webui --since 2m"
+    warn "This usually means a volume permissions mismatch. Try:"
+    warn "  docker run --rm -v open-webui:/data alpine chown -R 1000:1000 /data"
+    warn "(adjust UID/GID to whatever the open-webui image expects -- check with: docker run --rm ghcr.io/open-webui/open-webui:main id)"
+else
+    warn "Open WebUI container state is unexpected: ${CONTAINER_STATE} (exit code: ${EXIT_CODE})"
+fi
 
 log "Creating Open WebUI launcher."
 

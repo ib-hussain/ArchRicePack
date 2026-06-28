@@ -12,6 +12,7 @@ if [[ -f "$REPO_ROOT/configs/dconf/dconf-complete.ini" ]]; then
     dconf load / < "$REPO_ROOT/configs/dconf/dconf-complete.ini" || true
 fi
 
+# gsettings set org.gnome.shell.debug enable-debugging true 2>/dev/null || echo "schema not available, trying alternate method"
 # Apply core settings with gs_set for permanence
 # log "Applying core gsettings with permanence..."
 
