@@ -166,6 +166,25 @@ EOF
         log "Installing Open WebUI"
         export PYENV_ROOT="$HOME/.pyenv"
         export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+
+        # /tmp is tmpfs (RAM-backed, ~half of WSL's memory — often
+        # only a few GB) not disk-backed. pip stages wheel downloads
+        # there by default via Python's tempfile module, and a large
+        # dependency chain can exhaust it even though the real disk
+        # has hundreds of GB free. Redirect to the actual filesystem.
+        mkdir -p "$HOME/.cache/pip-tmp"
+        export TMPDIR="$HOME/.cache/pip-tmp"
+
+        # Open WebUI pulls in sentence-transformers -> torch as a
+        # dependency for its built-in RAG/embeddings support. Left
+        # to its own resolver, pip grabs the CUDA build by default
+        # on Linux — several GB of nvidia-* packages that do
+        # nothing on a machine with no GPU. Installing CPU-only
+        # torch first means the resolver sees it already satisfied
+        # and skips the CUDA stack entirely.
+        log "Pre-installing CPU-only torch so Open WebUI doesn't pull the CUDA stack"
+        pip install --user torch --index-url https://download.pytorch.org/whl/cpu || warn "CPU-only torch pre-install failed — continuing, but open-webui may pull CUDA torch instead"
+
         if pip install --user --upgrade open-webui; then
             log "Ollama + Open WebUI setup complete."
             log "Start with your existing launcher, or manually:"
