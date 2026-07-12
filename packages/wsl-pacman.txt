@@ -1,5 +1,5 @@
 # ==========================================================
-# WSL-pacman.txt
+# wsl-pacman.txt
 # CLI-only subset of rice-pacman-core.txt, safe/functional
 # under WSL. Dropped categories and why:
 #   - Desktop shell & file manager: gnome-shell(-extensions),
@@ -99,7 +99,7 @@ sshfs
 smbclient
 magic-wormhole
 
-# --- Containers / local AI (need systemd — see task 5) ---
+# --- Containers / local AI (need systemd — see scripts/10) ---
 docker
 docker-compose
 ollama
