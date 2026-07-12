@@ -111,58 +111,74 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 : "${REPO_ROOT:=$(cd "$SCRIPT_DIR/.." && pwd)}"
 
+# Wrapped in if/else rather than a hard `fail` — this section
+# now lives inline in the middle of the single first-pass
+# script, not as its own standalone file run later. A hard
+# `exit` here would abort 06-wsl.sh entirely and skip
+# everything below it (git identity), since set -euo pipefail
+# is active. Skipping gracefully instead means: no systemd yet
+# -> warn and move on to git config; re-run this whole script
+# after the restart to pick Ollama back up.
 if [[ "$(ps -p 1 -o comm=)" != "systemd" ]]; then
-    fail "systemd is not PID 1 (got '$(ps -p 1 -o comm=)'). Run 'wsl --shutdown' + relaunch first."
-fi
-log "Ensuring ollama is installed"
-install_pacman_package ollama
-log "Configuring Ollama to listen on 0.0.0.0 so Open WebUI (or a Windows-side client) can reach it"
-sudo mkdir -p /etc/systemd/system/ollama.service.d
-sudo tee /etc/systemd/system/ollama.service.d/override.conf <<'EOF' >/dev/null
+    warn "systemd is not PID 1 yet (got '$(ps -p 1 -o comm=)') — skipping Ollama/Open WebUI setup for now."
+    warn "Run 'wsl --shutdown' + relaunch, then re-run this script to pick it up."
+else
+    log "Ensuring ollama is installed"
+    install_pacman_package ollama
+    log "Configuring Ollama to listen on 0.0.0.0 so Open WebUI (or a Windows-side client) can reach it"
+    sudo mkdir -p /etc/systemd/system/ollama.service.d
+    sudo tee /etc/systemd/system/ollama.service.d/override.conf <<'EOF' >/dev/null
 [Service]
 Environment=OLLAMA_HOST=0.0.0.0:11434
 EOF
-sudo systemctl daemon-reload
-sudo systemctl enable --now ollama.service || fail "Could not enable/start ollama.service."
-sudo systemctl try-restart ollama.service 2>/dev/null || true
-log "Waiting for Ollama API to come up"
-for i in {1..30}; do
-    if curl -fsS http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
-        log "Ollama API is reachable."
-        break
-    fi
-    sleep 1
-done
-if curl -fsS http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
-    log "Pulling gemma3:1b"
-    ollama pull gemma3:1b || warn "Could not pull gemma3:1b. Retry later with: ollama pull gemma3:1b"
-    log "Pulling qwen2.5-coder:3b"
-    ollama pull qwen2.5-coder:3b || warn "Could not pull qwen2.5-coder:3b. Retry later with: ollama pull qwen2.5-coder:3b"
-else
-    warn "Ollama API never became reachable — skipping model pulls. Check: sudo systemctl status ollama"
-fi
-# ----------------------------------------------------------
-# Open WebUI — installed as a user-level pip package so its
-# console script lands in ~/.local/bin/open-webui, matching
-# what your existing Windows-side launchers already expect
-# (C:\Scripts\start_ollama_webui_hidden.vbs,
-#  C:\Scripts\OpenLocalModel.bat both call
-#  `~/.local/bin/open-webui serve`).
-#
-# Heads up: this pulls a genuinely large dependency set
-# (it's a full web app, not a thin client) — expect several
-# hundred MB on first install.
-# ----------------------------------------------------------
-log "Installing Open WebUI"
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
-pip install --user --upgrade open-webui || fail "open-webui install failed"
+    sudo systemctl daemon-reload
+    if sudo systemctl enable --now ollama.service; then
+        sudo systemctl try-restart ollama.service 2>/dev/null || true
+        log "Waiting for Ollama API to come up"
+        for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
+                log "Ollama API is reachable."
+                break
+            fi
+            sleep 1
+        done
+        if curl -fsS http://127.0.0.1:11434/api/tags >/dev/null 2>&1; then
+            log "Pulling gemma3:1b"
+            ollama pull gemma3:1b || warn "Could not pull gemma3:1b. Retry later with: ollama pull gemma3:1b"
+            log "Pulling qwen2.5-coder:3b"
+            ollama pull qwen2.5-coder:3b || warn "Could not pull qwen2.5-coder:3b. Retry later with: ollama pull qwen2.5-coder:3b"
+        else
+            warn "Ollama API never became reachable — skipping model pulls. Check: sudo systemctl status ollama"
+        fi
 
-log "Ollama + Open WebUI setup complete."
-log "Start with your existing launcher, or manually:"
-log "  ollama serve &"
-log "  ~/.local/bin/open-webui serve"
-log "Then from Windows: http://localhost:8080"
+        # ------------------------------------------------------
+        # Open WebUI — installed as a user-level pip package so
+        # its console script lands in ~/.local/bin/open-webui,
+        # matching what your existing Windows-side launchers
+        # already expect (C:\Scripts\start_ollama_webui_hidden.vbs,
+        # C:\Scripts\OpenLocalModel.bat both call
+        # `~/.local/bin/open-webui serve`).
+        #
+        # Heads up: this pulls a genuinely large dependency set
+        # (it's a full web app, not a thin client) — expect
+        # several hundred MB on first install.
+        # ------------------------------------------------------
+        log "Installing Open WebUI"
+        export PYENV_ROOT="$HOME/.pyenv"
+        export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+        if pip install --user --upgrade open-webui; then
+            log "Ollama + Open WebUI setup complete."
+            log "Start with your existing launcher, or manually:"
+            log "  ollama serve &"
+            log "  ~/.local/bin/open-webui serve"
+            log "Then from Windows: http://localhost:8080"
+        else
+            warn "open-webui install failed — Ollama itself is still set up and running."
+        fi
+    else
+        warn "Could not enable/start ollama.service — skipping model pulls and Open WebUI."
+    fi
+fi
 
 # ==========================================================
 # 14-system-stability.sh
