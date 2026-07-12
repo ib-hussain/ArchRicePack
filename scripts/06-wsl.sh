@@ -152,12 +152,13 @@ EOF
         fi
 
         # ------------------------------------------------------
-        # Open WebUI — installed as a user-level pip package so
-        # its console script lands in ~/.local/bin/open-webui,
-        # matching what your existing Windows-side launchers
-        # already expect (C:\Scripts\start_ollama_webui_hidden.vbs,
-        # C:\Scripts\OpenLocalModel.bat both call
-        # `~/.local/bin/open-webui serve`).
+        # Open WebUI — installed as a user-level pip package.
+        # An ow-serve wrapper (created below) pins the port so
+        # it's defined in exactly one place, and is what the
+        # Windows-side launchers call (C:\Scripts\
+        # start_ollama_webui_hidden.vbs, C:\Scripts\
+        # OpenLocalModel.bat — both updated to run
+        # `~/.local/bin/ow-serve` instead of the raw command).
         #
         # Heads up: this pulls a genuinely large dependency set
         # (it's a full web app, not a thin client) — expect
@@ -186,11 +187,26 @@ EOF
         pip install --user torch --index-url https://download.pytorch.org/whl/cpu || warn "CPU-only torch pre-install failed — continuing, but open-webui may pull CUDA torch instead"
 
         if pip install --user --upgrade open-webui; then
+            # Single source of truth for the port — the Windows
+            # launchers call THIS instead of `open-webui serve`
+            # directly, so the port only needs to change here.
+            # Port 1025 instead of the 8080 default: XAMPP's
+            # Apache already owns 8080 on this machine, and
+            # whichever service binds first wins the port while
+            # the other's requests silently go to the wrong app.
+            cat > "$HOME/.local/bin/ow-serve" <<'EOFW'
+#!/usr/bin/env bash
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+exec open-webui serve --port 1025 "$@"
+EOFW
+            chmod +x "$HOME/.local/bin/ow-serve"
+
             log "Ollama + Open WebUI setup complete."
             log "Start with your existing launcher, or manually:"
             log "  ollama serve &"
-            log "  ~/.local/bin/open-webui serve"
-            log "Then from Windows: http://localhost:8080"
+            log "  ~/.local/bin/ow-serve"
+            log "Then from Windows: http://localhost:1025"
         else
             warn "open-webui install failed — Ollama itself is still set up and running."
         fi
