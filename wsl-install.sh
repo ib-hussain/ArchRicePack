@@ -111,7 +111,10 @@ log "Running scripts/06-wsl.sh"
 su - "$USER_NAME" -c "REPO_ROOT='$REPO_ROOT' bash '$REPO_ROOT/scripts/06-wsl.sh'"
 
 
-log "Base provisioning complete."
+log ""
+log ""
+log "Base provisioning complete. Restart later."
+log ""
 log ""
 log "Next steps (from PowerShell, not inside WSL):"
 log "  wsl --shutdown"

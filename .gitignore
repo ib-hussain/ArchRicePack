@@ -9,3 +9,4 @@
 **.*ignore**
 Screenshot*.png
 reqs.txt
+.webui_secret_key
