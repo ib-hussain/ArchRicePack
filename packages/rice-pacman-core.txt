@@ -108,6 +108,7 @@ flameshot
 fzf
 gdm
 git
+gdb
 gnome-browser-connector
 gnome-control-center
 gnome-screenshot

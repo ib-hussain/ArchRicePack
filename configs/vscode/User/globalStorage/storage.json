@@ -2,49 +2,7 @@
     "userDataProfilesMigration": true,
     "profileAssociations": {
         "workspaces": {
-            "file:///d%3A/": "__default__profile__",
-            "file:///d%3A/Downloads/Assembler": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/3movieCollectors": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/ib-hussain.github.io": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/vscode": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/writers-block": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/Arduino": "__default__profile__",
-            "file:///d%3A/Downloads/University/DeepLearning": "__default__profile__",
-            "file:///d%3A/Downloads/University/AI%20Lab/Lab5": "__default__profile__",
-            "file:///d%3A/Downloads/University/Data%20Mining/Task3": "__default__profile__",
-            "file:///d%3A/Downloads/University/DeepLearning/Project": "__default__profile__",
-            "file:///d%3A/Downloads/University/DeepLearning/Project/fin-glassbox": "__default__profile__",
-            "file:///d%3A/Downloads/University/AI/Assignment1": "__default__profile__",
-            "file:///d%3A/Downloads/University/Data%20Mining/Assignment1": "__default__profile__",
-            "file:///d%3A/Downloads/University/DeepLearning/fin-glassbox": "__default__profile__",
-            "file:///d%3A/Games/AI/Ollama": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/TCGA-Integrative-Analysis": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/data%20vis%20competition": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/social-electoral-dynamics": "__default__profile__",
-            "file:///d%3A/Downloads/University/Data%20Mining/Task4": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/secret_to_happiness": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/TCGA-Integrative-Analysis/images": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/disaster-recovery-analysis": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/disaster-recovery-analysis/pictures": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/ib-hussain.github.io/assets": "__default__profile__",
-            "file:///d%3A/Downloads/University/AI%20Lab/Lab9": "__default__profile__",
-            "file:///d%3A/Downloads/University/PDC/Assignment2": "__default__profile__",
-            "file:///d%3A/Downloads/University/Data%20Mining/Assignment2": "__default__profile__",
-            "file:///d%3A/Downloads/University/AI%20Lab/Lab10": "__default__profile__",
-            "file:///d%3A/Downloads/University/AI/Assignment2": "__default__profile__",
-            "file:///d%3A/Downloads/University/AI%20Lab/Lab11": "__default__profile__",
-            "file:///d%3A/Games/AI": "__default__profile__",
-            "file:///d%3A/Games/AI/NLP-Module": "__default__profile__",
-            "file:///d%3A/Games/AI/LLM-Module": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/raw-overfitting-transformer": "__default__profile__",
-            "file:///d%3A/Downloads/University/Data%20Mining/Assignment3": "__default__profile__",
-            "file:///c%3A/Users/ibrahim/Downloads/fin-glassbox": "__default__profile__",
-            "file:///d%3A/Downloads/University/PDC/Assignment3": "__default__profile__",
-            "file:///d%3A/Downloads/University/PDC/frag-aware-nlp-scheduler": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/fin-glassbox": "__default__profile__",
-            "file:///d%3A/Downloads/University/AI/Project": "__default__profile__",
-            "file:///d%3A/Downloads/University/AI/Project/AeroNet_Lite_Project": "__default__profile__",
-            "file:///d%3A/Downloads/Repositories/archRicePack": "__default__profile__"
+            "file:///d%3A/": "__default__profile__"
         },
         "emptyWindows": {}
     },
@@ -52,16 +10,8 @@
     "telemetry.machineId": "574083b8fd9fb435dae5c8cf7565a5b84d7b6a946a25f663a5f68ce97a56632f",
     "backupWorkspaces": {
         "workspaces": [],
-        "folders": [
-            {
-                "folderUri": "file:///d%3A/Downloads/Repositories/archRicePack"
-            }
-        ],
-        "emptyWindows": [
-            {
-                "backupFolder": "1780374352832"
-            }
-        ]
+        "folders": [],
+        "emptyWindows": []
     },
     "windowControlHeight": 35,
     "theme": "vs-dark",
@@ -91,17 +41,7 @@
         }
     },
     "windowsState": {
-        "lastActiveWindow": {
-            "folder": "file:///d%3A/Downloads/Repositories/archRicePack",
-            "backupPath": "C:\\Users\\ibrahim\\AppData\\Roaming\\Code\\Backups\\7e038e5b92ed25c85f7eccb69c57c61d",
-            "uiState": {
-                "mode": 0,
-                "x": 80,
-                "y": 0,
-                "width": 1440,
-                "height": 860
-            }
-        },
+        "lastActiveWindow": {},
         "openedWindows": []
     },
     "telemetry.sqmId": "{57A8CAA8-68D0-475A-BD4E-9BD9F3CC71E7}",
