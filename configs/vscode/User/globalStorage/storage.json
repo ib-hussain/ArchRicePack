@@ -1,17 +1,15 @@
 {
     "userDataProfilesMigration": true,
     "profileAssociations": {
-        "workspaces": {
-            "file:///d%3A/": "__default__profile__"
-        },
+        "workspaces": { },
         "emptyWindows": {}
     },
     "profileAssociationsMigration": true,
     "telemetry.machineId": "574083b8fd9fb435dae5c8cf7565a5b84d7b6a946a25f663a5f68ce97a56632f",
     "backupWorkspaces": {
         "workspaces": [],
-        "folders": [],
-        "emptyWindows": []
+        "folders": [ ],
+        "emptyWindows": [ ]
     },
     "windowControlHeight": 35,
     "theme": "vs-dark",
@@ -41,11 +39,9 @@
         }
     },
     "windowsState": {
-        "lastActiveWindow": {},
+        "lastActiveWindow": { },
         "openedWindows": []
     },
-    "telemetry.sqmId": "{57A8CAA8-68D0-475A-BD4E-9BD9F3CC71E7}",
-    "telemetry.devDeviceId": "fc2b5507-6fb6-4ff1-875f-0e59ce11a227",
     "windowSplashWorkspaceOverride": {
         "layoutInfo": {
             "auxiliarySideBarWidth": [

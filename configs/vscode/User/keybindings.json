@@ -7,17 +7,13 @@
     },
     {
         "key": "ctrl+shift+;",
-        "command": "workbench.action.terminal.newWithProfile",
-        "args": {
-            "profileName": "archlinux (WSL)"
-        }
+        "command": "workbench.action.terminal.new",
+        "when": "terminalProcessSupported || terminalWebExtensionContributedProfile"
     },
     {
         "key": "ctrl+shift+l",
-        "command": "workbench.action.terminal.newWithProfile",
-        "args": {
-            "profileName": "Ubuntu (WSL)"
-        }
+        "command": "workbench.action.terminal.new",
+        "when": "terminalProcessSupported || terminalWebExtensionContributedProfile"
     },
     // removals
     {
