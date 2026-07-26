@@ -197,7 +197,7 @@ EOF
             cat > "$HOME/.local/bin/ow-serve" <<'EOFW'
 #!/usr/bin/env bash
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+export PATH="$HOME/.local/bin:$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
 exec open-webui serve --port 1025 "$@"
 EOFW
             chmod +x "$HOME/.local/bin/ow-serve"

@@ -1,0 +1,35 @@
+Export date: Fri Jul 24 06:18:05 AM PKT 2026
+Hostname: ibLaptop
+
+--- Appearance ---
+GTK theme: 'MacTahoe-Dark-blue'
+Icon theme: 'Papirus-Dark'
+Cursor theme: 'Adwaita'
+Font: 'Adwaita Sans 11'
+Monospace font: 'Adwaita Mono 11'
+Wallpaper URI: 'file:///home/ibrahim/.local/share/backgrounds/rice/wallpapers/f825f6c2afe8a6faa192b95f7e9023de.jpg'
+Dark mode: 'prefer-dark'
+
+--- Power ---
+Sleep timeout AC: 900
+Sleep timeout battery: 900
+
+--- Extensions ---
+arch-dock-icon@ib-hussain
+hidetopbar@mathieu.bidon.ca
+start-overlay-in-application-view@Hex_cz
+apps-menu@gnome-shell-extensions.gcampax.github.com
+auto-move-windows@gnome-shell-extensions.gcampax.github.com
+drive-menu@gnome-shell-extensions.gcampax.github.com
+launch-new-instance@gnome-shell-extensions.gcampax.github.com
+light-style@gnome-shell-extensions.gcampax.github.com
+native-window-placement@gnome-shell-extensions.gcampax.github.com
+places-menu@gnome-shell-extensions.gcampax.github.com
+screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com
+status-icons@gnome-shell-extensions.gcampax.github.com
+system-monitor@gnome-shell-extensions.gcampax.github.com
+user-theme@gnome-shell-extensions.gcampax.github.com
+window-list@gnome-shell-extensions.gcampax.github.com
+windowsNavigator@gnome-shell-extensions.gcampax.github.com
+workspace-indicator@gnome-shell-extensions.gcampax.github.com
+dash-to-dock@micxgx.gmail.com

@@ -81,9 +81,9 @@
       "sslmode": "require",
       "savePassword": true,
       "server": "aws-0-eu-west-3.pooler.supabase.com",
-      "user": "postgres.kumqhytmymzmbywlwepz",
-      "port": "6543",
-      "database": "postgres",
+      "user": "postgres.kumqhytmywepz",
+      "port": "7443",
+      "database": "posades",
       "password": "",
       "profileName": "aws-0-eu-west-3.pooler.supabase.com, postgres (postgres.kumqhytmymzmbywlwepz)",
       "sshPassword": "",
@@ -132,9 +132,25 @@
   "dataWrangler.experiments.fastCsvParsing": true,
   "workbench.colorTheme": "Visual Studio 2017 Dark - C++",
   "python.terminal.useEnvFile": true,
+  "terminal.integrated.profiles.windows": {
+    "Arch Linux (WSL)": {
+      "path": "C:\\Windows\\System32\\wsl.exe",
+      "args": [
+        "-d",
+        "archlinux"
+      ]
+    },
+    "Ubuntu (WSL)": {
+      "path": "C:\\Windows\\System32\\wsl.exe",
+      "args": [
+        "-d",
+        "Ubuntu"
+      ]
+    }
+  },
   "workbench.editor.enablePreview": false,
-  "python.analysis.typeCheckingMode": "basic"
-    "files.watcherExclude": {
+  "python.analysis.typeCheckingMode": "basic",
+  "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
     "**/node_modules/**": true,

@@ -1,57 +1,133 @@
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
-PS1='[\u@\h \W]\$ '
-#admin shortcuts
-alias root='sudo -i'
-alias cls='clear'
-alias systemctl='sudo systemctl'
-alias turnoff='sudo poweroff'
-
-alias pacman='sudo pacman'
-alias remove='sudo pacman -Rns'
-alias install='sudo pacman -S'
-alias install-y='sudo pacman -S --needed --noconfirm'
-alias please='sudo'
-alias ports='ss -tulpen'
-alias myip='ip -brief addr'
-
-# pyenv configuration
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-
-if command -v pyenv >/dev/null 2>&1; then
-    eval "$(pyenv init - bash)"
-fi
-
+# ~/.bashrc: executed by Bash for interactive non-login shells.
+# Do nothing for non-interactive shells.
 case $- in
     *i*) ;;
     *) return ;;
 esac
+# ---------------------------------------------------------------------------
+# History and shell behaviour
+# ---------------------------------------------------------------------------
+HISTCONTROL=ignoreboth:erasedups
+HISTSIZE=10000
+HISTFILESIZE=20000
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-export PATH="$HOME/.local/bin:$PATH"
-
-alias fastfetch='ff-blue'
-alias ff='ff-blue'
-
-if [[ -z "${RICE_FASTFETCH_SHOWN:-}" && ! -f "$HOME/.no_fastfetch" ]]; then
-    export RICE_FASTFETCH_SHOWN=1
-    ff-blue
+# ---------------------------------------------------------------------------
+# PATH and development tools
+# ---------------------------------------------------------------------------
+path_prepend() {
+    case ":$PATH:" in
+        *":$1:"*) ;;
+        *) PATH="$1:$PATH" ;;
+    esac
+}
+path_prepend "$HOME/.local/bin"
+export PYENV_ROOT="$HOME/.pyenv"
+path_prepend "$PYENV_ROOT/bin"
+export PATH
+unset -f path_prepend
+if command -v pyenv >/dev/null 2>&1; then
+    eval "$(pyenv init - bash)"
 fi
+export PATH="$HOME/.local/bin:$PATH"
+export EDITOR="nano"
+export VISUAL="$EDITOR"
 
+# ---------------------------------------------------------------------------
+# Ubuntu-style colored prompt
+# ---------------------------------------------------------------------------
+force_color_prompt=yes
+if [ -n "${force_color_prompt:-}" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+        color_prompt=yes
+    else
+        color_prompt=
+    fi
+fi
+if [ "${color_prompt:-}" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+# Set the terminal title to user@host:directory.
+case "$TERM" in
+    xterm*|rxvt*)
+        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+        ;;
+esac
+
+# ---------------------------------------------------------------------------
+# Arch-style non-colored prompt
+# ---------------------------------------------------------------------------
+# PS1='[\u@\h \W]\$ '
+
+# ---------------------------------------------------------------------------
+# Colors, completion, and ordinary command aliases
+# ---------------------------------------------------------------------------
+if [ -x /usr/bin/dircolors ]; then
+    if [ -r "$HOME/.dircolors" ]; then
+        eval "$(dircolors -b "$HOME/.dircolors")"
+    else
+        eval "$(dircolors -b)"
+    fi
+fi
+alias ls='ls --color=auto'
+alias ll='ls -alF'
+alias la='ls -A'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+if ! shopt -oq posix; then
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
+fi
+# Use `sleep 10; alert` to notify when a long-running command finishes.
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history | tail -n1 | sed -e '\''s/^[[:space:]]*[0-9]\+[[:space:]]*//;s/[;&|][[:space:]]*alert$//'\'')"'
+
+# ---------------------------------------------------------------------------
+# Enhanced terminal tools
+# ---------------------------------------------------------------------------
 if command -v eza >/dev/null 2>&1; then
     alias ls='eza --icons=auto --group-directories-first'
-    alias ll='eza -lah --icons=auto --group-directories-first --git'
-    alias la='eza -a --icons=auto --group-directories-first'
+    # alias ll='eza -lah --icons=auto --group-directories-first --git'
+    # alias la='eza -a --icons=auto --group-directories-first'
     alias lt='eza --tree --level=2 --icons=auto --group-directories-first'
 fi
-
 if command -v zoxide >/dev/null 2>&1; then
     eval "$(zoxide init bash)"
 fi
+if command -v ff-blue >/dev/null 2>&1; then
+    alias fastfetch='ff-blue'
+    alias ff='ff-blue'
 
-#admin shortcuts
+    if [ -z "${RICE_FASTFETCH_SHOWN:-}" ] &&
+            [ ! -f "$HOME/.no_fastfetch" ]; then
+        export RICE_FASTFETCH_SHOWN=1
+        ff-blue
+    fi
+fi
+# ---------------------------------------------------------------------------
+# Administration and Arch package shortcuts
+# ---------------------------------------------------------------------------
+alias root='sudo -i'
+alias cls='clear'
+alias systemctl='sudo systemctl'
+alias journalctl='sudo journalctl'
+alias turnoff='sudo poweroff'
 alias instally='sudo pacman -S --noconfirm'
-alias instaly='sudo pacman -S --noconfirm'
-  
-export EDITOR="nano"
+alias  instaly='sudo pacman -S --noconfirm'
+alias pacman='sudo pacman'
+alias remove='sudo pacman -Rns'
+alias install='sudo pacman -S'
+alias install-y='sudo pacman -S --needed --noconfirm'
+alias ports='ss -tulpen'
+alias myip='ip -brief addr'
+alias please='sudo'
 
