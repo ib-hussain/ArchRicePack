@@ -1,7 +1,11 @@
 import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
 import St from 'gi://St';
+
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+
+
 
 export default class RiceArchShowAppsIconExtension extends Extension {
     enable() {
@@ -40,12 +44,12 @@ export default class RiceArchShowAppsIconExtension extends Extension {
     _patchAll() {
         try {
             this._walk(Main.uiGroup);
-        } catch (e) {
+        } catch (e) { return e;
         }
 
         try {
             this._walk(Main.layoutManager.uiGroup);
-        } catch (e) {
+        } catch (e) { return e;
         }
     }
 
@@ -71,7 +75,7 @@ export default class RiceArchShowAppsIconExtension extends Extension {
         try {
             if (typeof actor.get_style_class_name === 'function')
                 return actor.get_style_class_name() || '';
-        } catch (e) {
+        } catch (e) { return e;
         }
 
         return '';
@@ -132,12 +136,13 @@ export default class RiceArchShowAppsIconExtension extends Extension {
             try {
                 actor.gicon = this._gicon;
             } catch (e2) {
+                 return e2;
             }
         }
 
         try {
             actor.set_icon_size(48);
-        } catch (e) {
+        } catch (e) { return e;
         }
     }
 }
